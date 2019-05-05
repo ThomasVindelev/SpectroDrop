@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    LoginService loginService;
+    private LoginService loginService;
 
     @GetMapping("/")
     public String loginPage() {
@@ -23,10 +23,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(HttpSession session, @ModelAttribute User user, Model model) {
-        if () {
-
+    public String login(@ModelAttribute User user, HttpSession session, Model model) {
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        if (loginService.verify(user)) {
+            session.setAttribute("id", user.getId());
+            return "main";
+        } else {
+            model.addAttribute("invalid", true);
+            return "index";
         }
     }
+
 
 }
