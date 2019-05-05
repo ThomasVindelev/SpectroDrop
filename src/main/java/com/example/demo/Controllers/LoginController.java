@@ -26,6 +26,7 @@ public class LoginController {
     public String login(@ModelAttribute User user, HttpSession session, Model model) {
         if (loginService.verify(user)) {
             session.setAttribute("id", user.getId());
+            session.setAttribute("id_role", user.getId_roles());
             return "main";
         } else {
             model.addAttribute("invalid", true);

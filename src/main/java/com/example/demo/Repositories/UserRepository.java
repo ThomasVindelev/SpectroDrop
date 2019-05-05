@@ -23,7 +23,7 @@ public class UserRepository {
         }
     }
 
-    public ResultSet verifyUser(User user) {
+    public ResultSet verifyUserLogin(User user) {
         query = "SELECT * FROM SpectroDB.Users " +
                 "INNER JOIN Roles ON Users.fk_role = Roles.id_roles WHERE username = ? AND password = ?";
         try {

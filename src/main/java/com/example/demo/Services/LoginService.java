@@ -15,7 +15,7 @@ public class LoginService {
     UserRepository userRepository;
 
     public boolean verify(User user) {
-        ResultSet resultSet = userRepository.verifyUser(user);
+        ResultSet resultSet = userRepository.verifyUserLogin(user);
         try {
             if (resultSet.next()) {
                 user.setId(resultSet.getInt("id_users"));
