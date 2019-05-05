@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+Hello World!
 
+<form th:action="@{/login}" method="POST" th:object="${User}">
+    <input type="text" placeholder="Username" name="username">
+    <input type="password" placeholder="Password" name="password">
+    <br>
+    <button type="submit">Login</button>
+    <br>
+    <p th:if="${invalid}">Wrong Username or Password</p>
+</form>
 </body>
 </html>
