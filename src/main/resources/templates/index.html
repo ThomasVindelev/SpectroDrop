@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="/loginPage.css" type="text/css">
+    <link rel="stylesheet" href="/styles.css" type="text/css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-Hello World!
-
-<form th:action="@{/login}" method="post" th:object="${User}">
-    <input type="text" placeholder="Username" name="username">
-    <input type="password" placeholder="Password" name="password">
-    <br>
-    <button type="submit">Login</button>
-    <br>
-    <p th:if="${invalid}">Wrong Username or Password</p>
-</form>
+    <div id="LoginPage">
+        <h1>Login</h1>
+        <form th:action="@{/login}" method="POST" th:object="${User}">
+            <input type="text" placeholder="Username" name="username">
+            <input type="password" placeholder="Password" name="password">
+            <br>
+            <button type="submit">Login</button>
+            <br>
+            <p th:if="${invalid}">Wrong Username or Password</p>
+        </form>
+    </div>
 </body>
 </html>
