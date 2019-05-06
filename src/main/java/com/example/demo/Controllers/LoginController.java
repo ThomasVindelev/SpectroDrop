@@ -34,9 +34,4 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/main")
-    public String getMainMenu() {
-        return "main";
-    }
-
 }

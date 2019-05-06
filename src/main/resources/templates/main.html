@@ -14,7 +14,13 @@
 </form>
 
 <form th:action="@{/newMessage}" method="post" th:object="${Message}">
-
+    <label>Employee:</label>
+    <select name="sent_to">
+        <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
+    </select>
+    <input type="hidden" th:value="${session.id}" name="sent_from">
+    <input type="text" name="text" placeholder="Enter your message here...">
+    <button type="submit">Submit</button>
 </form>
 
 </body>

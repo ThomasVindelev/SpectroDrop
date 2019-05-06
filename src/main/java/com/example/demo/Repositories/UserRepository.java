@@ -37,4 +37,16 @@ public class UserRepository {
         return null;
     }
 
+    public ResultSet getEmployees() {
+        query= "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, 1);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
