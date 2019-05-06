@@ -8,19 +8,19 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String id_roles;
+    private String fk_roles;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String firstName, String lastName, String email, String id_roles) {
+    public User(int id, String username, String password, String firstName, String lastName, String email, String fk_roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.id_roles = id_roles;
+        this.fk_roles = fk_roles;
     }
 
     public int getId() {
@@ -71,11 +71,11 @@ public class User {
         this.email = email;
     }
 
-    public String getId_roles() {
-        return id_roles;
+    public String getFk_roles() {
+        return fk_roles;
     }
 
-    public void setId_roles(String id_roles) {
-        this.id_roles = id_roles;
+    public void setFk_roles(String fk_roles) {
+        this.fk_roles = fk_roles;
     }
 }

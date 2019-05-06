@@ -25,7 +25,7 @@ public class UserRepository {
 
     public ResultSet verifyUserLogin(User user) {
         query = "SELECT * FROM SpectroDB.Users " +
-                "INNER JOIN Roles ON Users.fk_role = Roles.id_roles WHERE username = ? AND password = ?";
+                "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE username = ? AND password = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());

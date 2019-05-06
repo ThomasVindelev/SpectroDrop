@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<div th:if="${session.id_role = 2}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+<body>
 
-    <header>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit">Upload</button>
+</form>
 
-    </header>
-
-    <body>
-
-        <form th:action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <button type="submit">Upload File</button>
-        </form>
-
-    </body>
-
-</div>
+</body>
 </html>
