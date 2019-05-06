@@ -27,12 +27,16 @@ public class LoginController {
         if (loginService.verify(user)) {
             session.setAttribute("id", user.getId());
             session.setAttribute("fk_roles", user.getFk_roles());
-            return "main";
+            return "redirect:/main";
         } else {
             model.addAttribute("invalid", true);
             return "index";
         }
     }
 
+    @GetMapping("/main")
+    public String getMainMenu() {
+        return "main";
+    }
 
 }

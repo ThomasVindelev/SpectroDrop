@@ -8,9 +8,13 @@
 
 <body>
 
-<form action="/upload" method="post" enctype="multipart/form-data">
+<form th:action="@{/upload}" th:object="${File}" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
     <button type="submit">Upload</button>
+</form>
+
+<form th:action="@{/newMessage}" method="post" th:object="${Message}">
+
 </form>
 
 </body>
