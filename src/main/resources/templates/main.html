@@ -2,26 +2,34 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="/styles.css" type="text/css">
+    <link rel="stylesheet" href="/windows.css" type="text/css">
+    <link rel="stylesheet" href="/main.css" type="text/css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 
 <body>
-
-<form th:action="@{/upload}" th:object="${File}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <button type="submit">Upload</button>
-</form>
-
-<form th:action="@{/newMessage}" method="post" th:object="${Message}">
-    <label>Employee:</label>
-    <select name="sent_to">
-        <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
-    </select>
-    <input type="hidden" th:value="${session.id}" name="sent_from">
-    <input type="text" name="text" placeholder="Enter your message here...">
-    <button type="submit">Submit</button>
-</form>
-
+<!-- BODY AREA -->
+<div id="home-page">
+    <!-- UPLOAD FILE -->
+    <div class ="file-window">
+        <form th:action="@{/upload}" th:object="${File}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    <!-- MESSAGE AREA -->
+    <div class ="message-window">
+        <form th:action="@{/newMessage}" method="post" th:object="${Message}">
+            <label>Employee:</label>
+            <select name="sent_to">
+                <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
+            </select>
+            <input type="hidden" th:value="${session.id}" name="sent_from">
+            <input type="text" name="text" placeholder="Enter your message here...">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

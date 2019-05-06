@@ -1,0 +1,21 @@
+.window .file-window .message-window {
+    margin:auto;
+    width: 51%;
+    background: whitesmoke;
+    padding: 20px;
+    border-width: 10px;
+    border-bottom-color-color:black;
+    text-align: center;
+
+}
+
+.file-window form {
+    display: block;
+    float: left;
+
+}
+
+.message-window form {
+    display: block;
+    float: right;
+}
