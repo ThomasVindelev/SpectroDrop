@@ -3,10 +3,7 @@ package com.example.demo.Repositories;
 import com.example.demo.Models.Message;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Repository
 public class MessageRepository {
@@ -30,7 +27,6 @@ public class MessageRepository {
     private String query;
 
     public void newMessage(Message message) {
-
         query = "INSERT INTO Messages (text, fk_sent_to, fk_sent_from) VALUES (?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -42,6 +38,19 @@ public class MessageRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ResultSet getMessagesByUser(int id) {
+        query = "SELECT * FROM Messages WHERE fk_sent_to = ? OR fk_sent_from = ? ORDER BY id DESC";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
