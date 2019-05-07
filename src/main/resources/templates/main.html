@@ -16,6 +16,8 @@
         <!-- UPLOAD FILE -->
         <div class ="file-window">
             <form th:action="@{/upload}" th:object="${File}" method="post" enctype="multipart/form-data">
+                <br>
+                <br>
                 <input type="file" name="file">
                 <button type="submit">Upload</button>
             </form>
@@ -23,6 +25,8 @@
         <!-- MESSAGE AREA -->
         <div class ="message-window">
             <form th:action="@{/newMessage}" method="post" th:object="${Message}">
+                <br>
+                <br>
                 <label>Employee:</label>
                 <select name="sent_to">
                     <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
