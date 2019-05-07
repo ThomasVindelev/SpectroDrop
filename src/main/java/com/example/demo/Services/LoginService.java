@@ -9,11 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Service
-public class LoginService {
+public class LoginService implements com.example.demo.Services.Service<User> {
 
     @Autowired
     UserRepository userRepository;
 
+    @Override
     public boolean verify(User user) {
         ResultSet resultSet = userRepository.verifyUserLogin(user);
         try {
@@ -23,7 +24,7 @@ public class LoginService {
                 user.setFirstName(resultSet.getString("firstname"));
                 user.setLastName(resultSet.getString("lastname"));
                 user.setEmail(resultSet.getString("email"));
-                user.setFk_roles(resultSet.getString("id_roles"));
+                user.setFk_roles(resultSet.getInt("id_roles"));
                 return true;
             }
         } catch (SQLException e) {

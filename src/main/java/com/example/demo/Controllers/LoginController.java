@@ -26,8 +26,12 @@ public class LoginController {
     public String login(@ModelAttribute User user, HttpSession session, Model model) {
         if (loginService.verify(user)) {
             session.setAttribute("id", user.getId());
-            session.setAttribute("fk_roles", user.getFk_roles());
-            return "redirect:/main";
+            session.setAttribute("role", user.getFk_roles());
+            if (user.getFk_roles() == 1) {
+                return "redirect:/employeeMain/" + user.getId();
+            } else {
+                return "redirect:/main/" + user.getId();
+            }
         } else {
             model.addAttribute("invalid", true);
             return "index";

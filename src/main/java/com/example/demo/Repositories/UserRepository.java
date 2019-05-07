@@ -23,6 +23,22 @@ public class UserRepository {
         }
     }
 
+    public boolean newUser(User user) {
+        query = "INSERT INTO SpectroDB.Users (username, firstname, lastname, email, fk_roles) VALUES (?, ?, ?, ?, ?)";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setInt(5, user.getFk_roles());
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public ResultSet verifyUserLogin(User user) {
         query = "SELECT * FROM SpectroDB.Users " +
                 "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE username = ? AND password = ?";
@@ -38,10 +54,21 @@ public class UserRepository {
     }
 
     public ResultSet getEmployees() {
-        query= "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
+        query = "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, 1);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getRoles() {
+        query = "SELECT * FROM SpectroDB.Roles";
+        try {
+            preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

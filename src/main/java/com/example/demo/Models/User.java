@@ -8,12 +8,12 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String fk_roles;
+    private int fk_roles;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String firstName, String lastName, String email, String fk_roles) {
+    public User(int id, String username, String password, String firstName, String lastName, String email, int fk_roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -71,11 +71,11 @@ public class User {
         this.email = email;
     }
 
-    public String getFk_roles() {
+    public int getFk_roles() {
         return fk_roles;
     }
 
-    public void setFk_roles(String fk_roles) {
+    public void setFk_roles(int fk_roles) {
         this.fk_roles = fk_roles;
     }
 }
