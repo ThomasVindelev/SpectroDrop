@@ -1,4 +1,4 @@
-.window .file-window .message-window {
+.window .file-window .message-window .user-window {
     margin:auto;
     background: whitesmoke;
     padding: 20px;
@@ -21,6 +21,18 @@
     display: block;
     background: whitesmoke;
     float: right;
+    padding: 10px;
+    border-width: 10px;
+    border:3px solid black;
+    border-radius: 25px;
+    width: 300px;
+    height: 400px;
+}
+
+.user-window form {
+    display: block;
+    background: whitesmoke;
+    float: left;
     padding: 10px;
     border-width: 10px;
     border:3px solid black;
