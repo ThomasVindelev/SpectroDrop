@@ -17,7 +17,7 @@ public class UserController {
     @PostMapping("/newUser")
     public String newUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", userService.newUser(user));
-        return "redirect:/employeeMain";
+        return "redirect:/employeeMain/" + user.getId();
     }
 
 }

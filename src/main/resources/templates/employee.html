@@ -17,6 +17,7 @@
     <div class ="user-window">
 
         <form th:action="@{/newUser}" method="post" th:object="${User}">
+            <input type="hidden" name="id" th:value="${session.id}">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="firstName" placeholder="First name">
             <input type="text" name="lastName" placeholder="Last name">
@@ -27,7 +28,7 @@
             <button type="submit">Create User</button>
         </form>
 
-        <p th:if="${message}">User creation failed!</p>
+        <p th:text="${message}"></p>
 
     </div>
 

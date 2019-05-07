@@ -36,7 +36,7 @@ public class UserRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     public ResultSet verifyUserLogin(User user) {
@@ -69,6 +69,19 @@ public class UserRepository {
         query = "SELECT * FROM SpectroDB.Roles";
         try {
             preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet verifyUser(User user) {
+        query = "SELECT username FROM SpectroDB.Users WHERE username LIKE ? OR email LIKE ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getEmail());
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

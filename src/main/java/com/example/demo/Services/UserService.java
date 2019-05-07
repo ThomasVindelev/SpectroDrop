@@ -39,10 +39,14 @@ public class UserService implements com.example.demo.Services.Service<User> {
     }
 
     public String newUser(User user) {
-        if (userRepository.newUser(user)) {
-            return "Success!";
+        if (!verify(user)) {
+            if (!userRepository.newUser(user)) {
+                return "Success!";
+            } else {
+                return "Failed!";
+            }
         } else {
-            return "Failed!";
+            return "Username or e-mail already exists!";
         }
     }
 
@@ -68,6 +72,12 @@ public class UserService implements com.example.demo.Services.Service<User> {
 
     @Override
     public boolean verify(User user) {
+        ResultSet resultSet = userRepository.verifyUser(user);
+        try {
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
