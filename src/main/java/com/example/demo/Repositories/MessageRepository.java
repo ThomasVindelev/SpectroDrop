@@ -41,7 +41,7 @@ public class MessageRepository {
     }
 
     public ResultSet getMessagesByUser(int id) {
-        query = "SELECT * FROM Messages WHERE fk_sent_to = ? OR fk_sent_from = ? ORDER BY id DESC";
+        query = "SELECT * FROM Messages WHERE fk_sent_to = ? OR fk_sent_from = ? ORDER BY id_messages DESC";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
