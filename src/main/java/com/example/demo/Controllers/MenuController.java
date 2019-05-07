@@ -18,4 +18,10 @@ public class MenuController {
         return "main";
     }
 
+    @GetMapping("/employeeMain")
+    public String getEmployeeMenu(Model model) {
+        model.addAttribute("roleList", userService.getRoles());
+        return "employee";
+    }
+
 }
