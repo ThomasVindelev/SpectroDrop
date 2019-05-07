@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements com.example.demo.Services.Service<User> {
 
     @Autowired
     UserRepository userRepository;
@@ -37,4 +37,11 @@ public class UserService {
         return null;
     }
 
+
+    //Til at oprette en ny bruger
+
+    @Override
+    public boolean verify(User user) {
+        return false;
+    }
 }

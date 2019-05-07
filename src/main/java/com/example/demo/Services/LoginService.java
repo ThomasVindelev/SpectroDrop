@@ -9,11 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Service
-public class LoginService {
+public class LoginService implements com.example.demo.Services.Service<User> {
 
     @Autowired
     UserRepository userRepository;
 
+    @Override
     public boolean verify(User user) {
         ResultSet resultSet = userRepository.verifyUserLogin(user);
         try {
