@@ -18,11 +18,12 @@ import java.util.Date;
 
 @Service
 public class AmazonClient {
+
     private AmazonS3 s3client;
 
-    private String endpointUrl = "spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com";
+    private String endpointUrl = "https://s3-control.eu-central-1.amazonaws.com";
 
-    private String bucketName = "spectrodb";
+    private String bucketName = "sprectrodrop-bucket";
 
     private String accessKey = "AKIAI5RVXDZUDYVJDHJA";
 

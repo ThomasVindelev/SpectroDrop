@@ -15,11 +15,11 @@
     <div id="home-page">
         <!-- UPLOAD FILE -->
         <div class ="file-window">
-            <form th:action="@{/upload}" th:object="${File}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/storage/upload}" method="post" enctype="multipart/form-data">
                 <br>
                 <br>
                 <input type="file" name="file">
-                <button type="submit">Upload</button>
+                <input type="submit" value="Upload" name="upload">Upload</input>
             </form>
         </div>
         <!-- MESSAGE AREA -->
