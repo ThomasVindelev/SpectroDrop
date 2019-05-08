@@ -1,6 +1,7 @@
 package com.example.demo.Services;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -34,9 +35,8 @@ public class AmazonClient {
 
 @PostConstruct
     private void initializeAmazon() {
-    AWSCredentials credentials =new
-            BasicAWSCredentials(this.accessKey,this.secretKey);
-    this.s3client = new  AmazonS3ClientBuilder.withCredentials(credentials);
+    BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
+    s3client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
 }
 
 private File convertMultiPartToFile (MultipartFile file) throws IOException {
