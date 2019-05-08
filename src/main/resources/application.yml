@@ -1,0 +1,5 @@
+amazonProperties:
+endpointUrl: spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com
+accessKey: AKIAI5RVXDZUDYVJDHJA
+secretKey: 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
+bucketName: spectrodb
