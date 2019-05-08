@@ -24,7 +24,7 @@ public class UserRepository {
     }
 
     public boolean newUser(User user) {
-        query = "INSERT INTO SpectroDB.Users (username, firstname, lastname, email, fk_roles) VALUES (?, ?, ?, ?, ?)";
+        query = "INSERT INTO SpectroDB.Users (username, firstname, lastname, email, fk_roles) VALUES (LOWER (?), ?, ?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
