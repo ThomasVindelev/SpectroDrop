@@ -41,7 +41,7 @@ public class UserRepository {
 
     public ResultSet verifyUserLogin(User user) {
         query = "SELECT * FROM SpectroDB.Users " +
-                "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE username = ? AND password = ?";
+                "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE username = LOWER (?) AND password = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
@@ -77,7 +77,7 @@ public class UserRepository {
     }
 
     public ResultSet verifyUser(User user) {
-        query = "SELECT username FROM SpectroDB.Users WHERE username LIKE ? OR email LIKE ?";
+        query = "SELECT username FROM SpectroDB.Users WHERE username = LOWER (?) OR email LIKE ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
