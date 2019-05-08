@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 
 @Service
 public class AmazonClient {
@@ -32,7 +35,16 @@ public class AmazonClient {
             BasicAWSCredentials(this.accessKey,this.secretKey);
     this.s3client = new  AmazonS3ClientBuilder.withCredentials(credentials);
 }
-}
+
 private File convertMultiPartToFile (MultipartFile file) throws IOException {
-    File convFile
+    File convFile = new File(file.getOriginalFilename());
+    FileOutputStream fos = new FileOutputStream(convFile);
+    fos.write(file.getBytes());
+    fos.close();
+    return convFile;
+}
+private String generateFileName(MultipartFile multiPart) {
+return new Date().getTime +"-"+
+multiPart.getOriginalFilename().replace("","_" );
+}
 }
