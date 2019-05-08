@@ -6,24 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-/*@Controller
-public class FileController {
-
-    public static String uploadDirectory = System.getProperty("user.dir");
-
-    @PostMapping("/upload")
-    public String uploadFile() {
-        return null;
-    }*/
-
-}
-
 @RestController
 @RequestMapping ("/storage/")
-public class BucketController {
+public class FileController {
     private AmazonClient amazonClient;
     @Autowired
-    BucketController(AmazonClient amazonClient) {
+    FileController(AmazonClient amazonClient) {
         this.amazonClient =amazonClient;
     }
 

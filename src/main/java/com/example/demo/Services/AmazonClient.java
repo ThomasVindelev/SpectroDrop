@@ -1,8 +1,8 @@
 package com.example.demo.Services;
 
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -21,22 +21,18 @@ import java.util.Date;
 public class AmazonClient {
     private AmazonS3 s3client;
 
-    @Value("${amazonProperties.endpointUrl}")
-    private String endpointUrl;
+    private String endpointUrl = "spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com";
 
-    @Value("${amazonProperties.bucketName}")
-    private String bucketName;
+    private String bucketName = "spectrodb";
 
-    @Value("${amazonProperties.accessKey}")
-    private String accessKey;
+    private String accessKey = "AKIAI5RVXDZUDYVJDHJA";
 
-    @Value("${amazonProperties.secretKey}")
-    private String secretKey;
+    private String secretKey = "awv58Xh/z8xmPPx54eQS9NxkxxhZqGYfcWqM7O6c";
 
 @PostConstruct
     private void initializeAmazon() {
     BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
-    s3client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
+    s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
 }
 
 private File convertMultiPartToFile (MultipartFile file) throws IOException {
@@ -50,6 +46,7 @@ private String generateFileName(MultipartFile multiPart) {
 return new Date().getTime() +"-"+
 multiPart.getOriginalFilename().replace("","_" );
 }
+
 private void uploadFileTos3bucket (String fileName, File file) {
     s3client.putObject(new PutObjectRequest(bucketName, fileName,file)
             .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
