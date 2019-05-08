@@ -1,13 +1,13 @@
 package com.example.demo.Services;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
@@ -18,23 +18,21 @@ import java.util.Date;
 
 @Service
 public class AmazonClient {
+
     private AmazonS3 s3client;
 
-    //private String endpointUrl = "spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com";
-    private String endpointUrl = "https://s3.eu-central-1.rds.amazonaws.com";
+    private String endpointUrl = "s3-control.eu-central-1.amazonaws.com";
 
-    //private String accessKey = "AKIAI5RVXDZUDYVJDHJA";
-    private String accessKey = "AKIA3SMPZQJFSRNMYQ7A";
+    private String bucketName = "spectrodrop-bucket";
 
-    //private String secretKey = "awv58Xh/z8xmPPx54eQS9NxkxxhZqGYfcWqM7O6c";
-    private String secretKey = "QRR7qRgUmiX2OBx0F5AUbLHfsYon7CWf8EOGdncs";
+    private String accessKey = "AKIA2WV6S5TS6UYGVAQV";
 
-    private String bucketName = "spectrofly";
+    private String secretKey = "1rbdqwV3LnnKBA9jAyz+5ZG967mdbxa4wkafQZoW";
 
     @PostConstruct
-        private void initializeAmazon() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+    private void initializeAmazon() {
+        BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
@@ -44,9 +42,9 @@ public class AmazonClient {
         fos.close();
         return convFile;
     }
+
     private String generateFileName(MultipartFile multiPart) {
-        return new Date().getTime() +"-"+
-        multiPart.getOriginalFilename().replace("","_" );
+        return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace("","_" );
     }
 
     private void uploadFileTos3bucket (String fileName, File file) {
@@ -72,34 +70,6 @@ public class AmazonClient {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") +1);
         s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
             return "Successfully deleted";
-    }
-
-    public void downloadFile(String keyName) {
-
-        try {
-
-            System.out.println("Downloading an object");
-            S3Object s3object = s3client.getObject(new GetObjectRequest(bucketName, keyName));
-            System.out.println("Content-Type: "  + s3object.getObjectMetadata().getContentType());
-            //Utility.displayText(s3object.getObjectContent());
-
-
-        } catch (AmazonServiceException ase) {
-
-            System.out.println(ase.getMessage());
-
-//            logger.info("Caught an AmazonServiceException from GET requests, rejected reasons:");
-//            logger.info("Error Message:    " + ase.getMessage());
-//            logger.info("HTTP Status Code: " + ase.getStatusCode());
-//            logger.info("AWS Error Code:   " + ase.getErrorCode());
-//            logger.info("Error Type:       " + ase.getErrorType());
-//            logger.info("Request ID:       " + ase.getRequestId());
-        } catch (AmazonClientException ace) {
-
-            System.out.println(ace.getMessage());
-//            logger.info("Caught an AmazonClientException: ");
-//            logger.info("Error Message: " + ace.getMessage());
-        }
     }
 
 }
