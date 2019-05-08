@@ -15,7 +15,7 @@ public class FileController {
         this.amazonClient =amazonClient;
     }
 
-    @PostMapping("uploadFile")
+    @PostMapping("/upload")
     public String uploadFile(@RequestPart(value = "file")
                              MultipartFile file) {
         return this.amazonClient.uploadFile(file);
