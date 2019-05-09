@@ -25,9 +25,9 @@ public class AmazonClient {
 
     private String bucketName = "spectrodrop-bucket";
 
-    private String accessKey = "AKIA2WV6S5TS6UYGVAQV";
+    private String accessKey = "";
 
-    private String secretKey = "1rbdqwV3LnnKBA9jAyz+5ZG967mdbxa4wkafQZoW";
+    private String secretKey = "";
 
     @PostConstruct
     private void initializeAmazon() {
