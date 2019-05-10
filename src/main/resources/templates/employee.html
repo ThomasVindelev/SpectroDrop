@@ -40,6 +40,17 @@
 
     </div>
 
+    <!-- Add task -->
+
+    <form action="@{/newTask}" method="post" th:object="${Task}">
+        <input type="text" name="taskName" placeholder="Name the task...">
+        <select name="customer">
+            <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.username}"></option>
+        </select>
+        <select name="employee">
+            <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.username}"></option>
+        </select>
+    </form>
 
 
     </body>
