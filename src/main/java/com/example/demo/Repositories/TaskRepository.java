@@ -37,11 +37,16 @@ public class TaskRepository {
         return true;
     }
 
-    public ResultSet getNewTasks() {
+    public ResultSet getTasks(boolean getNew, boolean isCustomer, int id) {
         query = "SELECT * FROM Tasks " +
                 "INNER JOIN Users a ON fk_customer = a.id_users " +
                 "INNER JOIN Users b ON fk_employee = b.id_users " +
-                "INNER JOIN Status ON fk_status = id_status ORDER BY Tasks.id_tasks DESC LIMIT 3";
+                "INNER JOIN Status ON fk_status = id_status ORDER BY Tasks.id_tasks DESC ";
+        if (isCustomer) {
+            query += "WHERE fk_customer = " + id + " ";
+        } else if (getNew) {
+            query += "LIMIT 3";
+        }
         try {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
