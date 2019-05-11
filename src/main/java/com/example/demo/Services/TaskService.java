@@ -14,7 +14,7 @@ import java.util.List;
 public class TaskService {
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     public boolean newTask(Task task) {
         if (!taskRepository.newTask(task)) {
@@ -24,8 +24,8 @@ public class TaskService {
         }
     }
 
-    public List<Task> getNewTasks() {
-        ResultSet resultSet = taskRepository.getNewTasks();
+    public List<Task> getTasks(boolean getNew, boolean isCustomer, int id) {
+        ResultSet resultSet = taskRepository.getTasks(getNew, isCustomer, id);
         List<Task> taskList = new ArrayList<>();
         try {
             while(resultSet.next()) {
