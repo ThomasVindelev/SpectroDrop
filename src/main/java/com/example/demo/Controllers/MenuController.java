@@ -21,11 +21,11 @@ public class MenuController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/main/{id}")
-    public String getMainMenu(@PathVariable("id") int id, Model model) {
+    @GetMapping("/customerMain/{id}")
+    public String getCustomerMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("employeeList", userService.getUsers("Employees"));
         model.addAttribute("messageList", messageService.getMessages(id));
-        return "main";
+        return "customerMain";
     }
 
     @GetMapping("/employeeMain/{id}")
@@ -35,7 +35,12 @@ public class MenuController {
         model.addAttribute("newTasks", taskService.getNewTasks());
         model.addAttribute("employeeList", userService.getUsers("Employees"));
         model.addAttribute("customerList", userService.getUsers("Customers"));
-        return "employee";
+        return "employeeMain";
+    }
+
+    @GetMapping("/customerMain/{id}/tasks")
+    public String getLort() {
+        return "xD";
     }
 
 }

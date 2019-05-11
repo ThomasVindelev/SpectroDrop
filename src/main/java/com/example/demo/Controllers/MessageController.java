@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class MessageController {
 
@@ -14,9 +16,10 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping("/newMessage")
-    public String newMessage(@ModelAttribute Message message) {
+    public String newMessage(@ModelAttribute Message message, HttpSession session) {
         messageService.newMessage(message);
-        return "redirect:/main";
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/customerMain" + userId;
     }
 
 }

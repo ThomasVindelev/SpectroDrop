@@ -30,7 +30,7 @@ public class LoginController {
             if (user.getFk_roles() == 1) {
                 return "redirect:/employeeMain/" + user.getId();
             } else {
-                return "redirect:/main/" + user.getId();
+                return "redirect:/customerMain/" + user.getId();
             }
         } else {
             model.addAttribute("invalid", true);
