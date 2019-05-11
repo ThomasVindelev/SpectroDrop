@@ -53,6 +53,18 @@ public class UserRepository {
         return null;
     }
 
+    public ResultSet getUsers() {
+        query = "SELECT * FROM SpectroDB.Users " +
+                "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ResultSet getUsersByRole(int roleId) {
         query = "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
         try {

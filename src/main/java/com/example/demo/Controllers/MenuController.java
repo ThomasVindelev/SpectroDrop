@@ -35,8 +35,7 @@ public class MenuController {
         model.addAttribute("roleList", userService.getRoles());
         model.addAttribute("messageList", messageService.getMessages(id));
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
-        model.addAttribute("employeeList", userService.getUsers("Employees"));
-        model.addAttribute("customerList", userService.getUsers("Customers"));
+        model.addAttribute("userList", userService.getUsers("All"));
         return "employeeMain";
     }
 

@@ -23,8 +23,10 @@ public class UserService implements com.example.demo.Services.Service<User> {
         ResultSet resultSet;
         if (role.equals("Employees")) {
             resultSet = userRepository.getUsersByRole(1);
-        } else {
+        } else if (role.equals("Customers")){
             resultSet = userRepository.getUsersByRole(2);
+        } else {
+            resultSet = userRepository.getUsers();
         }
         List<User> userList = new ArrayList<>();
         try {
@@ -35,7 +37,8 @@ public class UserService implements com.example.demo.Services.Service<User> {
                 user.setFirstName(resultSet.getString("firstname"));
                 user.setLastName(resultSet.getString("lastname"));
                 user.setEmail(resultSet.getString("email"));
-                user.setFk_roles(resultSet.getInt("fk_roles"));
+                user.setRole(resultSet.getString("Roles.role"));
+                user.setFk_roles(resultSet.getInt("Users.fk_roles"));
                 userList.add(user);
             }
             return userList;
