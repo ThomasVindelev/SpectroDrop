@@ -46,24 +46,56 @@
 
     <!-- Add task -->
 
-    <form th:action="@{/newTask}" method="post" th:object="${Task}">
-        <input type="text" name="taskName" placeholder="Name the task...">
-        <select name="customer">
-            <option selected disabled hidden>Choose a customer...</option>
-            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.username}"></option>
-        </select>
-        <select name="employee">
-            <option selected disabled hidden>Choose an employee...</option>
-            <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
-        </select>
-        <button type="submit">Submit task</button>
-    </form>
+
 
     <!-- Task menu -->
 
-
+    <div>
+        <ul>
+            <li th:each="task : ${newTasks}">
+                <p th:text="${task.taskName}"></p>
+                <button>Billede af filer</button>
+                <button>Billede af tandhjul</button>
+                <button>Billede af skrald</button>
+                <div th:if="${task.fk_status == 1}">
+                    <button type="button">Rød knap</button>
+                </div>
+                <div th:if="${task.fk_status == 2}">
+                    <button type="button">Gul knap</button>
+                </div>
+                <div th:if="${task.fk_status == 3}">
+                    <button type="button">Grøn knap</button>
+                </div>
+            </li>
+        </ul>
+    </div>
 
     </body>
+
+    <!-- Task Popup -->
+
+    <div id="Task-box" class="modal">
+        <div class="modal-content">
+            <div class="box-header">
+                <span class="Task-close">&times;</span>
+                <h2>New Task</h2>
+            </div>
+            <div class="box-content">
+                <form th:action="@{/newTask}" method="post" th:object="${Task}">
+                    <input type="text" name="taskName" placeholder="Name the task...">
+                    <select name="customer_id">
+                        <option selected disabled hidden>Choose a customer...</option>
+                        <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.username}"></option>
+                    </select>
+                    <select name="employee_id">
+                        <option selected disabled hidden>Choose an employee...</option>
+                        <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
+                    </select>
+                    <button type="submit">Submit task</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 </html>
