@@ -4,12 +4,16 @@ public class Message {
 
     private int id;
     private String text;
-    private int sent_to;
-    private int sent_from;
+    private int fk_sent_to;
+    private int fk_sent_from;
+    private String sent_to;
+    private String sent_from;
 
-    public Message(int id, String text, int sent_to, int sent_from) {
+    public Message(int id, String text, int fk_sent_to, int fk_sent_from, String sent_to, String sent_from) {
         this.id = id;
         this.text = text;
+        this.fk_sent_to = fk_sent_to;
+        this.fk_sent_from = fk_sent_from;
         this.sent_to = sent_to;
         this.sent_from = sent_from;
     }
@@ -33,19 +37,35 @@ public class Message {
         this.text = text;
     }
 
-    public int getSent_to() {
+    public String getSent_to() {
         return sent_to;
     }
 
-    public void setSent_to(int sent_to) {
+    public void setSent_to(String sent_to) {
         this.sent_to = sent_to;
     }
 
-    public int getSent_from() {
+    public String getSent_from() {
         return sent_from;
     }
 
-    public void setSent_from(int sent_from) {
+    public void setSent_from(String sent_from) {
         this.sent_from = sent_from;
+    }
+
+    public int getFk_sent_to() {
+        return fk_sent_to;
+    }
+
+    public void setFk_sent_to(int fk_sent_to) {
+        this.fk_sent_to = fk_sent_to;
+    }
+
+    public int getFk_sent_from() {
+        return fk_sent_from;
+    }
+
+    public void setFk_sent_from(int fk_sent_from) {
+        this.fk_sent_from = fk_sent_from;
     }
 }

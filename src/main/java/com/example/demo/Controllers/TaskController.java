@@ -5,7 +5,10 @@ import com.example.demo.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class TaskController {
@@ -13,9 +16,11 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @PostMapping
-    public String newTask(@ModelAttribute Task task) {
-        taskService
+    @PostMapping("/newTask")
+    public String newTask(@ModelAttribute Task task, HttpSession session) {
+        taskService.newTask(task);
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/employeeMain/" + userId;
     }
 
 }

@@ -10,7 +10,6 @@ public class MessageRepository {
 
     //Alle klasser skal tjekkes for eventuel tilbagemelding omkring overførsel af data
 
-
     public MessageRepository() {
         try {
             this.connection = DriverManager.getConnection(
@@ -31,8 +30,8 @@ public class MessageRepository {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, message.getText());
-            preparedStatement.setInt(2, message.getSent_to());
-            preparedStatement.setInt(3, message.getSent_from());
+            preparedStatement.setString(2, message.getSent_to());
+            preparedStatement.setString(3, message.getSent_from());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -41,11 +40,11 @@ public class MessageRepository {
     }
 
     public ResultSet getMessagesByUser(int id) {
-        query = "SELECT * FROM Messages WHERE fk_sent_to = ? OR fk_sent_from = ? ORDER BY id_messages DESC";
+        query = "SELECT id_messages, text, fk_sent_from, username FROM Messages " +
+                "INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE fk_sent_to = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
-            preparedStatement.setInt(2, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

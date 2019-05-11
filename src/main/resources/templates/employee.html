@@ -17,7 +17,6 @@
     <div class ="user-window">
 
         <form th:action="@{/newUser}" method="post" th:object="${User}">
-            <input type="hidden" name="id" th:value="${session.id}">
             <input type="text" name="username" placeholder="Username">
             <input type="text" name="firstName" placeholder="First name">
             <input type="text" name="lastName" placeholder="Last name">
@@ -36,21 +35,32 @@
 
     <div>
 
-        <ul></ul>
+        <ul>
+            <li th:each="message : ${messageList}">
+                <span th:text="${message.sent_from}"></span>
+                <span th:text="${message.text}"></span>
+            </li>
+        </ul>
 
     </div>
 
     <!-- Add task -->
 
-    <form action="@{/newTask}" method="post" th:object="${Task}">
+    <form th:action="@{/newTask}" method="post" th:object="${Task}">
         <input type="text" name="taskName" placeholder="Name the task...">
         <select name="customer">
-            <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.username}"></option>
+            <option selected disabled hidden>Choose a customer...</option>
+            <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.username}"></option>
         </select>
         <select name="employee">
-            <option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.username}"></option>
+            <option selected disabled hidden>Choose an employee...</option>
+            <option th:each="employee : ${employeeList}" th:value="${employee.id}" th:text="${employee.username}"></option>
         </select>
+        <button type="submit">Submit task</button>
     </form>
+
+    <!-- Task menu -->
+
 
 
     </body>

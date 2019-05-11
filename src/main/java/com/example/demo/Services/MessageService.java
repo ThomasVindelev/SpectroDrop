@@ -28,8 +28,7 @@ public class MessageService {
                 Message message = new Message();
                 message.setId(resultSet.getInt("id_messages"));
                 message.setText(resultSet.getString("text"));
-                message.setSent_to(resultSet.getInt("fk_sent_to"));
-                message.setSent_from(resultSet.getInt("fk_sent_from"));
+                message.setSent_from(resultSet.getString("username"));
                 messageList.add(message);
             }
             return messageList;

@@ -53,11 +53,11 @@ public class UserRepository {
         return null;
     }
 
-    public ResultSet getEmployees() {
+    public ResultSet getUsersByRole(int roleId) {
         query = "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(1, roleId);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

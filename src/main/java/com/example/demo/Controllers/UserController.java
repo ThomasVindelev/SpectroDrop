@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class UserController {
 
@@ -15,9 +17,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/newUser")
-    public String newUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
+    public String newUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {
         redirectAttributes.addFlashAttribute("message", userService.newUser(user));
-        return "redirect:/employeeMain/" + user.getId();
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/employeeMain/" + userId;
     }
 
 }

@@ -17,9 +17,16 @@ public class UserService implements com.example.demo.Services.Service<User> {
     @Autowired
     UserRepository userRepository;
 
-    public List<User> getEmployees() {
-        ResultSet resultSet = userRepository.getEmployees();
-        List<User> employeeList = new ArrayList<>();
+    // Henter brugere efter roller
+
+    public List<User> getUsers(String role) {
+        ResultSet resultSet;
+        if (role.equals("Employees")) {
+            resultSet = userRepository.getUsersByRole(1);
+        } else {
+            resultSet = userRepository.getUsersByRole(2);
+        }
+        List<User> userList = new ArrayList<>();
         try {
             while (resultSet.next()) {
                 User user = new User();
@@ -29,9 +36,9 @@ public class UserService implements com.example.demo.Services.Service<User> {
                 user.setLastName(resultSet.getString("lastname"));
                 user.setEmail(resultSet.getString("email"));
                 user.setFk_roles(resultSet.getInt("fk_roles"));
-                employeeList.add(user);
+                userList.add(user);
             }
-            return employeeList;
+            return userList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
