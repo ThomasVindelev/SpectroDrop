@@ -19,7 +19,7 @@ public class MessageController {
     public String newMessage(@ModelAttribute Message message, HttpSession session) {
         messageService.newMessage(message);
         Integer userId = (Integer) session.getAttribute("id");
-        return "redirect:/customerMain" + userId;
+        return "redirect:/employeeMain/" + userId;
     }
 
 }

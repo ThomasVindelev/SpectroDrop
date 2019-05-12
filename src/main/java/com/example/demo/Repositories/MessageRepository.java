@@ -30,8 +30,8 @@ public class MessageRepository {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, message.getText());
-            preparedStatement.setString(2, message.getSent_to());
-            preparedStatement.setString(3, message.getSent_from());
+            preparedStatement.setInt(2, message.getFk_sent_to());
+            preparedStatement.setInt(3, message.getFk_sent_from());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -41,7 +41,7 @@ public class MessageRepository {
 
     public ResultSet getMessagesByUser(int id) {
         query = "SELECT id_messages, text, fk_sent_from, username FROM Messages " +
-                "INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE fk_sent_to = ?";
+                "INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE fk_sent_to = ? ORDER BY id_messages DESC LIMIT 5";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
