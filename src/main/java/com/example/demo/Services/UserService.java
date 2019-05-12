@@ -93,6 +93,14 @@ public class UserService implements com.example.demo.Services.Service<User> {
         }
     }
 
+    public String deleteUserById(int id) {
+        if (!userRepository.deleteUserById(id)) {
+            return "Success!";
+        } else {
+            return "Failed!";
+        }
+    }
+
     public List<Role> getRoles() {
         ResultSet resultSet = userRepository.getRoles();
         List<Role> roleList = new ArrayList<>();

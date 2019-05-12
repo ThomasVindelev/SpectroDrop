@@ -14,7 +14,7 @@ import java.util.List;
 public class MessageService {
 
     @Autowired
-    MessageRepository messageRepository;
+    private MessageRepository messageRepository;
 
     public void newMessage(Message message) {
         messageRepository.newMessage(message);

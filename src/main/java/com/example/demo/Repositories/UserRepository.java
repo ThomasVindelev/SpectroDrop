@@ -121,6 +121,18 @@ public class UserRepository {
         return true;
     }
 
+    public boolean deleteUserById(int id) {
+        query = "DELETE FROM SpectroDB.Users WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public ResultSet verifyUser(User user) {
         query = "SELECT username FROM SpectroDB.Users WHERE username = LOWER (?) OR email LIKE ?";
         try {

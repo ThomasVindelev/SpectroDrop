@@ -41,4 +41,12 @@ public class UserController {
         return "redirect:/employeeMain/" + userId;
     }
 
+    @PostMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes, HttpSession session) {
+        System.out.println(id);
+        redirectAttributes.addFlashAttribute("Delete", userService.deleteUserById(id));
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/employeeMain/" + userId;
+    }
+
 }

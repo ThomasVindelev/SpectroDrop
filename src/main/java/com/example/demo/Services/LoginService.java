@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class LoginService implements com.example.demo.Services.Service<User> {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public boolean verify(User user) {
