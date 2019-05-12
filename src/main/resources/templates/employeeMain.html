@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <h5 class="card-title">New users</h5>
                             <p class="card-text">FYLD MIG FOR HELVEDE.</p>
-                            <a href="#" class="btn btn-primary">New user</a>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewUser-box">New user</a>
                             <a href="#" class="btn btn-primary">Display all</a>
                         </div>
                     </div>
@@ -89,37 +89,22 @@
             </div>
         </div>
 
-        <!-- Add User -->
-
-
-        <div class ="hide">
-
-            <H3>Add user</H3>
-
-            <form th:action="@{/newUser}" method="post" th:object="${User}">
-                <input type="text" name="username" placeholder="Username">
-                <input type="text" name="firstName" placeholder="First name">
-                <input type="text" name="lastName" placeholder="Last name">
-                <input type="text" name="email" placeholder="E-mail">
-                <select name="fk_roles">
-                    <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
-                </select>
-                <button type="submit">Create User</button>
-            </form>
-
-            <p th:text="${message}"></p>
-
-        </div>
-
         <!-- Read users -->
 
         <div>
             <h3>Users</h3>
             <table>
                 <tbody>
-                <tr th:each="user : ${userList}">
+                <tr th:each="user : ${newUsers}">
                     <td>
-
+                        <span th:text="${user.username}"></span>
+                        <span th:text="${user.firstName}"></span>
+                        <span th:text="${user.lastName}"></span>
+                        <span th:text="${user.email}"></span>
+                        <span th:text="${user.role}"></span>
+                        <button><i class="fas fa-file"></i></button>
+                        <button><i class="fas fa-cog"></i></button>
+                        <button><i class="fas fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 </tbody>
@@ -127,7 +112,7 @@
         </div>
 
 
-        <!-- Task Popup -->
+        <!-- Add Task Popup -->
 
         <div class="modal fade" id="Task-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -154,6 +139,34 @@
                     </div>
                 </form>
             </div>
+            </div>
+        </div>
+
+    <!-- Add User popup -->
+
+        <div class="modal fade" id="NewUser-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form th:action="@{/newUser}" method="post" th:object="${User}">
+                        <div class="modal-header">
+                            <h5 class="modal-title">New User</h5>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" name="username" placeholder="Username">
+                            <input type="text" name="firstName" placeholder="First name">
+                            <input type="text" name="lastName" placeholder="Last name">
+                            <input type="text" name="email" placeholder="E-mail">
+                            <select name="fk_roles">
+                                <option selected disabled hidden>Choose a role...</option>
+                                <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit task</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

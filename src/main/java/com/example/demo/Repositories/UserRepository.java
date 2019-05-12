@@ -53,9 +53,14 @@ public class UserRepository {
         return null;
     }
 
-    public ResultSet getUsers() {
-        query = "SELECT * FROM SpectroDB.Users " +
-                "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles";
+    public ResultSet getUsers(boolean getAll) {
+        if (getAll) {
+            query = "SELECT * FROM SpectroDB.Users " +
+                    "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles";
+        } else {
+            query = "SELECT * FROM SpectroDB.Users " +
+                    "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles ORDER BY id_users DESC LIMIT 3";
+        }
         try {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();

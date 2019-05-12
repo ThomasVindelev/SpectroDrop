@@ -19,14 +19,22 @@ public class UserService implements com.example.demo.Services.Service<User> {
 
     // Henter brugere efter roller
 
-    public List<User> getUsers(String role) {
-        ResultSet resultSet;
-        if (role.equals("Employees")) {
-            resultSet = userRepository.getUsersByRole(1);
-        } else if (role.equals("Customers")){
-            resultSet = userRepository.getUsersByRole(2);
-        } else {
-            resultSet = userRepository.getUsers();
+    public List<User> getUsers(String type) {
+        ResultSet resultSet = null;
+        switch (type) {
+            case "Employees":
+                resultSet = userRepository.getUsersByRole(1);
+            break;
+            case "Customers":
+                resultSet = userRepository.getUsersByRole(2);
+            break;
+            case "All":
+                resultSet = userRepository.getUsers(true);
+            break;
+            case "New":
+                resultSet = userRepository.getUsers(false);
+            break;
+            default:
         }
         List<User> userList = new ArrayList<>();
         try {

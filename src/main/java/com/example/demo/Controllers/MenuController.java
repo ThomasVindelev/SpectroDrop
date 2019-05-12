@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 public class MenuController {
 
@@ -31,16 +29,17 @@ public class MenuController {
     }
 
     @GetMapping("/employeeMain/{id}")
-    public String getEmployeeMenu(@PathVariable("id") int id, Model model, HttpSession session) {
+    public String getEmployeeMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("roleList", userService.getRoles());
         model.addAttribute("messageList", messageService.getMessages(id));
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
         model.addAttribute("userList", userService.getUsers("All"));
+        model.addAttribute("newUsers", userService.getUsers("New"));
         return "employeeMain";
     }
 
     @GetMapping("/customerMain/{id}/tasks")
-    public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
+    public String getAllTasks(@PathVariable("id") int id, Model model) {
         model.addAttribute("taskList", taskService.getTasks(false, true, id));
         return "tasks";
     }
