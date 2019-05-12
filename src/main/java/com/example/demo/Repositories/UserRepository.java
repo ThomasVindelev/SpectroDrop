@@ -70,6 +70,18 @@ public class UserRepository {
         return null;
     }
 
+    public ResultSet getUserById(int id) {
+        query = "SELECT * FROM SpectroDB.Users WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ResultSet getUsersByRole(int roleId) {
         query = "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
         try {
@@ -91,6 +103,22 @@ public class UserRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean updateUser(User user) {
+        query = "UPDATE SpectroDB.Users SET username = ?, firstname = ?, lastname = ?, email = ? WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setInt(5, user.getId());
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     public ResultSet verifyUser(User user) {

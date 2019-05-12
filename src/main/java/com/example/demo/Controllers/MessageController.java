@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class MessageController {
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @PostMapping("/newMessage")
     public String newMessage(@ModelAttribute Message message, HttpSession session) {

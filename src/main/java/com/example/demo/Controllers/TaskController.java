@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class TaskController {
 
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
     @PostMapping("/newTask")
     public String newTask(@ModelAttribute Task task, HttpSession session) {

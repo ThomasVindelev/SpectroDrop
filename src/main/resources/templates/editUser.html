@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+</head>
+<body>
+
+<h3>Hej, dette er en side til at ændre i brugere</h3>
+
+<form th:action="@{/editUser}" method="post" th:object="${User}">
+    <input type="hidden" name="id" th:value="${TheUser.id}">
+    <input type="text" name="username" th:value="${TheUser.username}">
+    <input type="text" name="firstName" th:value="${TheUser.firstName}">
+    <input type="text" name="lastName" th:value="${TheUser.lastName}">
+    <input type="text" name="email" th:value="${TheUser.email}">
+    <button type="submit">Edit user</button>
+</form>
+
+</body>
+</html>

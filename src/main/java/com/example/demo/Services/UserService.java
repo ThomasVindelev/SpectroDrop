@@ -15,7 +15,7 @@ import java.util.List;
 public class UserService implements com.example.demo.Services.Service<User> {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     // Henter brugere efter roller
 
@@ -34,7 +34,6 @@ public class UserService implements com.example.demo.Services.Service<User> {
             case "New":
                 resultSet = userRepository.getUsers(false);
             break;
-            default:
         }
         List<User> userList = new ArrayList<>();
         try {
@@ -56,6 +55,24 @@ public class UserService implements com.example.demo.Services.Service<User> {
         return null;
     }
 
+    public User getUserById(int id) {
+        ResultSet resultSet = userRepository.getUserById(id);
+        User user = new User();
+        try {
+            while (resultSet.next()) {
+                user.setId(id);
+                user.setUsername(resultSet.getString("username"));
+                user.setFirstName(resultSet.getString("firstname"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setEmail(resultSet.getString("email"));
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public String newUser(User user) {
         if (!verify(user)) {
             if (!userRepository.newUser(user)) {
@@ -65,6 +82,14 @@ public class UserService implements com.example.demo.Services.Service<User> {
             }
         } else {
             return "Username or e-mail already exists!";
+        }
+    }
+
+    public String updateUser(User user) {
+        if (!userRepository.updateUser(user)) {
+            return "Success!";
+        } else {
+            return "Failed!";
         }
     }
 

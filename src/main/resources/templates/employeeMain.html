@@ -35,7 +35,9 @@
                                             <span th:text="${user.lastName}"></span>
                                             <span th:text="${user.email}"></span>
                                             <span th:text="${user.role}"></span>
-                                            <button data-toggle="modal" data-target="#EditUser-box" th:value="${user.id}"><i class="fas fa-cog"></i></button>
+                                            <form th:action="@{/editUser/{id}(id = ${user.id})}" method="get">
+                                                <button type="submit"><i class="fas fa-cog"></i></button>
+                                            </form>
                                             <button><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
