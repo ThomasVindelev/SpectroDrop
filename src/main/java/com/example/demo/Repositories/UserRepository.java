@@ -106,14 +106,15 @@ public class UserRepository {
     }
 
     public boolean updateUser(User user) {
-        query = "UPDATE SpectroDB.Users SET username = ?, firstname = ?, lastname = ?, email = ? WHERE id_users = ?";
+        query = "UPDATE SpectroDB.Users SET username = ?, firstname = ?, lastname = ?, email = ?, fk_roles = ? WHERE id_users = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setInt(5, user.getFk_roles());
+            preparedStatement.setInt(6, user.getId());
             return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

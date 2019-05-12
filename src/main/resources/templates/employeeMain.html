@@ -35,8 +35,31 @@
                                             <span th:text="${user.lastName}"></span>
                                             <span th:text="${user.email}"></span>
                                             <span th:text="${user.role}"></span>
-                                            <form th:action="@{/editUser/{id}(id = ${user.id})}" method="get">
-                                                <button type="submit"><i class="fas fa-cog"></i></button>
+                                            <form th:action="@{/editUser}" method="post" th:object="${User}">
+                                                <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
+                                                <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id" th:value="${user.id}">
+                                                                <input type="text" name="username" th:value="${user.username}" placeholder="Username">
+                                                                <input type="text" name="firstName" th:value="${user.firstName}" placeholder="First name">
+                                                                <input type="text" name="lastName" th:value="${user.lastName}" placeholder="Last name">
+                                                                <input type="text" name="email" th:value="${user.email}" placeholder="E-mail">
+                                                                <select name="fk_roles">
+                                                                    <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.fk_roles}"></option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Edit user</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
                                             <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
                                                 <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
@@ -154,8 +177,6 @@
             </div>
         </div>
 
-        <!-- Delete User popup -->
-
         <!-- Write Message popup -->
 
         <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -211,9 +232,6 @@
             </div>
             </div>
         </div>
-
-
-
 
     </body>
     </div>

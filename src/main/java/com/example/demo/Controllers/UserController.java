@@ -34,8 +34,6 @@ public class UserController {
 
     @PostMapping("/editUser")
     public String editUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {
-        System.out.println(user.getId());
-        System.out.println(user.getFirstName());
         redirectAttributes.addFlashAttribute("Edit", userService.updateUser(user));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
@@ -43,7 +41,6 @@ public class UserController {
 
     @PostMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes, HttpSession session) {
-        System.out.println(id);
         redirectAttributes.addFlashAttribute("Delete", userService.deleteUserById(id));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
