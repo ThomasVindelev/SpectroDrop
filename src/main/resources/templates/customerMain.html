@@ -59,6 +59,73 @@
     </div>
     </body>
 
+    <!-- Write Message popup -->
+
+    <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form th:action="@{/newMessage}" method="post" th:object="${Message}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New Message</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="text" placeholder="Write your message here...">
+                        <select name="fk_sent_to">
+                            <option selected disabled hidden>Choose a user...</option>
+                            <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.username}"></option>
+                        </select>
+                        <input type="hidden" name="fk_sent_from" th:value="${session.id}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task and upload Popup -->
+
+    <div class="modal fade" id="Task-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form th:action="@{/newTask}" method="post" th:object="${Task}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New task</h5>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                task 1
+                                </td>
+                                <td>
+                                task description
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                       <!-- <input type="text" name="taskName" placeholder="Name the task...">
+                        <select name="fk_customer">
+                            <option selected disabled hidden>Choose a customer...</option>
+                            <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}" th:value="${customer.id}" th:text="${customer.username}"></option>
+                        </select>
+                        <select name="fk_employee">
+                            <option selected disabled hidden>Choose an employee...</option>
+                            <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}" th:value="${employee.id}" th:text="${employee.username}"></option>
+                        </select>-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </html>
