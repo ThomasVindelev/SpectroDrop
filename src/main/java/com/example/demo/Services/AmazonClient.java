@@ -36,18 +36,6 @@ public class AmazonClient {
         s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
 
-    public void createBucket() {
-        BasicAWSCredentials credentials = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
-        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
-        String bucket = "marcoogthomasbucket";
-
-        try {
-            s3.createBucket(bucket);
-        } catch (AmazonS3Exception e) {
-            System.err.println(e.getErrorMessage());
-        }
-    }
-
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);

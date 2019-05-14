@@ -149,6 +149,23 @@
             </div>
         </div>
 
+        <!-- UPLOAD FILE -->
+
+        <div class="col-sm">
+            <div class="customer-card card">
+                <h5 class="card-header">Upload</h5>
+                <div class="card-body">
+                    <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label> File upload </label>
+                            <input type="file" class="form-control-file" name="file">
+                            <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Add User popup -->
 
         <div class="modal fade" id="NewUser-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

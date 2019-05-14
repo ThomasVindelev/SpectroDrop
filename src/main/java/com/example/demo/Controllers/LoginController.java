@@ -42,10 +42,5 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/createBucket")
-    public String createBucket() {
-        amazonClient.createBucket();
-        return "redirect:/employeeMain/" + 1;
-    }
 
 }
