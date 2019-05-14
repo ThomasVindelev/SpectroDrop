@@ -31,14 +31,33 @@ public class TaskService {
             while(resultSet.next()) {
                 Task task = new Task();
                 task.setId(resultSet.getInt("id_tasks"));
-                task.setCustomer(resultSet.getString("a.username"));
-                task.setEmployee(resultSet.getString("b.username"));
+                task.setCustomer(resultSet.getString("customer.username"));
+                task.setEmployee(resultSet.getString("employee.username"));
                 task.setFk_status(resultSet.getInt("fk_status"));
                 task.setStatus(resultSet.getString("Status.name"));
                 task.setTaskName(resultSet.getString("Tasks.name"));
                 taskList.add(task);
             }
             return taskList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Task getTaskById(int id) {
+        ResultSet resultSet = taskRepository.getTaskById(id);
+        try {
+            Task task = new Task();
+            while (resultSet.next()) {
+                task.setId(resultSet.getInt("id_tasks"));
+                task.setCustomer(resultSet.getString("customer.username"));
+                task.setEmployee(resultSet.getString("employee.username"));
+                task.setFk_status(resultSet.getInt("fk_status"));
+                task.setStatus(resultSet.getString("Status.name"));
+                task.setTaskName(resultSet.getString("Tasks.name"));
+            }
+            return task;
         } catch (SQLException e) {
             e.printStackTrace();
         }

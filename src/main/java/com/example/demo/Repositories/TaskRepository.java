@@ -39,16 +39,31 @@ public class TaskRepository {
 
     public ResultSet getTasks(boolean getNew, boolean isCustomer, int id) {
         query = "SELECT * FROM Tasks " +
-                "INNER JOIN Users a ON fk_customer = a.id_users " +
-                "INNER JOIN Users b ON fk_employee = b.id_users " +
-                "INNER JOIN Status ON fk_status = id_status ORDER BY Tasks.id_tasks DESC ";
+                "INNER JOIN Users customer ON fk_customer = customer.id_users " +
+                "INNER JOIN Users employee ON fk_employee = employee.id_users " +
+                "INNER JOIN Status ON fk_status = id_status ";
         if (isCustomer) {
-            query += "WHERE fk_customer = " + id + " ";
+            query += "WHERE fk_customer = " + id + " ORDER BY Tasks.id_tasks DESC LIMIT 5";
         } else if (getNew) {
-            query += "LIMIT 3";
+            query += "ORDER BY Tasks.id_tasks DESC LIMIT 5";
         }
         try {
             preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getTaskById(int id) {
+        query = "SELECT * FROM Tasks " +
+                "INNER JOIN Users customer ON fk_customer = customer.id_users " +
+                "INNER JOIN Users employee ON fk_employee = employee.id_users " +
+                "INNER JOIN Status ON fk_status = id_status WHERE id_tasks = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

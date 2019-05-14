@@ -83,7 +83,7 @@ public class UserRepository {
     }
 
     public ResultSet getUsersByRole(int roleId) {
-        query = "SELECT * FROM SpectroDB.Users WHERE fk_roles = ?";
+        query = "SELECT * FROM SpectroDB.Users INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE fk_roles = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, roleId);

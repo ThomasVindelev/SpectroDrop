@@ -25,6 +25,7 @@ public class MenuController {
     public String getCustomerMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("employeeList", userService.getUsers("Employees"));
         model.addAttribute("messageList", messageService.getMessages(id));
+        model.addAttribute("newTasks", taskService.getTasks(true, true, id));
         return "customerMain";
     }
 

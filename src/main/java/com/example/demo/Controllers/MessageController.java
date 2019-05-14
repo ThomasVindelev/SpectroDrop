@@ -19,7 +19,13 @@ public class MessageController {
     public String newMessage(@ModelAttribute Message message, HttpSession session) {
         messageService.newMessage(message);
         Integer userId = (Integer) session.getAttribute("id");
-        return "redirect:/employeeMain/" + userId;
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == 1) {
+            return "redirect:/employeeMain/" + userId;
+        } else {
+            return "redirect:/customerMain/" + userId;
+        }
+
     }
 
 }
