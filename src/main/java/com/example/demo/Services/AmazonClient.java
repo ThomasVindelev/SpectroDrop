@@ -5,10 +5,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 
 @Service
@@ -65,6 +63,29 @@ public class AmazonClient {
             e.printStackTrace();
         }
         return fileUrl;
+    }
+
+    public void downloadFile(String name) {
+        S3Object object = s3client.getObject("spectrodrop-bucket", name);
+        File localFile = new File("D:\\Overførsler\\" + name);
+        int increment = 1;
+        boolean exists = false;
+        try {
+            Files.copy(object.getObjectContent(), localFile.toPath());
+        } catch (IOException ioe) {
+            System.out.println("Exception1 = " + ioe);
+            exists = true;
+        }
+        while (exists) {
+            try {
+                File newFile = new File("D:\\Overførsler\\" + name + "(" + increment + ")");
+                Files.copy(object.getObjectContent(), newFile.toPath());
+                exists = false;
+            } catch (IOException ioe) {
+                System.out.println("Exception2 = " + ioe);
+                increment++;
+            }
+        }
     }
 
     public String deleteFileFromS3Bucket (String fileUrl) {
