@@ -5,9 +5,11 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
@@ -21,6 +23,9 @@ public class AmazonClient {
 
     private AmazonS3 s3client;
 
+    @Autowired
+    CSV csv;
+
     private String endpointUrl = "s3-control.eu-central-1.amazonaws.com";
 
     private String bucketName = "spectrodrop-bucket";
@@ -33,6 +38,18 @@ public class AmazonClient {
     private void initializeAmazon() {
         BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
         s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
+    }
+
+    public void createBucket() {
+        BasicAWSCredentials credentials = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
+        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        String bucket = "TestBucket";
+
+        try {
+            s3.createBucket(bucket);
+        } catch (AmazonS3Exception e) {
+            System.err.println(e.getErrorMessage());
+        }
     }
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {

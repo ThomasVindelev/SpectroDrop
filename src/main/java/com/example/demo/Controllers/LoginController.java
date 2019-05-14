@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Models.User;
+import com.example.demo.Services.AmazonClient;
 import com.example.demo.Services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private AmazonClient amazonClient;
 
     @GetMapping("/")
     public String loginPage() {
@@ -36,6 +40,12 @@ public class LoginController {
             model.addAttribute("invalid", true);
             return "index";
         }
+    }
+
+    @PostMapping("/createBucket")
+    public String createBucket() {
+        amazonClient.createBucket();
+        return "redirect:/employeeMain/" + 1;
     }
 
 }
