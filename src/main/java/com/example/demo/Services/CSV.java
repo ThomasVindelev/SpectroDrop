@@ -39,10 +39,8 @@ public class CSV {
         String key;
         if (!isSecret) {
             key = CSVData[0];
-            System.out.println(key);
         } else {
             key = CSVData[1];
-            System.out.println(key);
         }
         return key;
     }
