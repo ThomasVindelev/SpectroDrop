@@ -30,20 +30,16 @@ public class AmazonClient {
 
     private String bucketName = "spectrodrop-bucket";
 
-    private String accessKey = "";
-
-    private String secretKey = "";
-
     @PostConstruct
     private void initializeAmazon() {
-        BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        BasicAWSCredentials creds = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
         s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
 
     public void createBucket() {
         BasicAWSCredentials credentials = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
         final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
-        String bucket = "TestBucket";
+        String bucket = "marcoogthomasbucket";
 
         try {
             s3.createBucket(bucket);
@@ -65,13 +61,13 @@ public class AmazonClient {
     }
 
     private void uploadFileTos3bucket (String fileName, File file) {
-        s3client.putObject(new PutObjectRequest(bucketName, fileName,file)
+        s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
     }
 
     public String uploadFile (MultipartFile multipartFile) {
         String fileUrl ="";
-        try{
+        try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
@@ -84,7 +80,7 @@ public class AmazonClient {
     }
 
     public String deleteFileFromS3Bucket (String fileUrl) {
-        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") +1);
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
             return "Successfully deleted";
     }
