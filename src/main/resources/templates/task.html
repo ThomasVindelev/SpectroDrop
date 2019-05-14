@@ -7,11 +7,36 @@
 </head>
 <body>
 
-<h1 th:text="${TheTask.taskName}"></h1>
+<h1 ></h1>
 
-<p th:text="${TheTask.employee}"></p>
-<p th:text="${TheTask.status}"></p>
+<p ></p>
+<p
 
+<div class="col-sm">
+    <div class="customer-card card">
+        <h5 class="card-header">Task overview</h5>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr th:each="task : ${newTasks}">
+                    <td>
+                        <span th:text="${TheTask.taskName}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${TheTask.employee}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${TheTask.status}"></p></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#Task-box">New task</a>
+            <a href="#" class="btn btn-primary">Display all</a>
+        </div>
+    </div>
+</div>
+</div>
 
 </body>
 <footer th:replace="fragments/footer :: footer">...</footer>
