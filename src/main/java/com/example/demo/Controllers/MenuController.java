@@ -36,6 +36,7 @@ public class MenuController {
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
         model.addAttribute("userList", userService.getUsers("All"));
         model.addAttribute("newUsers", userService.getUsers("New"));
+        model.addAttribute("statusList", taskService.getStatus());
         return "employeeMain";
     }
 

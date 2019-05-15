@@ -71,4 +71,15 @@ public class TaskRepository {
         return null;
     }
 
+    public ResultSet getStatus() {
+        query = "SELECT * FROM SpectroDB.Status";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

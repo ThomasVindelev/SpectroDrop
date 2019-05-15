@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.Models.Status;
 import com.example.demo.Models.Task;
 import com.example.demo.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,23 @@ public class TaskService {
                 task.setTaskName(resultSet.getString("Tasks.name"));
             }
             return task;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Status> getStatus() {
+        ResultSet resultSet = taskRepository.getStatus();
+        List<Status> statusList = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                Status status = new Status();
+                status.setId(resultSet.getInt("id_status"));
+                status.setName(resultSet.getString("name"));
+                statusList.add(status);
+            }
+            return statusList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
