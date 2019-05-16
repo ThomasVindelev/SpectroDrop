@@ -10,13 +10,15 @@
 </head>
 <body>
 
-<div class="col-sm">
-    <div class="customer-card card">
-        <h5 class="card-header">Task overview</h5>
-        <div class="card-body">
-            <table class="table">
-                <tbody>
-                <tr th:each="task : ${newTasks}">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <h5 class="card-header">Tasks</h5>
+                <div class="card-body">
+                <table class="table">
+                    <tbody>
+                    <tr th:each="task : ${newTasks}">
                     <td>
                         <span th:text="${TheTask.taskName}"></span>
                     </td>
@@ -26,46 +28,64 @@
                     <td>
                         <span th:text="${TheTask.status}"></p></span>
                     </td>
-                </tr>
-                </tbody>
-            </table>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 <!-- UPLOAD FILE -->
 
-<div class="col-sm">
-    <div class="customer-card card">
-        <h5 class="card-header">Upload</h5>
-        <div class="card-body">
-            <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label> File upload </label>
-                    <input type="hidden" name="id" th:value="${TheTask.id}">
-                    <input type="file" class="form-control-file" name="file">
-                    <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
-                </div>
-            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <h5 class="card-header">Upload</h5>
+                    <div class="card-body">
+                        <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label> File upload </label>
+                                <input type="hidden" name="id" th:value="${TheTask.id}">
+                                <input type="file" class="form-control-file" name="file">
+                                <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
+                            </div>
+                        </form>
+                     </div>
+                 </div>
+            </div>
         </div>
     </div>
-</div>
 
 <!-- VIEW FILES -->
-
-<table>
-    <tbody>
-    <tr th:each="file : ${Files}">
-        <td>
-            <a th:text="${file.name}" th:href="@{/downloadFile/{name}(name = ${file.name})}" type="post"></a>
-            <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
-                <button type="submit">Download File</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="card">
+                             <h5 class="card-header">View uploaded files</h5>
+                                <div class="card-body">
+                                    <table>
+                                        <tbody>
+                                         <tr th:each="file : ${Files}">
+                                            <td>
+                                                <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    <a th:text="${file.name}" th:href="@{/downloadFile/{name}(name = ${file.name})}" type="post"></a>
+                                                </li>
+                                                </ul>
+                                                <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
+                                                    <input type="submit"  class="btn btn-primary" value="Download file" name="download file">Upload</input>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </div>
