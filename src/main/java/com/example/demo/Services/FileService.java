@@ -17,11 +17,23 @@ public class FileService implements com.example.demo.Services.Service<File> {
 
     private String spectroDropBucket = "spectrodrop-bucket/";
 
-    public void addFileToTask(int id, String name) {
-        int indexOfBucket = name.indexOf(spectroDropBucket);
-        int indexOfFileName = indexOfBucket + spectroDropBucket.length();
-        String filteredName = name.substring(indexOfFileName);
-        fileRepository.addFileToTask(id, filteredName);
+    public String addFileToTask(int id, String name) {
+        System.out.println(name);
+        String format = name.substring(name.lastIndexOf('.'));
+        name = name.substring(0, name.lastIndexOf('.'));
+        ResultSet resultSet = fileRepository.findDuplicate(name);
+        int increment = 0;
+        try {
+            while (resultSet.next()) {
+                increment++;
+                name = name + "(" + increment + ")" + format;
+                resultSet = fileRepository.findDuplicate(name);
+            }
+            return fileRepository.addFileToTask(id, name);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void deleteFile(String name) {

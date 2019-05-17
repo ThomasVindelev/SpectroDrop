@@ -34,16 +34,30 @@ public class FileRepository {
         return null;
     }
 
-    public void addFileToTask(int id, String name) {
+    public ResultSet findDuplicate(String name) {
+        query = "SELECT id_files FROM SpectroDB.Files WHERE name = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String addFileToTask(int id, String name) {
         query = "INSERT into SpectroDB.Files (fk_tasks, name) VALUES (?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.execute();
+            return name;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void deleteFile(String name) {

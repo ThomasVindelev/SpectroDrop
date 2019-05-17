@@ -21,7 +21,8 @@ public class FileController {
 
     @PostMapping("/upload")
     public String uploadFile(@RequestPart(value = "file") MultipartFile file, @ModelAttribute("id") int id) {
-        fileService.addFileToTask(id, amazonClient.uploadFile(file));
+        String name = fileService.addFileToTask(id, file.getOriginalFilename());
+        amazonClient.uploadFile(file, name);
         return "redirect:/taskInfo/" + id;
     }
 

@@ -43,6 +43,7 @@ public class AmazonClient {
     }
 
     private String generateFileName(MultipartFile multiPart) {
+
         return multiPart.getOriginalFilename();
     }
 
@@ -51,7 +52,7 @@ public class AmazonClient {
                 .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
     }
 
-    public String uploadFile (MultipartFile multipartFile) {
+    public String uploadFile (MultipartFile multipartFile, String name) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
