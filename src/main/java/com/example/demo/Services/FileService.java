@@ -18,18 +18,23 @@ public class FileService implements com.example.demo.Services.Service<File> {
     private String spectroDropBucket = "spectrodrop-bucket/";
 
     public String addFileToTask(int id, String name) {
-        System.out.println(name);
+        String original = name.substring(0, name.lastIndexOf('.'));
         String format = name.substring(name.lastIndexOf('.'));
         name = name.substring(0, name.lastIndexOf('.'));
-        ResultSet resultSet = fileRepository.findDuplicate(name);
+        ResultSet resultSet = fileRepository.findDuplicate(name + format);
         int increment = 0;
         try {
             while (resultSet.next()) {
                 increment++;
-                name = name + "(" + increment + ")" + format;
+                name = original;
+                name += "(" + increment + ")" + format;
                 resultSet = fileRepository.findDuplicate(name);
             }
-            return fileRepository.addFileToTask(id, name);
+            if (increment > 0) {
+                return fileRepository.addFileToTask(id, name);
+            } else {
+                return fileRepository.addFileToTask(id, name + format);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

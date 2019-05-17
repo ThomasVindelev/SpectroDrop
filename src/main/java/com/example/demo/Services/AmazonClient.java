@@ -43,7 +43,6 @@ public class AmazonClient {
     }
 
     private String generateFileName(MultipartFile multiPart) {
-
         return multiPart.getOriginalFilename();
     }
 
@@ -56,9 +55,8 @@ public class AmazonClient {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
-            uploadFileTos3bucket(fileName, file);
+            fileUrl = endpointUrl + "/" + bucketName + "/" + name;
+            uploadFileTos3bucket(name, file);
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +90,6 @@ public class AmazonClient {
     }
 
     public String deleteFileFromS3Bucket(String fileName) {
-        System.out.println(fileName + " ___ delete");
         s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
         return "Successfully deleted";
     }

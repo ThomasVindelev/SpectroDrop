@@ -2,6 +2,7 @@ package com.example.demo.Services;
 
 import com.example.demo.Models.Status;
 import com.example.demo.Models.Task;
+import com.example.demo.Repositories.FileRepository;
 import com.example.demo.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,12 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
+
+    @Autowired
+    private AmazonClient amazonClient;
 
     public boolean newTask(Task task) {
         if (!taskRepository.newTask(task)) {
@@ -34,6 +41,17 @@ public class TaskService {
     }
 
     public boolean deleteTask(int id) {
+        ResultSet resultSet = fileRepository.getFilesByTask(id);
+
+        try {
+            while(resultSet.next()) {
+                System.out.println(resultSet.getString("name"));
+                fileRepository.deleteFile(resultSet.getString("name"));
+                amazonClient.deleteFileFromS3Bucket(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         if (!taskRepository.deleteTask(id)) {
             return true;
         } else {
