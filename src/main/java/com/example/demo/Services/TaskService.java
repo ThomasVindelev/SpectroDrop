@@ -42,10 +42,8 @@ public class TaskService {
 
     public boolean deleteTask(int id) {
         ResultSet resultSet = fileRepository.getFilesByTask(id);
-
         try {
             while(resultSet.next()) {
-                System.out.println(resultSet.getString("name"));
                 fileRepository.deleteFile(resultSet.getString("name"));
                 amazonClient.deleteFileFromS3Bucket(resultSet.getString("name"));
             }

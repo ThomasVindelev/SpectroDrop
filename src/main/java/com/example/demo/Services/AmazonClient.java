@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Date;
 
 @Service
 public class AmazonClient {
@@ -42,10 +41,6 @@ public class AmazonClient {
         return convFile;
     }
 
-    private String generateFileName(MultipartFile multiPart) {
-        return multiPart.getOriginalFilename();
-    }
-
     private void uploadFileTos3bucket (String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
@@ -67,7 +62,7 @@ public class AmazonClient {
     public void downloadFile(String name) {
         String newName = name.substring(0, name.lastIndexOf('.'));
         String format = name.substring(name.lastIndexOf('.'));
-        S3Object object = s3client.getObject("spectrodrop-bucket", name);
+        S3Object object = s3client.getObject(bucketName, name);
         File localFile = new File("D:\\Overførsler\\" + newName + format);
         int increment = 1;
         boolean exists = false;
