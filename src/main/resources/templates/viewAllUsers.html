@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task</title>
+    <head th:replace="fragments/header :: header">...</head>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="#">
+                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <table class="table">
+                        <tbody>
+                        <tr th:each="user : ${userList}">
+                            <td th:text="${user.username}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.role}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<footer th:replace="fragments/footer :: footer">...</footer>
+</html>

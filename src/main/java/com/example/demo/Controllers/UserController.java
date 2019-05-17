@@ -46,4 +46,9 @@ public class UserController {
         return "redirect:/employeeMain/" + userId;
     }
 
+    @GetMapping("/viewAllUsers")
+    public String viewAllUsers(Model model) {
+        model.addAttribute("userList", userService.getUsers("All"));
+        return "viewAllUsers";
+    }
 }

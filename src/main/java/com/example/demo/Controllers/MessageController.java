@@ -1,9 +1,11 @@
 package com.example.demo.Controllers;
 
+import org.springframework.ui.Model;
 import com.example.demo.Models.Message;
 import com.example.demo.Services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -28,4 +30,10 @@ public class MessageController {
 
     }
 
+    @GetMapping("/viewAllMessages")
+    public String viewAllMessages(@ModelAttribute Message message, HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("id");
+        model.addAttribute("messageList",messageService.getMessages(userId));
+        return "viewAllMessages";
+    }
 }
