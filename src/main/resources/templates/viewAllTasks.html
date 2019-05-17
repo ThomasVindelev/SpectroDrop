@@ -26,7 +26,9 @@
                     <tbody>
                     <tr th:each="task : ${taskList}">
                         <td th:text="${task.taskName}"></td>
-                        <td th:text="${task.task.fk_status}"></td>
+                        <td th:text="${task.customer}"></td>
+                        <td th:text="${task.employee}"></td>
+                        <td th:text="${task.status}"></td>
                     </tr>
                     </tbody>
                 </table>

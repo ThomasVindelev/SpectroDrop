@@ -71,9 +71,9 @@ public class TaskRepository {
                 "INNER JOIN Users employee ON fk_employee = employee.id_users " +
                 "INNER JOIN Status ON fk_status = id_status ";
         if (isCustomer) {
-            query += "WHERE fk_customer = " + id + " ORDER BY Tasks.id_tasks DESC LIMIT 5";
+            query += "WHERE fk_customer = " + id + " ";
         } else if (getNew) {
-            query += "ORDER BY Tasks.id_tasks DESC LIMIT 5";
+            query += "LIMIT 5";
         }
         try {
             preparedStatement = connection.prepareStatement(query);

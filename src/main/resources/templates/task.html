@@ -81,10 +81,12 @@
                                     <input type="hidden" name="id" th:value="${TheTask.id}">
                                     <input type="submit"  class="btn btn-primary" value="Download file" name="download file">
                                 </form>
-                                <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
-                                    <input type="hidden" name="id" th:value="${TheTask.id}">
-                                    <input type="submit"  class="btn btn-primary" value="Delete file" name="delete file">
-                                </form>
+                                <div th:if="${session.role == 1}">
+                                    <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
+                                        <input type="hidden" name="id" th:value="${TheTask.id}">
+                                        <input type="submit"  class="btn btn-primary" value="Delete file" name="delete file">
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         </tbody>

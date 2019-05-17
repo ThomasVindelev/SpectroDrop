@@ -50,9 +50,14 @@ public class TaskController {
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }
-    @GetMapping("/viewAllTasks")
+
+    @GetMapping("/viewAllTasks/{id}")
     public String getAllTasks(@PathVariable("id") int id, Model model) {
-        model.addAttribute("taskList", taskService.getTasks(false, true, id));
+        if (id == 1) {
+            model.addAttribute("taskList", taskService.getTasks(false, false, id));
+        } else {
+            model.addAttribute("taskList", taskService.getTasks(false, true, id));
+        }
         return "viewAllTasks";
     }
 
