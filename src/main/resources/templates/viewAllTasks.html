@@ -22,7 +22,14 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
-
+                <table class="table">
+                    <tbody>
+                    <tr th:each="task : ${taskList}">
+                        <td th:text="${task.taskName}"></td>
+                        <td th:text="${task.task.fk_status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
