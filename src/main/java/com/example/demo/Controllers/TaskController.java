@@ -36,4 +36,18 @@ public class TaskController {
         return "task";
     }
 
+    @PostMapping("/editTask")
+    public String editTask(@ModelAttribute Task task, HttpSession session) {
+        taskService.editTask(task);
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/employeeMain/" + userId;
+    }
+
+    @PostMapping("/deleteTask/{id}")
+    public String deleteTask(@PathVariable("id") int id, HttpSession session) {
+        taskService.deleteTask(id);
+        Integer userId = (Integer) session.getAttribute("id");
+        return "redirect:/employeeMain/" + userId;
+    }
+
 }

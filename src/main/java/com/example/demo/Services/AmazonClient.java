@@ -43,7 +43,7 @@ public class AmazonClient {
     }
 
     private String generateFileName(MultipartFile multiPart) {
-        return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace("","_" );
+        return multiPart.getOriginalFilename();
     }
 
     private void uploadFileTos3bucket (String fileName, File file) {
@@ -52,7 +52,7 @@ public class AmazonClient {
     }
 
     public String uploadFile (MultipartFile multipartFile) {
-        String fileUrl ="";
+        String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
@@ -66,8 +66,10 @@ public class AmazonClient {
     }
 
     public void downloadFile(String name) {
+        String newName = name.substring(0, name.lastIndexOf('.'));
+        String format = name.substring(name.lastIndexOf('.'));
         S3Object object = s3client.getObject("spectrodrop-bucket", name);
-        File localFile = new File("D:\\Overførsler\\" + name);
+        File localFile = new File("D:\\Overførsler\\" + newName + format);
         int increment = 1;
         boolean exists = false;
         try {
@@ -78,7 +80,7 @@ public class AmazonClient {
         }
         while (exists) {
             try {
-                File newFile = new File("D:\\Overførsler\\" + name + "(" + increment + ")");
+                File newFile = new File("D:\\Overførsler\\" + newName + "(" + increment + ")" + format);
                 Files.copy(object.getObjectContent(), newFile.toPath());
                 exists = false;
             } catch (IOException ioe) {
@@ -88,10 +90,10 @@ public class AmazonClient {
         }
     }
 
-    public String deleteFileFromS3Bucket (String fileUrl) {
-        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
-            return "Successfully deleted";
+    public String deleteFileFromS3Bucket(String fileName) {
+        System.out.println(fileName + " ___ delete");
+        s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        return "Successfully deleted";
     }
 
 }

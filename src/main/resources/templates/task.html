@@ -14,11 +14,11 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card">
-                <h5 class="card-header">Tasks</h5>
+                <h5 class="card-header">Task</h5>
                 <div class="card-body">
                 <table class="table">
                     <tbody>
-                    <tr th:each="task : ${newTasks}">
+                    <tr>
                     <td>
                         <span th:text="${TheTask.taskName}"></span>
                     </td>
@@ -71,11 +71,16 @@
                                             <td>
                                                 <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
-                                                    <a th:text="${file.name}" th:href="@{/downloadFile/{name}(name = ${file.name})}" type="post"></a>
+                                                    <a th:text="${file.name}" th:href="@{/downloadFile/{name}(name = ${file.name})}"></a>
                                                 </li>
                                                 </ul>
                                                 <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
-                                                    <input type="submit"  class="btn btn-primary" value="Download file" name="download file">Upload</input>
+                                                    <input type="hidden" name="id" th:value="${TheTask.id}">
+                                                    <input type="submit"  class="btn btn-primary" value="Download file" name="download file">
+                                                </form>
+                                                <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
+                                                    <input type="hidden" name="id" th:value="${TheTask.id}">
+                                                    <input type="submit"  class="btn btn-primary" value="Delete file" name="delete file">
                                                 </form>
                                             </td>
                                         </tr>

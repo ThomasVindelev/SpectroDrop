@@ -46,4 +46,15 @@ public class FileRepository {
         }
     }
 
+    public void deleteFile(String name) {
+        query = "DELETE FROM SpectroDB.Files WHERE name = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-
 @Controller
 public class FileController {
 
@@ -23,20 +20,21 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @ModelAttribute("id") int id, HttpSession session) {
+    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @ModelAttribute("id") int id) {
         fileService.addFileToTask(id, amazonClient.uploadFile(file));
-        Integer userId = (Integer) session.getAttribute("id");
-        return "redirect:/employeeMain/" + userId;
+        return "redirect:/taskInfo/" + id;
     }
 
     @PostMapping("/downloadFile/{name}")
-    public String downloadFile(@PathVariable("name") String name) {
+    public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id) {
         amazonClient.downloadFile(name);
-        return "redirect:/employeeMain/" + 1;
+        return "redirect:/taskInfo/" + id;
     }
 
-    @DeleteMapping("/deleteFile")
-    public String deleteFile (@RequestPart(value = "url") String fileUrl) {
-        return this.amazonClient.deleteFileFromS3Bucket (fileUrl);
+    @PostMapping("/deleteFile/{name}")
+    public String deleteFile(@PathVariable(value = "name") String fileName, @ModelAttribute("id") int id) {
+        amazonClient.deleteFileFromS3Bucket(fileName);
+        fileService.deleteFile(fileName);
+        return "redirect:/taskInfo/" + id;
     }
 }

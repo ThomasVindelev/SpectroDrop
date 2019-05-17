@@ -24,6 +24,10 @@ public class FileService implements com.example.demo.Services.Service<File> {
         fileRepository.addFileToTask(id, filteredName);
     }
 
+    public void deleteFile(String name) {
+        fileRepository.deleteFile(name);
+    }
+
     public List<File> getFilesByTask(int id) {
         ResultSet resultSet = fileRepository.getFilesByTask(id);
         List<File> files = new ArrayList<>();

@@ -37,6 +37,34 @@ public class TaskRepository {
         return true;
     }
 
+    public boolean editTask(Task task) {
+        query = "UPDATE SpectroDB.Tasks SET fk_customer = ?, fk_employee = ?, fk_status = ?, name = ? WHERE id_tasks = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, task.getFk_customer());
+            preparedStatement.setInt(2, task.getFk_employee());
+            preparedStatement.setInt(3, task.getFk_status());
+            preparedStatement.setString(4, task.getTaskName());
+            preparedStatement.setInt(5, task.getId());
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean deleteTask(int id) {
+        query = "DELETE FROM SpectroDB.Tasks WHERE id_tasks = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public ResultSet getTasks(boolean getNew, boolean isCustomer, int id) {
         query = "SELECT * FROM Tasks " +
                 "INNER JOIN Users customer ON fk_customer = customer.id_users " +

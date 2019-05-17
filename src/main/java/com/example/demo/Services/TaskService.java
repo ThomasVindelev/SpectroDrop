@@ -25,6 +25,22 @@ public class TaskService {
         }
     }
 
+    public boolean editTask(Task task) {
+        if (!taskRepository.editTask(task)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteTask(int id) {
+        if (!taskRepository.deleteTask(id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public List<Task> getTasks(boolean getNew, boolean isCustomer, int id) {
         ResultSet resultSet = taskRepository.getTasks(getNew, isCustomer, id);
         List<Task> taskList = new ArrayList<>();
@@ -32,6 +48,8 @@ public class TaskService {
             while(resultSet.next()) {
                 Task task = new Task();
                 task.setId(resultSet.getInt("id_tasks"));
+                task.setFk_customer(resultSet.getInt("fk_customer"));
+                task.setFk_employee(resultSet.getInt("fk_employee"));
                 task.setCustomer(resultSet.getString("customer.username"));
                 task.setEmployee(resultSet.getString("employee.username"));
                 task.setFk_status(resultSet.getInt("fk_status"));
