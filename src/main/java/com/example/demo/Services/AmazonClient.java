@@ -6,6 +6,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 
 @Service
@@ -35,9 +37,11 @@ public class AmazonClient {
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
+        InputStream inputStream = file.getInputStream();
+        FileUtils.copyInputStreamToFile(inputStream, convFile);
+        //FileOutputStream fos = new FileOutputStream(convFile);
+        //fos.write(file.getBytes());
+        //fos.close();
         return convFile;
     }
 
