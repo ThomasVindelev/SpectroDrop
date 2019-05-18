@@ -20,16 +20,19 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md">
                 <div class="card">
                     <table class="table">
                         <tbody>
-                        <th>Brugernavn</th>
-                        <th>Fornavn</th>
-                        <th>Efternavn</th>
-                        <th>E-mail</th>
-                        <th>Rolle</th>
-                        <th>Options</th>
+                        <tr>
+                            <th>Brugernavn</th>
+                            <th>Fornavn</th>
+                            <th>Efternavn</th>
+                            <th>E-mail</th>
+                            <th>Rolle</th>
+                            <th>Options</th>
+                            <th></th>
+                        </tr>
                         <tr th:each="user : ${userList}">
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.firstName}"></td>
@@ -39,6 +42,8 @@
                             <td>
                                 <form th:action="@{/editUser}" method="post" th:object="${User}">
                                     <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
+
+                                    <!--pop-up box for edit user-->
                                     <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -63,10 +68,10 @@
                                         </div>
                                     </div>
                                 </form>
-                            </td>
-                            <td>
+
                                 <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
                                     <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
+                                    <!--pop-up box for delete user-->
                                     <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -86,6 +91,7 @@
                         </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
