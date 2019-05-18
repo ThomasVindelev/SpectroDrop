@@ -7,17 +7,25 @@
 </head>
 
 <body>
-<p>Hej! Velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som vi genererer til dig i løbet af vores opgaver.</p>
-<p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind:</p>
-<br>
-<form th:action="@{/newLogin}" method="post">
-    <input type="password" name="password" placeholder="Nyt kodeord">
-    <input type="password" name="passwordConfirm" placeholder="Gentag kodeord">
-    <button type="submit">Opret kodeord</button>
-</form>
-<div th:if="${invalid}">
-    <p>Kodeordene er ikke ens! Sørg for at skrive det samme kodeord to gange.</p>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <p>Hej! Velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som vi genererer til dig i løbet af vores opgaver.</p>
+                    <p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind:</p>
+                    <br>
+                    <form th:action="@{/newLogin}" method="post">
+                        <input type="password" name="password" placeholder="Nyt kodeord">
+                        <input type="password" name="passwordConfirm" placeholder="Gentag kodeord">
+                        <button type="submit">Opret kodeord</button>
+                    </form>
+                    <div th:if="${invalid}">
+                        <p>Kodeordene er ikke ens! Sørg for at skrive det samme kodeord to gange.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </html>
