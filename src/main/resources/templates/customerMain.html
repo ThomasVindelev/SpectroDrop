@@ -48,7 +48,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <form th:action="@{/viewAllTasks/{id}(id = ${session.role})}" method="get">
+                            <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}" method="get">
                                 <button type="submit" class="btn btn-primary">Display all</button>
                             </form>
                         </div>

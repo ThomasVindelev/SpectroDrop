@@ -191,7 +191,7 @@
                                 </tbody>
                             </table>
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#Task-box">New task</a>
-                            <form th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
+                            <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}">
                                 <button type="submit" class="btn btn-primary">Display all</button>
                             </form>
                         </div>
