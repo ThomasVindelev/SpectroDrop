@@ -147,4 +147,18 @@ public class UserRepository {
         return null;
     }
 
+    public boolean activateUser(String password, int id) {
+        query = "UPDATE SpectroDB.Users SET password = ?, is_active = ? WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, 1);
+            preparedStatement.setInt(3, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

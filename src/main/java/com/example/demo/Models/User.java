@@ -10,11 +10,12 @@ public class User {
     private String email;
     private String role;
     private int fk_roles;
+    private boolean isActive;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String firstName, String lastName, String email, String role, int fk_roles) {
+    public User(int id, String username, String password, String firstName, String lastName, String email, String role, int fk_roles, boolean isActive) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -23,6 +24,7 @@ public class User {
         this.email = email;
         this.role = role;
         this.fk_roles = fk_roles;
+        this.isActive = isActive;
     }
 
     public int getId() {
@@ -87,5 +89,13 @@ public class User {
 
     public void setFk_roles(int fk_roles) {
         this.fk_roles = fk_roles;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

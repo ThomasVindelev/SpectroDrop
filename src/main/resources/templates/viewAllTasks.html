@@ -38,67 +38,85 @@
                     <th>Ansvarlig</th>
                     <th>Status</th>
                     <th>Options</th>
-                    <tr th:each="task : ${taskList}">
-                        <td th:text="${task.taskName}"></td>
-                        <td th:text="${task.customer}"></td>
-                        <td th:text="${task.employee}"></td>
-                        <td th:text="${task.status}"></td>
-                        <td>
-                            <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
-                                <button><i class="fas fa-file"></i></button>
-                            </form>
-                        </td>
-                        <td>
-                            <form th:action="@{/editTask}" method="post" th:object="${Task}">
-                                <button type="button" data-toggle="modal" th:attr="data-target='#EditTask-box'+${task.id}"><i class="fas fa-cog"></i></button>
-                                <div class="modal fade" th:attr="id='EditTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Edit</h5>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="hidden" name="id" th:value="${task.id}">
-                                                <input type="text" name="taskName" placeholder="Task name" th:value="${task.taskName}">
-                                                <select name="fk_customer">
-                                                    <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}" th:value="${customer.id}" th:text="${customer.username}" th:selected="${customer.id == task.fk_customer}"></option>
-                                                </select>
-                                                <select name="fk_employee">
-                                                    <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}" th:value="${employee.id}" th:text="${employee.username}" th:selected="${employee.id == task.fk_employee}"></option>
-                                                </select>
-                                                <select name="fk_status">
-                                                    <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.name}" th:selected="${status.id == task.fk_status}"></option>
-                                                </select>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Edit task</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </td>
-                        <td>
-                            <form th:action="@{/deleteTask/{id}(id = ${task.id})}" method="post">
-                                <button type="button" data-toggle="modal" th:attr="data-target='#DeleteTask-box'+${task.id}"><i class="fas fa-trash-alt"></i></button>
-                                <div class="modal fade" th:attr="id='DeleteTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Are you sure you want to delete this task?</h4>
-                                                <p>Doing so will wipe all references to files and customers related to this project!</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="text-danger">Delete Task</button>
+
+                    <div th:if="${session.role == 1}">
+                        <tr th:each="task : ${taskList}">
+                            <td th:text="${task.taskName}"></td>
+                            <td th:text="${task.customer}"></td>
+                            <td th:text="${task.employee}"></td>
+                            <td th:text="${task.status}"></td>
+                            <td>
+                                <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
+                                    <button><i class="fas fa-file"></i></button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/editTask}" method="post" th:object="${Task}">
+                                    <button type="button" data-toggle="modal" th:attr="data-target='#EditTask-box'+${task.id}"><i class="fas fa-cog"></i></button>
+                                    <div class="modal fade" th:attr="id='EditTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="id" th:value="${task.id}">
+                                                    <input type="text" name="taskName" placeholder="Task name" th:value="${task.taskName}">
+                                                    <select name="fk_customer">
+                                                        <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}" th:value="${customer.id}" th:text="${customer.username}" th:selected="${customer.id == task.fk_customer}"></option>
+                                                    </select>
+                                                    <select name="fk_employee">
+                                                        <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}" th:value="${employee.id}" th:text="${employee.username}" th:selected="${employee.id == task.fk_employee}"></option>
+                                                    </select>
+                                                    <select name="fk_status">
+                                                        <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.name}" th:selected="${status.id == task.fk_status}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Edit task</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/deleteTask/{id}(id = ${task.id})}" method="post">
+                                    <button type="button" data-toggle="modal" th:attr="data-target='#DeleteTask-box'+${task.id}"><i class="fas fa-trash-alt"></i></button>
+                                    <div class="modal fade" th:attr="id='DeleteTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Are you sure you want to delete this task?</h4>
+                                                    <p>Doing so will wipe all references to files and customers related to this project!</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="text-danger">Delete Task</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </div>
+
+                    <div th:if="${session.role == 2}">
+                        <tr th:each="task : ${taskList}" th:if="${task.fk_customer == session.id}">
+                            <td th:text="${task.taskName}"></td>
+                            <td th:text="${task.customer}"></td>
+                            <td th:text="${task.employee}"></td>
+                            <td th:text="${task.status}"></td>
+                            <td>
+                                <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
+                                    <button><i class="fas fa-file"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    </div>
+
 
                     </tbody>
 

@@ -18,9 +18,6 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private AmazonClient amazonClient;
-
     @GetMapping("/")
     public String loginPage() {
         return "index";
@@ -31,14 +28,40 @@ public class LoginController {
         if (loginService.verify(user)) {
             session.setAttribute("id", user.getId());
             session.setAttribute("role", user.getFk_roles());
-            if (user.getFk_roles() == 1) {
-                return "redirect:/employeeMain/" + user.getId();
+            if (user.isActive()) {
+                if (user.getFk_roles() == 1) {
+                    return "redirect:/employeeMain/" + user.getId();
+                } else {
+                    return "redirect:/customerMain/" + user.getId();
+                }
             } else {
-                return "redirect:/customerMain/" + user.getId();
+                return "welcome";
             }
         } else {
             model.addAttribute("invalid", true);
             return "index";
+        }
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "index";
+    }
+
+    @PostMapping("/newLogin")
+    public String newLogin(@ModelAttribute("password") String password, @ModelAttribute("passwordConfirm") String passWordConfirm, Model model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("id");
+        Integer role = (Integer) session.getAttribute("role");
+        if (loginService.activateUser(password, passWordConfirm, userId)) {
+            if (role == 1) {
+                return "redirect:/employeeMain/" + userId;
+            } else {
+                return "redirect:/customerMain/" + userId;
+            }
+        } else {
+            model.addAttribute("invalid", true);
+            return "welcome";
         }
     }
 
