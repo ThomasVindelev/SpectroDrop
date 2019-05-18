@@ -120,6 +120,10 @@
                                 <tr th:each="task : ${newTasks}">
                                     <td>
                                         <span th:text="${task.taskName}"></span>
+                                        <br>
+                                        <span>Ansvarlig: <span th:text="${task.employee}"></span></span>
+                                        <br>
+                                        <span>Kunde: <span th:text="${task.customer}"></span></span>
                                         <div th:if="${task.fk_status == 1}">
                                             <button type="button"><i class="text-danger fas fa-circle"></i></button>
                                         </div>

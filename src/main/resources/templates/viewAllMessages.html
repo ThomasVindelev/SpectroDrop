@@ -11,9 +11,16 @@
         <div class="row">
             <div class="col-sm">
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="#">
-                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
-                    </a>
+                    <div th:if="${session.role == 1}">
+                        <a class="navbar-brand" th:href="@{/employeeMain/{id}(id = ${session.id})}">
+                            <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
+                        </a>
+                    </div>
+                    <div th:if="${session.role == 2}">
+                        <a class="navbar-brand" th:href="@{/customerMain/{id}(id = ${session.id})}">
+                            <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
+                        </a>
+                    </div>
                 </nav>
             </div>
         </div>
@@ -24,6 +31,8 @@
                     <div class="card">
                         <table class="table">
                             <tbody>
+                            <th>Sendt fra:</th>
+                            <th>Besked</th>
                             <tr th:each="message : ${messageList}">
                                 <td th:text="${message.sent_from}"></td>
                                 <td th:text="${message.text}"></td>

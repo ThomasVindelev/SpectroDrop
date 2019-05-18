@@ -49,6 +49,7 @@ public class UserController {
     @GetMapping("/viewAllUsers")
     public String viewAllUsers(Model model) {
         model.addAttribute("userList", userService.getUsers("All"));
+        model.addAttribute("roleList", userService.getRoles());
         return "viewAllUsers";
     }
 }

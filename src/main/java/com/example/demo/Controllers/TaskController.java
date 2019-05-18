@@ -1,9 +1,9 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Models.Task;
-import com.example.demo.Services.AmazonClient;
 import com.example.demo.Services.FileService;
 import com.example.demo.Services.TaskService;
+import com.example.demo.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +22,9 @@ public class TaskController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/newTask")
     public String newTask(@ModelAttribute Task task, HttpSession session) {
@@ -58,6 +61,8 @@ public class TaskController {
         } else {
             model.addAttribute("taskList", taskService.getTasks(false, true, id));
         }
+        model.addAttribute("userList", userService.getUsers("All"));
+        model.addAttribute("statusList", taskService.getStatus());
         return "viewAllTasks";
     }
 
