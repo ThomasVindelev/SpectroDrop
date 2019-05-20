@@ -46,18 +46,17 @@ public class FileRepository {
         return null;
     }
 
-    public String addFileToTask(int id, String name) {
+    public boolean addFileToTask(int id, String name) {
         query = "INSERT into SpectroDB.Files (fk_tasks, name) VALUES (?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
-            preparedStatement.execute();
-            return name;
+            return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return true;
     }
 
     public void deleteFile(String name) {

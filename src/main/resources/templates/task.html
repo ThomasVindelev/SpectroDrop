@@ -64,6 +64,9 @@
                             <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
                         </div>
                     </form>
+                    <div th:if="${uploadInvalid}">
+                        <p>Upload failed, please try again.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,7 +104,9 @@
     </div>
 </div>
 </body>
-
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Log ud</button>
+</form>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </div>
 </html>

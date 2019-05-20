@@ -44,5 +44,8 @@
             </div>
         </div>
     </body>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Log ud</button>
+    </form>
     <footer th:replace="fragments/footer :: footer">...</footer>
 </html>

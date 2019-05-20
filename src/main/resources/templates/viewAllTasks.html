@@ -47,7 +47,7 @@
                             <td th:text="${task.status}"></td>
                             <td>
                                 <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
-                                    <button><i class="fas fa-file"></i></button>
+                                    <button type="submit"><i class="fas fa-file"></i></button>
                                 </form>
                             </td>
                             <td>
@@ -127,5 +127,8 @@
     </div>
 </div>
 </body>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Log ud</button>
+</form>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </html>

@@ -3,6 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.Models.File;
 import com.example.demo.Repositories.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,15 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
-public class FileService implements com.example.demo.Services.Service<File> {
+public class FileService {
 
     @Autowired
     FileRepository fileRepository;
 
-    private String spectroDropBucket = "spectrodrop-bucket/";
+    @Autowired
+    AmazonClient amazonClient;
 
-    public String addFileToTask(int id, String name) {
-        String original = name.substring(0, name.lastIndexOf('.'));
+    // private String spectroDropBucket = "spectrodrop-bucket/";
+
+    public boolean addFileToTask(int id, String name, MultipartFile file) {
+        String original;
+        try {
+            original = name.substring(0, name.lastIndexOf('.'));
+        } catch (StringIndexOutOfBoundsException oub) {
+            return true;
+        }
         String format = name.substring(name.lastIndexOf('.'));
         name = name.substring(0, name.lastIndexOf('.'));
         ResultSet resultSet = fileRepository.findDuplicate(name + format);
@@ -31,14 +40,16 @@ public class FileService implements com.example.demo.Services.Service<File> {
                 resultSet = fileRepository.findDuplicate(name);
             }
             if (increment > 0) {
+                amazonClient.uploadFile(file, name);
                 return fileRepository.addFileToTask(id, name);
             } else {
+                amazonClient.uploadFile(file, name + format);
                 return fileRepository.addFileToTask(id, name + format);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return true;
     }
 
     public void deleteFile(String name) {
@@ -61,8 +72,4 @@ public class FileService implements com.example.demo.Services.Service<File> {
         return null;
     }
 
-    @Override
-    public boolean verify(File object) {
-        return false;
-    }
 }

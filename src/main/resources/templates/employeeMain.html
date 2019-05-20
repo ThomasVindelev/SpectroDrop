@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row">
 
-                <!-- Users menu -->
+                <!-- User menu -->
 
                 <div class="col-sm">
                     <div class="employee-card card">
@@ -191,7 +191,7 @@
                                 </tbody>
                             </table>
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#Task-box">New task</a>
-                            <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}">
+                            <form th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
                                 <button type="submit" class="btn btn-primary">Display all</button>
                             </form>
                         </div>

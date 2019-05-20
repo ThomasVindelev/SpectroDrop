@@ -35,13 +35,13 @@ public class AmazonClient {
     }
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
+        File convertedFile = new File(file.getOriginalFilename());
         InputStream inputStream = file.getInputStream();
-        FileUtils.copyInputStreamToFile(inputStream, convFile);
-        //FileOutputStream fos = new FileOutputStream(convFile);
+        FileUtils.copyInputStreamToFile(inputStream, convertedFile);
+        //FileOutputStream fos = new FileOutputStream(convertedFile);
         //fos.write(file.getBytes());
         //fos.close();
-        return convFile;
+        return convertedFile;
     }
 
     private void uploadFileTos3bucket (String fileName, File file) {
