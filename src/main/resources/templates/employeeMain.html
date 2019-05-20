@@ -205,17 +205,17 @@
         <div class="modal fade" id="NewUser-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form th:action="@{/newUser}" method="post" th:object="${User}">
+                    <form class="needs-validation" novalidate th:action="@{/newUser}" method="post" th:object="${User}">
                         <div class="modal-header">
                             <h5 class="modal-title">New User</h5>
                         </div>
                         <div class="modal-body">
-                            <input type="text" name="username" placeholder="Username">
-                            <input type="password" name="password" placeholder="Password (Temporary)">
-                            <input type="text" name="firstName" placeholder="First name">
-                            <input type="text" name="lastName" placeholder="Last name">
-                            <input type="text" name="email" placeholder="E-mail">
-                            <select name="fk_roles">
+                            <input class="form-control" id="validationCustom01" type="text" name="username" placeholder="Username" required>
+                            <input class="form-control" id="validationCustom02" type="password" name="password" placeholder="Password (Temporary)" required>
+                            <input class="form-control" id="validationCustom03" type="text" name="firstName" placeholder="First name" required>
+                            <input class="form-control" id="validationCustom04" type="text" name="lastName" placeholder="Last name" required>
+                            <input class="form-control" id="validationCustom05" type="text" name="email" placeholder="E-mail" required>
+                            <select name="fk_roles" class="form-control" id="validationCustom06" required>
                                 <option selected disabled hidden>Choose a role...</option>
                                 <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
                             </select>
@@ -284,6 +284,28 @@
             </div>
             </div>
         </div>
+
+        <script> // https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+
 
     </body>
     <form th:action="@{/logout}" method="post">
