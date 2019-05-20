@@ -17,6 +17,9 @@ public class UserService implements com.example.demo.Services.Service<User> {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EncryptionService encryptionService;
+
     // Henter brugere efter roller
 
     public List<User> getUsers(String type) {
@@ -75,6 +78,7 @@ public class UserService implements com.example.demo.Services.Service<User> {
 
     public String newUser(User user) {
         if (!verify(user)) {
+            user.setPassword(encryptionService.encrypt(user.getPassword()));
             if (!userRepository.newUser(user)) {
                 return "Success!";
             } else {
@@ -117,7 +121,6 @@ public class UserService implements com.example.demo.Services.Service<User> {
         }
         return null;
     }
-
 
     //Til at oprette en ny bruger
 

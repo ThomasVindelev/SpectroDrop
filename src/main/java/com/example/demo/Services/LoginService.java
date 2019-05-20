@@ -14,8 +14,12 @@ public class LoginService implements com.example.demo.Services.Service<User> {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EncryptionService encryptionService;
+
     @Override
     public boolean verify(User user) {
+        user.setPassword(encryptionService.encrypt(user.getPassword()));
         ResultSet resultSet = userRepository.verifyUserLogin(user);
         try {
             if (resultSet.next()) {
@@ -36,7 +40,7 @@ public class LoginService implements com.example.demo.Services.Service<User> {
 
     public boolean activateUser(String password, String passwordConfirm, int id) {
         if (password.equals(passwordConfirm)) {
-            userRepository.activateUser(password, id);
+            userRepository.activateUser(encryptionService.encrypt(password), id);
             return true;
         } else {
             return false;

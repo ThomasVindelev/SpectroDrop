@@ -24,14 +24,15 @@ public class UserRepository {
     }
 
     public boolean newUser(User user) {
-        query = "INSERT INTO SpectroDB.Users (username, firstname, lastname, email, fk_roles) VALUES (LOWER (?), ?, ?, ?, ?)";
+        query = "INSERT INTO SpectroDB.Users (username, password, firstname, lastname, email, fk_roles) VALUES (LOWER (?), ?, ?, ?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setInt(5, user.getFk_roles());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFirstName());
+            preparedStatement.setString(4, user.getLastName());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setInt(6, user.getFk_roles());
             return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
