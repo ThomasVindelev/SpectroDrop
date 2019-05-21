@@ -40,11 +40,23 @@ public class MessageRepository {
     }
 
     public ResultSet getMessagesByUser(int id) {
-        query = "SELECT id_messages, text, fk_sent_from, username FROM Messages " +
+        query = "SELECT id_messages, text, fk_sent_from, is_read, username FROM Messages " +
                 "INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE fk_sent_to = ? ORDER BY id_messages DESC LIMIT 5";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getMessageById(int id) {
+        query = "SELECT text, fk_sent_from, username FROM SpectroDB.Messages INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE id_messages = " + id + "; " +
+                "UPDATE SpectroDB.Messages SET is_read = " + true + " WHERE id_messages = " + id;
+        try {
+            preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

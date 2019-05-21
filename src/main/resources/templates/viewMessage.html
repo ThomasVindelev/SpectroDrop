@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+    <table>
+        <tr>Fra:</tr>
+        <tr>Tekst:</tr>
+        <td th:text="${message.sent_from}"></td>
+        <td th:text="${message.text}"></td>
+    </table>
+</body>
+</html>

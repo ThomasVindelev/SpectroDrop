@@ -108,26 +108,30 @@ public class UserService implements com.example.demo.Services.Service<User> {
         }
     }
 
-    public String deleteUserById(int id) {
-        ResultSet tasks = taskRepository.getTaskByUser(id);
-        List<String> fileNames = new ArrayList<>();
-        int taskId;
-        try {
-            while (tasks.next()) {
-                taskId = tasks.getInt("id_tasks");
-                ResultSet files = fileRepository.getFilesByTask(taskId);
-                while (files.next()) {
-                    fileNames.add(files.getString("name"));
+    public String deleteUserById(int userId, int roleId) {
+        if (roleId == 2) {
+            ResultSet tasks = taskRepository.getTaskByUser(userId);
+            List<String> fileNames = new ArrayList<>();
+            int taskId;
+            try {
+                while (tasks.next()) {
+                    taskId = tasks.getInt("id_tasks");
+                    ResultSet files = fileRepository.getFilesByTask(taskId);
+                    while (files.next()) {
+                        fileNames.add(files.getString("name"));
+                    }
                 }
+                taskRepository.deleteTaskByUser(userId);
+                for (int i = 0; i < fileNames.size(); i++) {
+                    amazonClient.deleteFileFromS3Bucket(fileNames.get(i));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            taskRepository.deleteTaskByUser(id);
-            for (int i = 0; i < fileNames.size(); i++) {
-                amazonClient.deleteFileFromS3Bucket(fileNames.get(i));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else {
+            taskRepository.autoTransferResponsibility(userId);
         }
-        if (!userRepository.deleteUserById(id)) {
+        if (!userRepository.deleteUserById(userId)) {
             return "Success!";
         } else {
             return "Failed!";

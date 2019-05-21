@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -36,4 +37,11 @@ public class MessageController {
         model.addAttribute("messageList",messageService.getMessages(userId));
         return "viewAllMessages";
     }
+
+    @GetMapping("/readMessage/{id}")
+    public String readMessage(@PathVariable("id") int id, Model model) {
+        model.addAttribute("message", messageService.getMessageById(id));
+        return "viewMessage";
+    }
+
 }

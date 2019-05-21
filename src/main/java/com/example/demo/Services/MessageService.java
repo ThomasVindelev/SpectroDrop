@@ -29,9 +29,25 @@ public class MessageService {
                 message.setId(resultSet.getInt("id_messages"));
                 message.setText(resultSet.getString("text"));
                 message.setSent_from(resultSet.getString("username"));
+                message.setRead(resultSet.getBoolean("is_read"));
                 messageList.add(message);
             }
             return messageList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Message getMessageById(int id) {
+        ResultSet resultSet = messageRepository.getMessageById(id);
+        try {
+            while (resultSet.next()) {
+                Message message = new Message();
+                message.setText(resultSet.getString("text"));
+                message.setSent_from(resultSet.getString("username"));
+                message.setFk_sent_from(resultSet.getInt("fk_sent_from"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
