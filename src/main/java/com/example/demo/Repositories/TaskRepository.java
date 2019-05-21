@@ -65,6 +65,18 @@ public class TaskRepository {
         return true;
     }
 
+    public void deleteTaskByUser(int id) {
+        query = "DELETE FROM SpectroDB.Tasks WHERE fk_customer = ? OR fk_employee = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ResultSet getTasks(boolean getNew, boolean isCustomer, int id) {
         query = "SELECT * FROM Tasks " +
                 "INNER JOIN Users customer ON fk_customer = customer.id_users " +
@@ -92,6 +104,19 @@ public class TaskRepository {
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getTaskByUser(int id) {
+        query = "SELECT id_tasks From SpectroDB.Tasks WHERE fk_customer = ? OR fk_employee = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();

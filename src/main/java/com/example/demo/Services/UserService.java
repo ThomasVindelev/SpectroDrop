@@ -28,6 +28,9 @@ public class UserService implements com.example.demo.Services.Service<User> {
     @Autowired
     private EncryptionService encryptionService;
 
+    @Autowired
+    private AmazonClient amazonClient;
+
     // Henter brugere efter roller
 
     public List<User> getUsers(String type) {
@@ -106,7 +109,24 @@ public class UserService implements com.example.demo.Services.Service<User> {
     }
 
     public String deleteUserById(int id) {
-
+        ResultSet tasks = taskRepository.getTaskByUser(id);
+        List<String> fileNames = new ArrayList<>();
+        int taskId;
+        try {
+            while (tasks.next()) {
+                taskId = tasks.getInt("id_tasks");
+                ResultSet files = fileRepository.getFilesByTask(taskId);
+                while (files.next()) {
+                    fileNames.add(files.getString("name"));
+                }
+            }
+            taskRepository.deleteTaskByUser(id);
+            for (int i = 0; i < fileNames.size(); i++) {
+                amazonClient.deleteFileFromS3Bucket(fileNames.get(i));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         if (!userRepository.deleteUserById(id)) {
             return "Success!";
         } else {
