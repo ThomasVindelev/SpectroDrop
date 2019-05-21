@@ -67,12 +67,14 @@
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title">Are you sure you want to delete this user?</h4>
-                                                                <p>Doing so will wipe all data about the user, including messages and tasks!</p>
+                                                                <h4 class="modal-title">Er du sikker på, at du vil slette denne bruger?</h4>
+                                                            </div>
+                                                            <div class="model-body">
+                                                                <p>Dette betyder, at alle beskeder og opgaver tilknyttet denne bruger bliver slettet, samt alle filer til disse!</p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" class="text-danger">Delete user</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
+                                                                <button type="submit" class="btn btn-danger">Slet bruger</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -144,7 +146,7 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Edit</h5>
+                                                            <h5 class="modal-title">Tilpas opgave</h5>
                                                         </div>
                                                         <div class="modal-body">
                                                             <input type="hidden" name="id" th:value="${task.id}">
@@ -160,8 +162,8 @@
                                                             </select>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Edit task</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
+                                                            <button type="submit" class="btn btn-warning">Tilpas opgave</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -175,12 +177,14 @@
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Are you sure you want to delete this task?</h4>
-                                                            <p>Doing so will wipe all references to files and customers related to this project!</p>
+                                                            <h4 class="modal-title">Er du sikker på, at du vil slette denne opgave?</h4>
+                                                        </div>
+                                                        <div class="model-body">
+                                                            <p>Dette betyder, at du sletter alle filer og data tilknyttet denne opgave!</p>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="text-danger">Delete Task</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
+                                                            <button type="submit" class="btn btn-danger">Slet opgave</button>
                                                         </div>
                                                     </div>
                                                 </div>

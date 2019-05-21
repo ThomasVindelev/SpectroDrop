@@ -2,6 +2,8 @@ package com.example.demo.Services;
 
 import com.example.demo.Models.Role;
 import com.example.demo.Models.User;
+import com.example.demo.Repositories.FileRepository;
+import com.example.demo.Repositories.TaskRepository;
 import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,12 @@ public class UserService implements com.example.demo.Services.Service<User> {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     @Autowired
     private EncryptionService encryptionService;
@@ -98,6 +106,7 @@ public class UserService implements com.example.demo.Services.Service<User> {
     }
 
     public String deleteUserById(int id) {
+
         if (!userRepository.deleteUserById(id)) {
             return "Success!";
         } else {

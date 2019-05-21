@@ -14,7 +14,6 @@ body  {
     background-size: auto;
     background-origin: padding-box;
     background-clip: border-box;
-    text-transform: capitalize;
 }
 
 .hide {
