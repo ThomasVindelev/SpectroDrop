@@ -104,7 +104,12 @@
                                 <tbody>
                                 <tr th:each="message : ${messageList}">
                                     <td th:text="${message.sent_from}"></td>
-                                    <td th:text="${message.text}"></td>
+                                    <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
+                                        <div th:if="${message.isRead == 0}">
+                                            <span>Ikke læst!</span>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Læs</button>
+                                    </form>
                                 </tr>
                                 </tbody>
                             </table>

@@ -8,14 +8,16 @@ public class Message {
     private int fk_sent_from;
     private String sent_to;
     private String sent_from;
+    private boolean isRead;
 
-    public Message(int id, String text, int fk_sent_to, int fk_sent_from, String sent_to, String sent_from) {
+    public Message(int id, String text, int fk_sent_to, int fk_sent_from, String sent_to, String sent_from, boolean isRead) {
         this.id = id;
         this.text = text;
         this.fk_sent_to = fk_sent_to;
         this.fk_sent_from = fk_sent_from;
         this.sent_to = sent_to;
         this.sent_from = sent_from;
+        this.isRead = isRead;
     }
 
     public Message() {
@@ -67,5 +69,13 @@ public class Message {
 
     public void setFk_sent_from(int fk_sent_from) {
         this.fk_sent_from = fk_sent_from;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }
