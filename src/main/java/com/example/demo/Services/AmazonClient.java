@@ -6,6 +6,9 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.Upload;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +22,11 @@ import java.nio.file.Files;
 @Service
 public class AmazonClient {
 
+    //https://www.baeldung.com/aws-s3-multipart-upload
+
     private AmazonS3 s3client;
+
+    private TransferManager transferManager;
 
     @Autowired
     CSV csv;
@@ -28,25 +35,31 @@ public class AmazonClient {
 
     private String bucketName = "spectrodrop-bucket";
 
+    private int maxUploadThreads = 5;
+
     @PostConstruct
     private void initializeAmazon() {
         BasicAWSCredentials creds = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
         s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
+        transferManager = TransferManagerBuilder.standard().withS3Client(s3client).withMultipartUploadThreshold((long) (5 * 1024 * 1025)).build();
     }
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
         File convertedFile = new File(file.getOriginalFilename());
         InputStream inputStream = file.getInputStream();
         FileUtils.copyInputStreamToFile(inputStream, convertedFile);
-        //FileOutputStream fos = new FileOutputStream(convertedFile);
-        //fos.write(file.getBytes());
-        //fos.close();
+        //FileOutputStream fileOutputStream = new FileOutputStream(convertedFile);
+        //fileOutputStream.write(file.getBytes());
+        //fileOutputStream.close();
         return convertedFile;
     }
 
     private void uploadFileTos3bucket (String fileName, File file) {
-        s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
-                .withCannedAcl(CannedAccessControlList.AuthenticatedRead));
+        try {
+            transferManager.upload(bucketName, fileName, file).waitForUploadResult();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public String uploadFile (MultipartFile multipartFile, String name) {

@@ -54,7 +54,7 @@ public class MessageRepository {
 
     public ResultSet getMessageById(int id) {
         query = "SELECT text, fk_sent_from, username FROM SpectroDB.Messages INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE id_messages = " + id + "; " +
-                "UPDATE SpectroDB.Messages SET is_read = " + true + " WHERE id_messages = " + id;
+                "UPDATE SpectroDB.Messages SET is_read = " + 1 + " WHERE id_messages = " + id;
         try {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
