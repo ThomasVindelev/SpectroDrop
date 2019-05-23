@@ -26,21 +26,24 @@
 
                 <div class="col-sm">
                     <div class="employee-card card">
-                        <h5 class="card-header">Newest tasks</h5>
+                        <h5 class="card-header">Nyeste opgaver</h5>
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
                                 <tr th:each="task : ${newTasks}">
                                     <td>
                                         <span th:text="${task.taskName}"></span>
+                                        <br>
+                                        <span>Kontakt: <span th:text="${task.employee}"></span></span>
+                                        <br>
                                         <div th:if="${task.fk_status == 1}">
-                                            <button type="button"><i class="text-danger fas fa-circle"></i></button>
+                                            <span>Status: </span><button type="button"><i class="text-danger fas fa-circle"></i></button>
                                         </div>
                                         <div th:if="${task.fk_status == 2}">
-                                            <button type="button"><i class="text-warning fas fa-circle"></i></button>
+                                            <span>Status: </span><button type="button"><i class="text-warning fas fa-circle"></i></button>
                                         </div>
                                         <div th:if="${task.fk_status == 3}">
-                                            <button type="button"><i class="text-success fas fa-circle"></i></button>
+                                            <span>Status: </span><button type="button"><i class="text-success fas fa-circle"></i></button>
                                         </div>
                                     </td>
                                     <td>
@@ -53,7 +56,7 @@
                                 </tbody>
                             </table>
                             <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}" method="get">
-                                <button type="submit" class="btn btn-primary">Display all</button>
+                                <button type="submit" class="btn btn-primary">Vis alle</button>
                             </form>
                         </div>
                     </div>
@@ -62,7 +65,7 @@
                 <!-- MESSAGE AREA -->
                 <div class="col-sm">
                     <div class="employee-card card">
-                        <h5 class="card-header">Newest messages</h5>
+                        <h5 class="card-header">Nyeste beskeder</h5>
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
@@ -72,9 +75,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">New message</a>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
                             <form th:action="@{/viewAllMessages}" method="get">
-                                <button type="submit" class="btn btn-primary">Display all</button>
+                                <button type="submit" class="btn btn-primary">Vis alle</button>
                             </form>
                         </div>
                     </div>
@@ -91,19 +94,19 @@
             <div class="modal-content">
                 <form th:action="@{/newMessage}" method="post" th:object="${Message}">
                     <div class="modal-header">
-                        <h5 class="modal-title">New Message</h5>
+                        <h5 class="modal-title">Ny besked</h5>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="text" placeholder="Write your message here...">
+                        <input type="text" name="text" placeholder="Skriv din besked her...">
                         <select name="fk_sent_to">
-                            <option selected disabled hidden>Choose a user...</option>
+                            <option selected disabled hidden>Vælg en bruger...</option>
                             <option th:each="user : ${employeeList}" th:value="${user.id}" th:text="${user.username}"></option>
                         </select>
                         <input type="hidden" name="fk_sent_from" th:value="${session.id}">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send message</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                        <button type="submit" class="btn btn-primary">Send besked</button>
                     </div>
                 </form>
             </div>

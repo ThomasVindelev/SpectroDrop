@@ -34,3 +34,12 @@ body  {
     background-color: #6cbf2f;
     border-color: #6cbf2f;
 }
+
+.container-index {
+    width: 60%;
+    padding-top: 7%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

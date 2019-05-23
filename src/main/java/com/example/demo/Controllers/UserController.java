@@ -26,11 +26,11 @@ public class UserController {
         return "redirect:/employeeMain/" + userId;
     }
 
-    @GetMapping("/editUser/{id}")
+    /*@GetMapping("/editUser/{id}")
     public String editUser(@PathVariable("id") int id, Model model) {
         model.addAttribute("TheUser", userService.getUserById(id));
         return "editUser";
-    }
+    }*/
 
     @PostMapping("/editUser")
     public String editUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {

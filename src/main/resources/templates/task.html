@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Task</title>
+    <title>Opgave</title>
     <head th:replace="fragments/header :: header">...</head>
 </head>
 <body>
@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-sm">
             <div class="card">
-                <h5 class="card-header">Task</h5>
+                <h5 class="card-header">Opgave</h5>
                 <div class="card-body">
                 <table class="table">
                     <tbody>
@@ -71,14 +71,15 @@
                 <div class="card-body">
                     <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label> File upload </label>
+                            <label> Fil-upload </label>
                             <input type="hidden" name="id" th:value="${TheTask.id}">
                             <input type="file" class="form-control-file" name="file">
+                            <br>
                             <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
                         </div>
                     </form>
                     <div th:if="${uploadInvalid}">
-                        <p>Upload failed, please try again.</p>
+                        <p>Upload slog fejl, prøv venligst igen.</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +87,7 @@
         <!-- VIEW FILES -->
         <div class="col-sm">
             <div class="card">
-                <h5 class="card-header">View uploaded files</h5>
+                <h5 class="card-header">Se uploadede filer</h5>
                 <div class="card-body">
                     <table>
                         <tbody>

@@ -33,7 +33,7 @@ public class AmazonClient {
 
     private String endpointUrl = "s3-control.eu-central-1.amazonaws.com";
 
-    private String bucketName = "spectrodrop-bucket";
+    private String bucketName = "spectrofly";
 
     private int maxUploadThreads = 5;
 
