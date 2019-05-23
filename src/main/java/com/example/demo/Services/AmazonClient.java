@@ -39,9 +39,12 @@ public class AmazonClient {
 
     @PostConstruct
     private void initializeAmazon() {
-        BasicAWSCredentials creds = new BasicAWSCredentials(csv.AWSCredentials(false), csv.AWSCredentials(true));
-        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).withCredentials(new AWSStaticCredentialsProvider(creds)).build();
-        transferManager = TransferManagerBuilder.standard().withS3Client(s3client).withMultipartUploadThreshold((long) (5 * 1024 * 1025)).build();
+        BasicAWSCredentials credentials = new BasicAWSCredentials
+                (csv.AWSCredentials(false), csv.AWSCredentials(true));
+        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.EU_CENTRAL_1).
+                withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        transferManager = TransferManagerBuilder.standard().withS3Client(s3client).
+                withMultipartUploadThreshold((long) (5 * 1024 * 1025)).build();
     }
 
     private File convertMultiPartToFile (MultipartFile file) throws IOException {
@@ -79,7 +82,8 @@ public class AmazonClient {
         String newName = name.substring(0, name.lastIndexOf('.'));
         String format = name.substring(name.lastIndexOf('.'));
         S3Object object = s3client.getObject(bucketName, name);
-        File localFile = new File("D:\\Overførsler\\" + newName + format);
+        File localFile = new File
+                ("D:\\Overførsler\\" + newName + format);
         int increment = 1;
         boolean exists = false;
         try {
@@ -90,7 +94,8 @@ public class AmazonClient {
         }
         while (exists) {
             try {
-                File newFile = new File("D:\\Overførsler\\" + newName + "(" + increment + ")" + format);
+                File newFile = new File("D:\\Overførsler\\"
+                        + newName + "(" + increment + ")" + format);
                 Files.copy(object.getObjectContent(), newFile.toPath());
                 exists = false;
             } catch (IOException ioe) {
