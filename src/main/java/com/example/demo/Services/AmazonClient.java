@@ -98,12 +98,10 @@ public class AmazonClient {
                 File newFile = new File("D:\\Overførsler\\"
                         + name + "(" + increment + ")" + format);
                 Files.copy(object.getObjectContent(), newFile.toPath());
-                exists = false;
                 return true;
             } catch (IOException ioe) {
                 increment++;
             }
-            return false;
         }
         return false;
     }

@@ -49,6 +49,17 @@
                 <table class="table">
                     <tbody>
                     <tr>
+                        <th>
+                            Opgave
+                        </th>
+                        <th>
+                            Kontaktperson
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                    <tr>
                     <td>
                         <span th:text="${TheTask.taskName}"></span>
                     </td>
@@ -71,11 +82,10 @@
                 <div class="card-body">
                     <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label> Fil-upload </label>
                             <input type="hidden" name="id" th:value="${TheTask.id}">
                             <input type="file" class="form-control-file" name="file">
                             <br>
-                            <input type="submit"  class="btn btn-primary" value="Upload" name="upload">Upload</input>
+                            <button type="submit"  class="btn btn-primary">Upload <i class="fas fa-arrow-alt-circle-up"></i></button>
                         </div>
                     </form>
                     <div th:if="${uploadInvalid}">
@@ -103,12 +113,12 @@
                                 </ul>
                                 <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
                                     <input type="hidden" name="id" th:value="${TheTask.id}">
-                                    <input type="submit"  class="btn btn-primary" value="Download file" name="download file">
+                                    <button type="submit" class="btn btn-primary">Download <i class="fas fa-arrow-alt-circle-down"></i></button>
                                 </form>
                                 <div th:if="${session.role == 1}">
                                     <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
                                         <input type="hidden" name="id" th:value="${TheTask.id}">
-                                        <input type="submit"  class="btn btn-primary" value="Delete file" name="delete file">
+                                        <button type="submit"  class="btn btn-primary">Slet fil <i class="far fa-trash-alt"></i></button>
                                     </form>
                                 </div>
                             </td>

@@ -127,7 +127,7 @@
                                         <p class="float-left" th:text="${message.sent_from}"></p>
                                         <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
                                             <input type="hidden" name="isRead" th:value="${message.isRead}">
-                                            <button type="submit" class="btn btn-primary float-right">Læs</button>
+                                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>
                                         </form>
                                     </td>
                                 </tr>
