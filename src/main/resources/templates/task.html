@@ -24,16 +24,16 @@
                     </a>
                 </div>
                 <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-primary">Log ud</button>
+                    <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
                 </form>
                 <div th:if="${session.role == 1}">
                     <form th:action="@{/employeeMain/{id}(id = ${session.id})}" method="get">
-                        <button type="submit" class="btn btn-primary">Tilbage</button>
+                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i> Tilbage</button>
                     </form>
                 </div>
                 <div th:if="${session.role == 2}">
                     <form th:action="@{/customerMain/{id}(id = ${session.id})}" method="get">
-                        <button type="submit" class="btn btn-primary">Tilbage</button>
+                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i> Tilbage</button>
                     </form>
                 </div>
             </nav>
