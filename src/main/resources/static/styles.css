@@ -20,9 +20,8 @@ body  {
     display: none;
 }
 
-.grey {
+.highlight {
     background: #c6f4b7;
-    border-radius: 10px;
 }
 
 .customer-card {

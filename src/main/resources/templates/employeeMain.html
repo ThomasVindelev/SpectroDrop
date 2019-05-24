@@ -123,7 +123,7 @@
                                 <tbody>
                                 <th>Sendt fra: </th>
                                 <tr th:each="message : ${messageList}">
-                                    <td th:attr="class=${message.isRead == false} ? 'grey' : '' ">
+                                    <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
                                         <p class="float-left" th:text="${message.sent_from}"></p>
                                         <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
                                             <input type="hidden" name="isRead" th:value="${message.isRead}">

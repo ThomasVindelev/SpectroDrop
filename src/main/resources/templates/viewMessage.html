@@ -36,11 +36,36 @@
         </div>
     </div>
 </div>
-    <table>
-        <tr>Fra: </tr>
-        <tr>Besked: </tr>
-        <td th:text="${message.sent_from}"></td>
-        <td th:text="${message.text}"></td>
-    </table>
+
+<table>
+    <tr>Fra: </tr>
+    <tr>Besked: </tr>
+    <td th:text="${message.sent_from}"></td>
+    <td th:text="${message.text}"></td>
+</table>
+
+<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Besvar</a>
+
+<div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form th:action="@{/newMessage}" method="post" th:object="${Message}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ny besked</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="text" placeholder="Skriv din besked her...">
+                    <input type="hidden" name="fk_sent_to" th:value="${message.fk_sent_from}">
+                    <input type="hidden" name="fk_sent_from" th:value="${session.id}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                    <button type="submit" class="btn btn-primary">Send besked</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
