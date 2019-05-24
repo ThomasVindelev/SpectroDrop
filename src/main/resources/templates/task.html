@@ -81,6 +81,9 @@
                     <div th:if="${uploadInvalid}">
                         <p>Upload slog fejl, prøv venligst igen.</p>
                     </div>
+                    <div th:if="${uploadInvalid == false}">
+                        <p>Upload gennemført!</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,6 +115,12 @@
                         </tr>
                         </tbody>
                     </table>
+                    <div th:if="${downloadSuccess}">
+                        <p>Download gennemført!</p>
+                    </div>
+                    <div th:if="${downloadSuccess == false}">
+                        <p>Download slog fejl.</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -48,8 +48,8 @@ public class FileService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return true;
         }
-        return true;
     }
 
     public void deleteFile(String name) {

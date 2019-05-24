@@ -25,17 +25,17 @@ public class MessageRepository {
     private PreparedStatement preparedStatement;
     private String query;
 
-    public void newMessage(Message message) {
+    public boolean newMessage(Message message) {
         query = "INSERT INTO Messages (text, fk_sent_to, fk_sent_from) VALUES (?, ?, ?)";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, message.getText());
             preparedStatement.setInt(2, message.getFk_sent_to());
             preparedStatement.setInt(3, message.getFk_sent_from());
-            preparedStatement.execute();
-            preparedStatement.close();
+            return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            return true;
         }
     }
 

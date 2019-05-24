@@ -19,23 +19,25 @@ public class FileController {
     }
 
     @Autowired
-    FileService fileService;
+    private FileService fileService;
+
+    // Sørger for at uploade enkelte filer, som bliver valgt af enten kunde eller medarbejder
 
     @PostMapping("/upload")
     public String uploadFile(@RequestPart(value = "file") MultipartFile file, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
-        if (!fileService.addFileToTask(id, file.getOriginalFilename(), file)) {
-            return "redirect:/taskInfo/" + id;
-        } else {
-            redirectAttributes.addFlashAttribute("uploadInvalid", true);
-            return "redirect:/taskInfo/" + id;
-        }
-    }
-
-    @PostMapping("/downloadFile/{name}")
-    public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id) {
-        amazonClient.downloadFile(name);
+        redirectAttributes.addFlashAttribute("uploadInvalid", fileService.addFileToTask(id, file.getOriginalFilename(), file));
         return "redirect:/taskInfo/" + id;
     }
+
+    // Henter filer fra S3
+
+    @PostMapping("/downloadFile/{name}")
+    public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("downloadSuccess", amazonClient.downloadFile(name));
+        return "redirect:/taskInfo/" + id;
+    }
+
+    // Sletter filer af bestemt navn fra både S3 og database
 
     @PostMapping("/deleteFile/{name}")
     public String deleteFile(@PathVariable(value = "name") String fileName, @ModelAttribute("id") int id) {

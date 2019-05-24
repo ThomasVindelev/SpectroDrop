@@ -94,6 +94,21 @@
                             </div>
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewUser-box">Ny bruger</a>
                             <a href="/viewAllUsers" class="btn btn-primary">Vis alle</a>
+                            <div>
+                                <p th:text="${userCreationMessage}"></p>
+                            </div>
+                            <div th:if="${editUserError}">
+                                <p>Fejl! Brugeren blev ikke redigeret.</p>
+                            </div>
+                            <div th:if="${editUserError == false}">
+                                <p>Bruger redigeret!</p>
+                            </div>
+                            <div th:if="${deleteUserError}">
+                                <p>Fejl! Brugeren blev ikke slettet.</p>
+                            </div>
+                            <div th:if="${deleteUserError == false}">
+                                <p>Bruger slettet!</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,6 +132,12 @@
                             </table>
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
                             <a href="/viewAllMessages" class="btn btn-primary">Vis alle</a>
+                        </div>
+                        <div th:if="${messageError}">
+                            <p>Fejl! Besked blev ikke sendt.</p>
+                        </div>
+                        <div th:if="${messageError == false}">
+                            <p>Beksed sendt!</p>
                         </div>
                     </div>
                 </div>
@@ -209,6 +230,25 @@
                             <form th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
                                 <button type="submit" class="btn btn-primary">Vis alle</button>
                             </form>
+                            <div th:if="${taskError}">
+                                <p>Fejl! Opgave blev ikke oprettet.</p>
+                            </div>
+                            <div th:if="${taskError == false}">
+                                <p>Opgave oprettet!</p>
+                            </div>
+                            <div th:if="${editTaskError}">
+                                <p>Fejl! Opgave blev ikke redigeret.</p>
+                            </div>
+                            <div th:if="${editTaskError == false}">
+                                <p>Opgave redigeret!</p>
+                            </div>
+                            <div th:if="${deleteTaskError}">
+                                <p>Fejl! Opgave blev ikke slettet.</p>
+                            </div>
+                            <div th:if="${deleteTaskError == false}">
+                                <p>Opgave slettet!</p>
+                            </div>
+
                         </div>
                     </div>
                 </div>

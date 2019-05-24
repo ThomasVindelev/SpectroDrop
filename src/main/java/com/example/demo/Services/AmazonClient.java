@@ -29,13 +29,11 @@ public class AmazonClient {
     private TransferManager transferManager;
 
     @Autowired
-    CSV csv;
+    private CSV csv;
 
     private String endpointUrl = "s3-control.eu-central-1.amazonaws.com";
 
     private String bucketName = "spectrofly";
-
-    private int maxUploadThreads = 5;
 
     @PostConstruct
     private void initializeAmazon() {
@@ -78,36 +76,40 @@ public class AmazonClient {
         return fileUrl;
     }
 
-    public void downloadFile(String name) {
+    public boolean downloadFile(String name) {
         String newName = name.substring(0, name.lastIndexOf('.'));
         String format = name.substring(name.lastIndexOf('.'));
         S3Object object = s3client.getObject(bucketName, name);
+        return copyFiles(object, newName, format);
+    }
+
+    private boolean copyFiles(S3Object object, String name, String format) {
         File localFile = new File
-                ("D:\\Overførsler\\" + newName + format);
+                ("D:\\Overførsler\\" + name + format);
         int increment = 1;
         boolean exists = false;
         try {
             Files.copy(object.getObjectContent(), localFile.toPath());
         } catch (IOException ioe) {
-            System.out.println("Exception1 = " + ioe);
             exists = true;
         }
         while (exists) {
             try {
                 File newFile = new File("D:\\Overførsler\\"
-                        + newName + "(" + increment + ")" + format);
+                        + name + "(" + increment + ")" + format);
                 Files.copy(object.getObjectContent(), newFile.toPath());
                 exists = false;
+                return true;
             } catch (IOException ioe) {
-                System.out.println("Exception2 = " + ioe);
                 increment++;
             }
+            return false;
         }
+        return false;
     }
 
-    public String deleteFileFromS3Bucket(String fileName) {
+    public void deleteFileFromS3Bucket(String fileName) {
         s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
-        return "Successfully deleted";
     }
 
 }

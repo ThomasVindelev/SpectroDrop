@@ -16,8 +16,8 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void newMessage(Message message) {
-        messageRepository.newMessage(message);
+    public boolean newMessage(Message message) {
+        return messageRepository.newMessage(message);
     }
 
     public List<Message> getMessages(int id) {

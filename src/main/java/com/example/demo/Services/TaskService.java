@@ -25,19 +25,11 @@ public class TaskService {
     private AmazonClient amazonClient;
 
     public boolean newTask(Task task) {
-        if (!taskRepository.newTask(task)) {
-            return true;
-        } else {
-            return false;
-        }
+        return taskRepository.newTask(task);
     }
 
     public boolean editTask(Task task) {
-        if (!taskRepository.editTask(task)) {
-            return true;
-        } else {
-            return false;
-        }
+        return taskRepository.editTask(task);
     }
 
     public boolean deleteTask(int id) {
@@ -49,12 +41,9 @@ public class TaskService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        if (!taskRepository.deleteTask(id)) {
             return true;
-        } else {
-            return false;
         }
+        return taskRepository.deleteTask(id);
     }
 
     public List<Task> getTasks(boolean getNew, boolean isCustomer, int id) {

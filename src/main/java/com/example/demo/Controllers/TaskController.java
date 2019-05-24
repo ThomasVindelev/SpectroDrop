@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,8 +28,8 @@ public class TaskController {
     private UserService userService;
 
     @PostMapping("/newTask")
-    public String newTask(@ModelAttribute Task task, HttpSession session) {
-        taskService.newTask(task);
+    public String newTask(@ModelAttribute Task task, HttpSession session, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("taskError", taskService.newTask(task));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }
@@ -41,15 +42,15 @@ public class TaskController {
     }
 
     @PostMapping("/editTask")
-    public String editTask(@ModelAttribute Task task, HttpSession session) {
-        taskService.editTask(task);
+    public String editTask(@ModelAttribute Task task, HttpSession session, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("editTaskError", taskService.editTask(task));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }
 
     @PostMapping("/deleteTask/{id}")
-    public String deleteTask(@PathVariable("id") int id, HttpSession session) {
-        taskService.deleteTask(id);
+    public String deleteTask(@PathVariable("id") int id, HttpSession session, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("deleteTaskError", taskService.deleteTask(id));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }

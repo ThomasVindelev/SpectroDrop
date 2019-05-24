@@ -91,25 +91,23 @@ public class UserService implements com.example.demo.Services.Service<User> {
         if (!verify(user)) {
             user.setPassword(encryptionService.encrypt(user.getPassword()));
             if (!userRepository.newUser(user)) {
-                return "Success!";
+                return "Bruger oprettet!";
             } else {
-                return "Failed!";
+                return "Fejl! Bruger blev ikke oprettet.";
             }
         } else {
-            return "Username or e-mail already exists!";
+            return "Brugernavn eller e-mail eksisterer allerede i systemet!";
         }
     }
 
-    public String updateUser(User user) {
-        if (!userRepository.updateUser(user)) {
-            return "Success!";
-        } else {
-            return "Failed!";
-        }
-    }
+    /*public boolean updateUser(User user) {
+        return verifyUpdate(user);
+    }*/
 
-    public String deleteUserById(int userId, int roleId) {
-        if (roleId == 2) {
+    public boolean deleteUserById(int userId, int roleId) {
+        if (userId == 1) {
+            return true;
+        } else if (roleId == 2) {
             ResultSet tasks = taskRepository.getTaskByUser(userId);
             List<String> fileNames = new ArrayList<>();
             int taskId;
@@ -127,15 +125,12 @@ public class UserService implements com.example.demo.Services.Service<User> {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+                return true;
             }
         } else {
             taskRepository.autoTransferResponsibility(userId);
         }
-        if (!userRepository.deleteUserById(userId)) {
-            return "Success!";
-        } else {
-            return "Failed!";
-        }
+        return userRepository.deleteUserById(userId);
     }
 
     public List<Role> getRoles() {
@@ -153,6 +148,30 @@ public class UserService implements com.example.demo.Services.Service<User> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean verifyUpdate(User user) {
+        ResultSet oldInformation = userRepository.getUserById(user.getId());
+        userRepository.eraseInformation(user.getId());
+        if (!verify(user)) {
+            return userRepository.updateUser(user);
+        } else {
+            User oldUser = new User();
+            try {
+                while (oldInformation.next()) {
+                    oldUser.setId(oldInformation.getInt("id_users"));
+                    oldUser.setUsername(oldInformation.getString("username"));
+                    oldUser.setFirstName(oldInformation.getString("firstname"));
+                    oldUser.setLastName(oldInformation.getString("lastname"));
+                    oldUser.setEmail(oldInformation.getString("email"));
+                    oldUser.setFk_roles(oldInformation.getInt("fk_roles"));
+                }
+                userRepository.updateUser(oldUser);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
     }
 
     //Til at oprette en ny bruger

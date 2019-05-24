@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/newUser")
     public String newUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {
-        redirectAttributes.addFlashAttribute("message", userService.newUser(user));
+        redirectAttributes.addFlashAttribute("userCreationMessage", userService.newUser(user));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }
@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping("/editUser")
     public String editUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {
-        redirectAttributes.addFlashAttribute("Edit", userService.updateUser(user));
+        redirectAttributes.addFlashAttribute("editUserError", userService.verifyUpdate(user));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }
@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") int id, RedirectAttributes redirectAttributes, HttpSession session) {
         Integer roleId = (Integer) session.getAttribute("role");
-        redirectAttributes.addFlashAttribute("Delete", userService.deleteUserById(id, roleId));
+        redirectAttributes.addFlashAttribute("deleteUserError", userService.deleteUserById(id, roleId));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }

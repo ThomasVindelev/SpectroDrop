@@ -148,6 +148,18 @@ public class UserRepository {
         return null;
     }
 
+    public boolean eraseInformation(int id) {
+        query = "UPDATE SpectroDB.Users SET username = null, firstname = null, lastname = null, email = null, fk_roles = null WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public boolean activateUser(String password, int id) {
         query = "UPDATE SpectroDB.Users SET password = ?, is_active = ? WHERE id_users = ?";
         try {

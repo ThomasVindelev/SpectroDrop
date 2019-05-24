@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +20,8 @@ public class MessageController {
     private MessageService messageService;
 
     @PostMapping("/newMessage")
-    public String newMessage(@ModelAttribute Message message, HttpSession session) {
-        messageService.newMessage(message);
+    public String newMessage(@ModelAttribute Message message, HttpSession session, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("messageError", messageService.newMessage(message));
         Integer userId = (Integer) session.getAttribute("id");
         Integer roleId = (Integer) session.getAttribute("role");
         if (roleId == 1) {
