@@ -29,7 +29,7 @@ public class MessageService {
                 message.setId(resultSet.getInt("id_messages"));
                 message.setText(resultSet.getString("text"));
                 message.setSent_from(resultSet.getString("username"));
-                message.setRead(resultSet.getBoolean("is_read"));
+                message.setIsRead(resultSet.getBoolean("is_read"));
                 messageList.add(message);
             }
             return messageList;
@@ -39,14 +39,18 @@ public class MessageService {
         return null;
     }
 
-    public Message getMessageById(int id) {
+    public Message getMessageById(int id, boolean isRead) {
         ResultSet resultSet = messageRepository.getMessageById(id);
+        if (!isRead) {
+            messageRepository.readMessage(id);
+        }
         try {
             while (resultSet.next()) {
                 Message message = new Message();
                 message.setText(resultSet.getString("text"));
                 message.setSent_from(resultSet.getString("username"));
                 message.setFk_sent_from(resultSet.getInt("fk_sent_from"));
+                return message;
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -15,39 +15,24 @@
                     <a class="navbar-brand" th:href="@{/employeeMain/{id}(id = ${session.id})}">
                         <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
                     </a>
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn btn-primary">Log ud</button>
-                    </form>
-                    <div th:if="${session.role == 1}">
-                        <form th:action="@{/employeeMain/{id}(id = ${session.id})}" method="get">
-                            <button type="submit" class="btn btn-primary">Tilbage</button>
-                        </form>
-                    </div>
-                    <div th:if="${session.role == 2}">
-                        <form th:action="@{/customerMain/{id}(id = ${session.id})}" method="get">
-                            <button type="submit" class="btn btn-primary">Tilbage</button>
-                        </form>
                 </div>
                 <div th:if="${session.role == 2}">
                     <a class="navbar-brand" th:href="@{/customerMain/{id}(id = ${session.id})}">
                         <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
                     </a>
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn btn-primary">Log ud</button>
+                </div>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-primary">Log ud</button>
+                </form>
+                <div th:if="${session.role == 1}">
+                    <form th:action="@{/employeeMain/{id}(id = ${session.id})}" method="get">
+                        <button type="submit" class="btn btn-primary">Tilbage</button>
                     </form>
-                    <div th:if="${session.role == 1}">
-                        <form th:action="@{/employeeMain/{id}(id = ${session.id})}" method="get">
-                            <button type="submit" class="btn btn-primary">Tilbage</button>
-                        </form>
-                    </div>
-                    <div th:if="${session.role == 2}">
-                        <form th:action="@{/customerMain/{id}(id = ${session.id})}" method="get">
-                            <button type="submit" class="btn btn-primary">Tilbage</button>
-                        </form>
-                   <div>
-                   </div>
-                   </div>
-                    </div>
+                </div>
+                <div th:if="${session.role == 2}">
+                    <form th:action="@{/customerMain/{id}(id = ${session.id})}" method="get">
+                        <button type="submit" class="btn btn-primary">Tilbage</button>
+                    </form>
                 </div>
             </nav>
         </div>

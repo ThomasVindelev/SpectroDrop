@@ -14,10 +14,10 @@ import java.util.List;
 public class FileService {
 
     @Autowired
-    FileRepository fileRepository;
+    private FileRepository fileRepository;
 
     @Autowired
-    AmazonClient amazonClient;
+    private AmazonClient amazonClient;
 
     // private String spectroDropBucket = "spectrodrop-bucket/";
 

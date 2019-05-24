@@ -40,8 +40,8 @@ public class MessageController {
     }
 
     @GetMapping("/readMessage/{id}")
-    public String readMessage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("message", messageService.getMessageById(id));
+    public String readMessage(@PathVariable("id") int id, @ModelAttribute("isRead") boolean isRead, Model model) {
+        model.addAttribute("message", messageService.getMessageById(id, isRead));
         return "viewMessage";
     }
 

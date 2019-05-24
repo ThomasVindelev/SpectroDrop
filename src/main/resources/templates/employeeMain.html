@@ -121,12 +121,15 @@
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
+                                <th>Sendt fra: </th>
                                 <tr th:each="message : ${messageList}">
-                                    <td th:text="${message.sent_from}"></td>
-                                    <h1 th:unless="${isRead} == 1">HEJ JEG ER LIGE HER HVORFOR BLIVER JEG IKKE PRINTET?</h1>
-                                    <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
-                                        <button type="submit" class="btn btn-primary">Læs</button>
-                                    </form>
+                                    <td th:attr="class=${message.isRead == false} ? 'grey' : '' ">
+                                        <p class="float-left" th:text="${message.sent_from}"></p>
+                                        <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
+                                            <input type="hidden" name="isRead" th:value="${message.isRead}">
+                                            <button type="submit" class="btn btn-primary float-right">Læs</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

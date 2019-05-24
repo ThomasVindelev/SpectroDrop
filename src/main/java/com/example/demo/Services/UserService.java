@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements com.example.demo.Services.Service<User> {
+public class UserService implements Users<User> {
 
     @Autowired
     private UserRepository userRepository;
@@ -99,10 +99,6 @@ public class UserService implements com.example.demo.Services.Service<User> {
             return "Brugernavn eller e-mail eksisterer allerede i systemet!";
         }
     }
-
-    /*public boolean updateUser(User user) {
-        return verifyUpdate(user);
-    }*/
 
     public boolean deleteUserById(int userId, int roleId) {
         if (userId == 1) {

@@ -71,11 +71,11 @@ public class Message {
         this.fk_sent_from = fk_sent_from;
     }
 
-    public boolean isRead() {
+    public boolean getIsRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
+    public void setIsRead(boolean read) {
         isRead = read;
     }
 }

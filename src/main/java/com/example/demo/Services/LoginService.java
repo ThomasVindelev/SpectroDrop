@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Service
-public class LoginService implements com.example.demo.Services.Service<User> {
+public class LoginService implements Users<User> {
 
     @Autowired
     private UserRepository userRepository;

@@ -33,9 +33,6 @@ public class MenuController {
     public String getEmployeeMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("roleList", userService.getRoles());
         model.addAttribute("messageList", messageService.getMessages(id));
-        for (int i = 0; i < messageService.getMessages(id).size(); i++) {
-            System.out.println(messageService.getMessages(id).get(i).isRead());
-        }
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
         model.addAttribute("userList", userService.getUsers("All"));
         model.addAttribute("newUsers", userService.getUsers("New"));

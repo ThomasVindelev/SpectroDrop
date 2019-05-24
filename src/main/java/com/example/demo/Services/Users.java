@@ -1,6 +1,6 @@
 package com.example.demo.Services;
 
-public interface Service<T> {
+public interface Users<T> {
 
     boolean verify(T object);
 

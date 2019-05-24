@@ -8,7 +8,9 @@ import java.sql.*;
 @Repository
 public class MessageRepository {
 
-    //Alle klasser skal tjekkes for eventuel tilbagemelding omkring overførsel af data
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+    private String query;
 
     public MessageRepository() {
         try {
@@ -20,10 +22,6 @@ public class MessageRepository {
             e.printStackTrace();
         }
     }
-
-    private Connection connection;
-    private PreparedStatement preparedStatement;
-    private String query;
 
     public boolean newMessage(Message message) {
         query = "INSERT INTO Messages (text, fk_sent_to, fk_sent_from) VALUES (?, ?, ?)";
@@ -53,15 +51,27 @@ public class MessageRepository {
     }
 
     public ResultSet getMessageById(int id) {
-        query = "SELECT text, fk_sent_from, username FROM SpectroDB.Messages INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE id_messages = " + id + "; " +
-                "UPDATE SpectroDB.Messages SET is_read = " + 1 + " WHERE id_messages = " + id;
+        query = "SELECT text, fk_sent_from, username FROM SpectroDB.Messages INNER JOIN Users ON Messages.fk_sent_from = Users.id_users WHERE id_messages = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void readMessage(int id) {
+        query = "UPDATE SpectroDB.Messages SET is_read = ? WHERE id_messages = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setInt(2, id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

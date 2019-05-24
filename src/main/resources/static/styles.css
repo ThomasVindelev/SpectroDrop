@@ -20,6 +20,11 @@ body  {
     display: none;
 }
 
+.grey {
+    background: #c6f4b7;
+    border-radius: 10px;
+}
+
 .customer-card {
     min-height: 300px;
 }
