@@ -86,7 +86,7 @@ public class AmazonClient {
     private boolean copyFiles(S3Object object, String name, String format) {
         String home = System.getProperty("user.home");
         File localFile;
-        if (home.substring(0, 1).equals("C")) {
+        if (System.getProperty("os.name").substring(0, 2).equals("Win")) {
             localFile = new File(home + "\\Downloads\\" + name + format);
         } else {
             localFile = new File(home + "/Downloads/" + name + format);
@@ -95,6 +95,7 @@ public class AmazonClient {
         boolean exists = false;
         try {
             Files.copy(object.getObjectContent(), localFile.toPath());
+            return true;
         } catch (IOException ioe) {
             exists = true;
         }

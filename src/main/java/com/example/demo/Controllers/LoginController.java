@@ -26,6 +26,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session, Model model) {
         System.out.println(System.getProperty("user.home"));
+        System.out.println(System.getProperty("os.name"));
         if (loginService.verify(user)) {
             session.setAttribute("id", user.getId());
             session.setAttribute("role", user.getFk_roles());
