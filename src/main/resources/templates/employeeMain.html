@@ -124,7 +124,7 @@
                                 <th>Sendt fra: </th>
                                 <tr th:each="message : ${messageList}">
                                     <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
-                                        <p class="float-left" th:text="${message.sent_from}"></p>
+                                        <h5 class="float-left" th:text="${message.sent_from}"></h5>
                                         <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
                                             <input type="hidden" name="isRead" th:value="${message.isRead}">
                                             <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>

@@ -34,14 +34,26 @@
     </div>
 </div>
 
-<table>
-    <tr>Fra: </tr>
-    <tr>Besked: </tr>
-    <td th:text="${message.sent_from}"></td>
-    <td th:text="${message.text}"></td>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <h5 class="card-header">Besked</h5>
+                <div class="card-body">
+                    <table>
+                        <tr>Fra: </tr>
+                        <tr>Besked: </tr>
+                        <td th:text="${message.sent_from}"></td>
+                        <td th:text="${message.text}"></td>
+                    </table>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Besvar <i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<button class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Besvar <i class="fas fa-paper-plane"></i></button>
+
 
 <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
