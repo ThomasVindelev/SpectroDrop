@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,12 +86,7 @@ public class AmazonClient {
 
     private boolean copyFiles(S3Object object, String name, String format) {
         String home = System.getProperty("user.home");
-        File localFile;
-        if (System.getProperty("os.name").substring(0, 2).equals("Win")) {
-            localFile = new File(home + "\\Downloads\\" + name + format);
-        } else {
-            localFile = new File(home + "/Downloads/" + name + format);
-        }
+        File localFile = new File(FilenameUtils.normalize(home + "/Downloads/" + name + format));
         int increment = 1;
         boolean exists = false;
         try {
