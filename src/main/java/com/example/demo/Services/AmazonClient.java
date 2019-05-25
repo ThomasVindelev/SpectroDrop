@@ -97,7 +97,7 @@ public class AmazonClient {
         }
         while (exists) {
             try {
-                File newFile = new File(home + "\\Downloads\\"
+                File newFile = new File(home + "/Downloads/"
                         + name + "(" + increment + ")" + format);
                 Files.copy(object.getObjectContent(), newFile.toPath());
                 return true;
