@@ -32,61 +32,73 @@
                                     <tbody>
                                     <tr th:each="user : ${newUsers}">
                                         <td>
-                                            <span>Brugernavn: <span th:text="${user.username}"></span></span>
-                                            <br>
-                                            <span>Fornavn: <span th:text="${user.firstName}"></span></span>
-                                            <br>
-                                            <span>Efternavn: <span th:text="${user.lastName}"></span></span>
-                                            <br>
-                                            <span>E-mail: <span th:text="${user.email}"></span></span>
-                                            <br>
-                                            <span>Rolle: <span th:text="${user.role}"></span></span>
-                                            <br>
-                                            <form th:action="@{/editUser}" method="post" th:object="${User}">
-                                                <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
-                                                <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Rediger bruger</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <input type="hidden" name="id" th:value="${user.id}">
-                                                                <input type="text" name="username" th:value="${user.username}" placeholder="Brugernavn">
-                                                                <input type="text" name="firstName" th:value="${user.firstName}" placeholder="Fornavn">
-                                                                <input type="text" name="lastName" th:value="${user.lastName}" placeholder="Efternavn">
-                                                                <input type="text" name="email" th:value="${user.email}" placeholder="E-mail">
-                                                                <select name="fk_roles">
-                                                                    <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.fk_roles}"></option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                                <button type="submit" class="btn btn-warning">Rediger bruger</button>
+
+
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <span>Brugernavn: <span th:text="${user.username}"></span></span>
+                                                    <br>
+                                                    <span>Fornavn: <span th:text="${user.firstName}"></span></span>
+                                                    <br>
+                                                    <span>Efternavn: <span th:text="${user.lastName}"></span></span>
+                                                    <br>
+                                                    <span>E-mail: <span th:text="${user.email}"></span></span>
+                                                    <br>
+                                                    <span>Rolle: <span th:text="${user.role}"></span></span>
+                                                    <br>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <form th:action="@{/editUser}" method="post" th:object="${User}">
+                                                        <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
+                                                        <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Rediger bruger</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <input type="hidden" name="id" th:value="${user.id}">
+                                                                        <input type="text" name="username" th:value="${user.username}" placeholder="Brugernavn">
+                                                                        <input type="text" name="firstName" th:value="${user.firstName}" placeholder="Fornavn">
+                                                                        <input type="text" name="lastName" th:value="${user.lastName}" placeholder="Efternavn">
+                                                                        <input type="text" name="email" th:value="${user.email}" placeholder="E-mail">
+                                                                        <select name="fk_roles">
+                                                                            <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.fk_roles}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
+                                                                        <button type="submit" class="btn btn-warning">Rediger bruger</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
-                                                <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
-                                                <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">Er du sikker på, at du vil slette denne bruger?</h4>
-                                                            </div>
-                                                            <div class="model-body">
-                                                                <p>Dette betyder, at alle beskeder og opgaver tilknyttet denne bruger bliver slettet, samt alle filer til disse!</p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                                <button type="submit" class="btn btn-danger">Slet bruger</button>
+                                                    </form>
+                                                    <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
+                                                        <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
+                                                        <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Er du sikker på, at du vil slette denne bruger?</h4>
+                                                                    </div>
+                                                                    <div class="model-body">
+                                                                        <p>Dette betyder, at alle beskeder og opgaver tilknyttet denne bruger bliver slettet, samt alle filer til disse!</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
+                                                                        <button type="submit" class="btn btn-danger">Slet bruger</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                 </div>
-                                            </form>
+                                            </div>
+
+
+
+
                                         </td>
                                     </tr>
                                     </tbody>
@@ -124,7 +136,7 @@
                                 <th>Sendt fra: </th>
                                 <tr th:each="message : ${messageList}">
                                     <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
-                                        <h5 class="float-left" th:text="${message.sent_from}"></h5>
+                                        <h6 class="float-left" th:text="${message.sent_from}"></h6>
                                         <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
                                             <input type="hidden" name="isRead" th:value="${message.isRead}">
                                             <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>
@@ -137,10 +149,14 @@
                             <a href="/viewAllMessages" class="btn btn-primary">Vis alle</a>
                         </div>
                         <div th:if="${messageError}">
-                            <p>Fejl! Besked blev ikke sendt.</p>
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Besked blev ikke sendt.</strong>
+                            </div>
                         </div>
                         <div th:if="${messageError == false}">
-                            <p>Beksed sendt!</p>
+                            <div class="alert alert-success">
+                                <strong>Besked sendt!</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -229,8 +245,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#Task-box">Ny opgave</a>
-                            <form th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
+                            <a href="#" class="btn btn-primary" id="taskHref" data-toggle="modal" data-target="#Task-box">Ny opgave</a>
+
+                            <form id="taskForm" th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
                                 <button type="submit" class="btn btn-primary">Vis alle</button>
                             </form>
                             <div th:if="${taskError}">
@@ -297,11 +314,17 @@
                             <h5 class="modal-title">Ny besked</h5>
                         </div>
                         <div class="modal-body">
-                            <input type="text" name="text" placeholder="Skriv din besked her...">
-                            <select name="fk_sent_to">
-                                <option selected disabled hidden>Vælg en bruger...</option>
-                                <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.username}"></option>
-                            </select>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <textarea id="mainText" type="text" name="text" placeholder="Skriv din besked her..."></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="fk_sent_to">
+                                        <option selected disabled hidden>Vælg en bruger...</option>
+                                        <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.username}"></option>
+                                    </select>
+                                </div>
+                            </div>
                             <input type="hidden" name="fk_sent_from" th:value="${session.id}">
                         </div>
                         <div class="modal-footer">

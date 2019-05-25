@@ -47,3 +47,25 @@ body  {
     margin-right: auto;
     margin-left: auto;
 }
+
+#\#messageField {
+    height: 250px;
+    width: 465px;
+    text-align: left;
+}
+
+#mainText {
+    height: 250px;
+    width: 300px;
+    text-align: left;
+}
+
+#taskForm {
+    float: left;
+}
+
+#taskHref {
+    float: left;
+    margin-right: 3px;
+}
+

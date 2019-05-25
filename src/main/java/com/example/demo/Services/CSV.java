@@ -20,7 +20,6 @@ public class CSV {
     private String readCredsFromCSV(String filePath, boolean isSecret) {
         Path path = Paths.get(filePath);
         String key = "";
-
         try (BufferedReader bufferedReader = Files.newBufferedReader(path, StandardCharsets.US_ASCII)){
             String line = bufferedReader.readLine();
 

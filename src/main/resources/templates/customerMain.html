@@ -72,17 +72,17 @@
                                 <th>Sendt fra: </th>
                                 <tr th:each="message : ${messageList}">
                                     <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
-                                        <p class="float-left" th:text="${message.sent_from}"></p>
+                                        <h6 class="float-left" th:text="${message.sent_from}"></h6>
                                         <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
                                             <input type="hidden" name="isRead" th:value="${message.isRead}">
-                                            <button type="submit" class="btn btn-primary float-right">Læs</button>
+                                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>
                                         </form>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
-                            <form th:action="@{/viewAllMessages}" method="get">
+                            <a href="#" id="taskHref" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
+                            <form id="taskForm" th:action="@{/viewAllMessages}" method="get">
                                 <button type="submit" class="btn btn-primary">Vis alle</button>
                             </form>
                         </div>
@@ -109,11 +109,17 @@
                         <h5 class="modal-title">Ny besked</h5>
                     </div>
                     <div class="modal-body">
-                        <input type="text" name="text" placeholder="Skriv din besked her...">
-                        <select name="fk_sent_to">
-                            <option selected disabled hidden>Vælg en bruger...</option>
-                            <option th:each="user : ${employeeList}" th:value="${user.id}" th:text="${user.username}"></option>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <textarea id="mainText" type="text" name="text" placeholder="Skriv din besked her..."></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="fk_sent_to">
+                                    <option selected disabled hidden>Vælg en bruger...</option>
+                                    <option th:each="user : ${employeeList}" th:value="${user.id}" th:text="${user.username}"></option>
+                                </select>
+                            </div>
+                        </div>
                         <input type="hidden" name="fk_sent_from" th:value="${session.id}">
                     </div>
                     <div class="modal-footer">
