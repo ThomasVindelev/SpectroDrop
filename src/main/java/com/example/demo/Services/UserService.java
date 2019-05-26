@@ -69,24 +69,6 @@ public class UserService implements Users<User> {
         return null;
     }
 
-    public User getUserById(int id) {
-        ResultSet resultSet = userRepository.getUserById(id);
-        User user = new User();
-        try {
-            while (resultSet.next()) {
-                user.setId(id);
-                user.setUsername(resultSet.getString("username"));
-                user.setFirstName(resultSet.getString("firstname"));
-                user.setLastName(resultSet.getString("lastname"));
-                user.setEmail(resultSet.getString("email"));
-            }
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String newUser(User user) {
         if (!verify(user)) {
             user.setPassword(encryptionService.encrypt(user.getPassword()));

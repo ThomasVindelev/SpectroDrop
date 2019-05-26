@@ -15,6 +15,16 @@
                             <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
                         </form>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord <i class="fas fa-key"></i></a>
+                        <div th:if="${passwordError}">
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Kodeord blev ikke ændret.</strong>
+                            </div>
+                        </div>
+                        <div th:if="${passwordError == false}">
+                            <div class="alert alert-success">
+                                <strong>Kodeord ændret!</strong>
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </div>
