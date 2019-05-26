@@ -86,7 +86,8 @@ public class AmazonClient {
 
     private boolean copyFiles(S3Object object, String name, String format) {
         String home = System.getProperty("user.home");
-        File localFile = new File(FilenameUtils.normalize(home + "/Downloads/" + name + format));
+        File localFile = new File(FilenameUtils.normalize(
+                home + "/Downloads/" + name + format));
         int increment = 1;
         boolean exists = false;
         try {

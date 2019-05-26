@@ -26,7 +26,7 @@ public class UserService implements Users<User> {
     private FileRepository fileRepository;
 
     @Autowired
-    private EncryptionService encryptionService;
+    private HashingService hashingService;
 
     @Autowired
     private AmazonClient amazonClient;
@@ -71,7 +71,7 @@ public class UserService implements Users<User> {
 
     public String newUser(User user) {
         if (!verify(user)) {
-            user.setPassword(encryptionService.encrypt(user.getPassword()));
+            user.setPassword(hashingService.hash(user.getPassword()));
             if (!userRepository.newUser(user)) {
                 return "Bruger oprettet!";
             } else {
@@ -154,13 +154,13 @@ public class UserService implements Users<User> {
 
     public boolean changePassword(String oldPassword, String newPassword, String newPasswordValidation, int userId) {
         if (newPassword.equals(newPasswordValidation)) {
-            System.out.println(encryptionService.encrypt(oldPassword));
-            oldPassword = encryptionService.encrypt(oldPassword);
+            System.out.println(hashingService.hash(oldPassword));
+            oldPassword = hashingService.hash(oldPassword);
             ResultSet resultSet = userRepository.verifyPassword(oldPassword, userId);
-            System.out.println(encryptionService.encrypt(newPassword));
+            System.out.println(hashingService.hash(newPassword));
             try {
                 if (resultSet.next()) {
-                    return userRepository.updatePassword(encryptionService.encrypt(newPassword), userId);
+                    return userRepository.updatePassword(hashingService.hash(newPassword), userId);
                 } else {
                     return true;
                 }

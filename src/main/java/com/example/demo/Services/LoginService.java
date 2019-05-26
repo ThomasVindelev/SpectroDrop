@@ -15,11 +15,11 @@ public class LoginService implements Users<User> {
     private UserRepository userRepository;
 
     @Autowired
-    private EncryptionService encryptionService;
+    private HashingService hashingService;
 
     @Override
     public boolean verify(User user) {
-        user.setPassword(encryptionService.encrypt(user.getPassword()));
+        user.setPassword(hashingService.hash(user.getPassword()));
         ResultSet resultSet = userRepository.verifyUserLogin(user);
         try {
             if (resultSet.next()) {
@@ -40,7 +40,7 @@ public class LoginService implements Users<User> {
 
     public boolean activateUser(String password, String passwordConfirm, int id) {
         if (password.equals(passwordConfirm)) {
-            userRepository.activateUser(encryptionService.encrypt(password), id);
+            userRepository.activateUser(hashingService.hash(password), id);
             return true;
         } else {
             return false;
