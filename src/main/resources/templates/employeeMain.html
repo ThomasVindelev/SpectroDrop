@@ -14,6 +14,17 @@
                         <form th:action="@{/logout}" method="post">
                             <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
                         </form>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord <i class="fas fa-key"></i></a>
+                        <div th:if="${passwordError}">
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Kodeord blev ikke ændret.</strong>
+                            </div>
+                        </div>
+                        <div th:if="${passwordError == false}">
+                            <div class="alert alert-success">
+                                <strong>Kodeord ændret!</strong>
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </div>
@@ -133,7 +144,7 @@
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
-                                <th>Sendt fra: </th>
+                                <th></th>
                                 <tr th:each="message : ${messageList}">
                                     <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
                                         <h6 class="float-left" th:text="${message.sent_from}"></h6>
@@ -363,6 +374,29 @@
                     </div>
                 </form>
             </div>
+            </div>
+        </div>
+
+        <!-- Change password popup -->
+
+        <div class="modal fade" id="NewPassword-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form class="needs-validation" novalidate th:action="@{/newPassword}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Skift kodeord</h5>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord" required>
+                            <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord" required>
+                            <input class="form-control" type="password" name="newPasswordValidation" placeholder="Gentag kodeord" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                            <button type="submit" class="btn btn-primary">Skift kodeord</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

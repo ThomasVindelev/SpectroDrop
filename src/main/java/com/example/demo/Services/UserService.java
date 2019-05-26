@@ -170,6 +170,25 @@ public class UserService implements Users<User> {
         return true;
     }
 
+    public boolean changePassword(String oldPassword, String newPassword, String newPasswordValidation, int userId) {
+        if (newPassword.equals(newPasswordValidation)) {
+            System.out.println(encryptionService.encrypt(oldPassword));
+            oldPassword = encryptionService.encrypt(oldPassword);
+            ResultSet resultSet = userRepository.verifyPassword(oldPassword, userId);
+            System.out.println(encryptionService.encrypt(newPassword));
+            try {
+                if (resultSet.next()) {
+                    return userRepository.updatePassword(encryptionService.encrypt(newPassword), userId);
+                } else {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
     //Til at oprette en ny bruger
 
     @Override

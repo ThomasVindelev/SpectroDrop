@@ -174,4 +174,30 @@ public class UserRepository {
         return false;
     }
 
+    public boolean updatePassword(String newPassword, int userId) {
+        query = "UPDATE SpectroDB.Users SET password = ? WHERE id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setInt(2, userId);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ResultSet verifyPassword(String oldPassword, int userId) {
+        query = "SELECT username FROM SpectroDB.Users WHERE password = ? AND id_users = ?";
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, oldPassword);
+            preparedStatement.setInt(2, userId);
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -20,8 +20,13 @@ public class MessageService {
         return messageRepository.newMessage(message);
     }
 
-    public List<Message> getMessages(int id) {
-        ResultSet resultSet = messageRepository.getMessagesByUser(id);
+    public List<Message> getMessages(int userId, boolean getNew) {
+        ResultSet resultSet;
+        if (getNew) {
+            resultSet = messageRepository.getNewMessages(userId);
+        } else {
+            resultSet = messageRepository.getMessages(userId);
+        }
         List<Message> messageList = new ArrayList<>();
         try {
             while (resultSet.next()) {

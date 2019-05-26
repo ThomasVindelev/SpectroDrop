@@ -24,7 +24,7 @@ public class MenuController {
     @GetMapping("/customerMain/{id}")
     public String getCustomerMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("employeeList", userService.getUsers("Employees"));
-        model.addAttribute("messageList", messageService.getMessages(id));
+        model.addAttribute("messageList", messageService.getMessages(id, true));
         model.addAttribute("newTasks", taskService.getTasks(true, true, id));
         return "customerMain";
     }
@@ -32,7 +32,7 @@ public class MenuController {
     @GetMapping("/employeeMain/{id}")
     public String getEmployeeMenu(@PathVariable("id") int id, Model model) {
         model.addAttribute("roleList", userService.getRoles());
-        model.addAttribute("messageList", messageService.getMessages(id));
+        model.addAttribute("messageList", messageService.getMessages(id, true));
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
         model.addAttribute("userList", userService.getUsers("All"));
         model.addAttribute("newUsers", userService.getUsers("New"));

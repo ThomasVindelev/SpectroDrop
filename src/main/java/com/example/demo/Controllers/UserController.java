@@ -53,4 +53,20 @@ public class UserController {
         model.addAttribute("roleList", userService.getRoles());
         return "viewAllUsers";
     }
+
+    @PostMapping("/newPassword")
+    public String newPassword(
+            @ModelAttribute("oldPassword") String oldPassword,
+            @ModelAttribute("newPassword") String newPassword,
+            @ModelAttribute("newPasswordValidation") String newPasswordValidation,
+            HttpSession session, RedirectAttributes redirectAttributes) {
+        Integer userId = (Integer) session.getAttribute("id");
+        Integer roleId = (Integer) session.getAttribute("role");
+        redirectAttributes.addFlashAttribute("passwordError", userService.changePassword(oldPassword, newPassword, newPasswordValidation, userId));
+        if (roleId == 1) {
+            return "redirect:/employeeMain/" + userId;
+        } else {
+            return "redirect:/customerMain/" + userId;
+        }
+    }
 }

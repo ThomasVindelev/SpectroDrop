@@ -35,7 +35,7 @@ public class MessageController {
     @GetMapping("/viewAllMessages")
     public String viewAllMessages(@ModelAttribute Message message, HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("id");
-        model.addAttribute("messageList",messageService.getMessages(userId));
+        model.addAttribute("messageList",messageService.getMessages(userId, false));
         return "viewAllMessages";
     }
 
