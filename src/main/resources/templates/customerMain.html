@@ -97,10 +97,13 @@
                             </form>
                         </div>
                         <div th:if="${messageError}">
-                            <p>Fejl! Besked blev ikke sendt.</p>
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Besked blev ikke sendt.</strong>
+                            </div>
                         </div>
-                        <div th:if="${messageError}">
-                            <p>Besked sendt!</p>
+                        <div th:if="${messageError == false}">
+                            <div class="alert alert-success">
+                                <strong>Besked sendt!</strong>
                         </div>
                     </div>
                 </div>
