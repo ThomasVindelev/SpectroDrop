@@ -4,349 +4,445 @@
 
     <head th:replace="fragments/header :: header">...</head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <nav class="navbar navbar-light bg-light">
-                        <a class="navbar-brand" href="#">
-                            <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
-                        </a>
-                        <form th:action="@{/logout}" method="post">
-                            <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="#">
+                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top"
+                             alt=""/>
+                    </a>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
+                    </form>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord
+                        <i class="fas fa-key"></i></a>
+                    <div th:if="${passwordError}">
+                        <div class="alert alert-warning">
+                            <strong>Fejl! Kodeord blev ikke ændret.</strong>
+                        </div>
+                    </div>
+                    <div th:if="${passwordError == false}">
+                        <div class="alert alert-success">
+                            <strong>Kodeord ændret!</strong>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <!-- User menu -->
+
+            <div class="col-sm">
+                <div class="employee-card card">
+                    <h5 class="card-header">Nye brugere</h5>
+                    <div class="card-body">
+                        <div>
+                            <table class="table">
+                                <tbody>
+                                <tr th:each="user : ${newUsers}">
+                                    <td>
+
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <span>Brugernavn: <span th:text="${user.username}"></span></span>
+                                                <br>
+                                                <span>Fornavn: <span th:text="${user.firstName}"></span></span>
+                                                <br>
+                                                <span>Efternavn: <span th:text="${user.lastName}"></span></span>
+                                                <br>
+                                                <span>E-mail: <span th:text="${user.email}"></span></span>
+                                                <br>
+                                                <span>Rolle: <span th:text="${user.role}"></span></span>
+                                                <br>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form th:action="@{/editUser}" method="post" th:object="${User}">
+                                                    <button type="button" data-toggle="modal"
+                                                            th:attr="data-target='#EditUser-box'+${user.id}"><i
+                                                            class="fas fa-cog"></i></button>
+                                                    <div class="modal fade" th:attr="id='EditUser-box'+${user.id}"
+                                                         tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Rediger bruger</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id"
+                                                                           th:value="${user.id}">
+                                                                    <input type="text" name="username"
+                                                                           th:value="${user.username}"
+                                                                           placeholder="Brugernavn">
+                                                                    <input type="text" name="firstName"
+                                                                           th:value="${user.firstName}"
+                                                                           placeholder="Fornavn">
+                                                                    <input type="text" name="lastName"
+                                                                           th:value="${user.lastName}"
+                                                                           placeholder="Efternavn">
+                                                                    <input type="text" name="email"
+                                                                           th:value="${user.email}"
+                                                                           placeholder="E-mail">
+                                                                    <select name="fk_roles">
+                                                                        <option th:each="role : ${roleList}"
+                                                                                th:value="${role.id}"
+                                                                                th:text="${role.name}"
+                                                                                th:selected="${role.id == user.fk_roles}"></option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Fortryd
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-warning">
+                                                                        Rediger bruger
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post"
+                                                      th:object="${User}">
+                                                    <button type="button" data-toggle="modal"
+                                                            th:attr="data-target='#DeleteUser-box'+${user.id}"><i
+                                                            class="fas fa-trash-alt"></i></button>
+                                                    <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}"
+                                                         tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Er du sikker på, at du vil
+                                                                        slette denne bruger?</h4>
+                                                                </div>
+                                                                <div class="model-body">
+                                                                    <div class="alert alert-danger">
+                                                                        <strong>Dette betyder, at alle beskeder og
+                                                                            opgaver
+                                                                            tilknyttet denne bruger bliver slettet, samt
+                                                                            alle filer til disse!</strong>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Fortryd
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-danger">Slet
+                                                                        bruger
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewUser-box">Ny bruger</a>
+                        <a href="/viewAllUsers" class="btn btn-primary">Vis alle</a>
+                        <div>
+                            <p th:text="${userCreationMessage}"></p>
+                        </div>
+                        <div th:if="${editUserError}">
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Brugeren blev ikke redigeret</strong>
+                            </div>
+                        </div>
+                        <div th:if="${editUserError == false}">
+                            <div class="alert alert-success">
+                                <strong>Bruger redigeret!</strong>
+                            </div>
+                        </div>
+                        <div th:if="${deleteUserError}">
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Brugeren blev ikke slettet.</strong>
+                            </div>
+                        </div>
+                        <div th:if="${deleteUserError == false}">
+                            <div class="alert alert-success">
+                                <strong>Bruger slettet!</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages menu -->
+
+            <div class="col-sm">
+                <div class="employee-card card">
+                    <h5 class="card-header">Nyeste beskeder</h5>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <th></th>
+                            <tr th:each="message : ${messageList}">
+                                <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
+                                    <h6 class="float-left" th:text="${message.sent_from}"></h6>
+                                    <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
+                                        <input type="hidden" name="isRead" th:value="${message.isRead}">
+                                        <button type="submit" class="btn btn-primary float-right"><i
+                                                class="fas fa-file"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny
+                            besked</a>
+                        <a href="/viewAllMessages" class="btn btn-primary">Vis alle</a>
+                    </div>
+                    <div th:if="${messageError}">
+                        <div class="alert alert-warning">
+                            <strong>Fejl! Besked blev ikke sendt.</strong>
+                        </div>
+                    </div>
+                    <div th:if="${messageError == false}">
+                        <div class="alert alert-success">
+                            <strong>Besked sendt!</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task menu -->
+
+            <div class="col-sm">
+                <div class="employee-card card">
+                    <h5 class="card-header">Nyeste opgaver</h5>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr th:each="task : ${newTasks}">
+                                <td>
+                                    <span th:text="${task.taskName}"></span>
+                                    <br>
+                                    <span>Ansvarlig: <span th:text="${task.employee}"></span></span>
+                                    <br>
+                                    <span>Kunde: <span th:text="${task.customer}"></span></span>
+                                    <br>
+                                    <div th:if="${task.fk_status == 1}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-danger fas fa-circle"></i></button>
+                                    </div>
+                                    <div th:if="${task.fk_status == 2}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-warning fas fa-circle"></i></button>
+                                    </div>
+                                    <div th:if="${task.fk_status == 3}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-success fas fa-circle"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
+                                        <button><i class="fas fa-file"></i></button>
+                                    </form>
+                                    <form th:action="@{/editTask}" method="post" th:object="${Task}">
+                                        <button type="button" data-toggle="modal"
+                                                th:attr="data-target='#EditTask-box'+${task.id}"><i
+                                                class="fas fa-cog"></i></button>
+                                        <div class="modal fade" th:attr="id='EditTask-box'+${task.id}" tabindex="-1"
+                                             role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Tilpas opgave</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="id" th:value="${task.id}">
+                                                        <input type="text" name="taskName" placeholder="Task name"
+                                                               th:value="${task.taskName}">
+                                                        <select name="fk_customer">
+                                                            <option th:each="customer : ${userList}"
+                                                                    th:if="${customer.fk_roles == 2}"
+                                                                    th:value="${customer.id}"
+                                                                    th:text="${customer.username}"
+                                                                    th:selected="${customer.id == task.fk_customer}"></option>
+                                                        </select>
+                                                        <select name="fk_employee">
+                                                            <option th:each="employee : ${userList}"
+                                                                    th:if="${employee.fk_roles == 1}"
+                                                                    th:value="${employee.id}"
+                                                                    th:text="${employee.username}"
+                                                                    th:selected="${employee.id == task.fk_employee}"></option>
+                                                        </select>
+                                                        <select name="fk_status">
+                                                            <option th:each="status : ${statusList}"
+                                                                    th:value="${status.id}" th:text="${status.name}"
+                                                                    th:selected="${status.id == task.fk_status}"></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Fortryd
+                                                        </button>
+                                                        <button type="submit" class="btn btn-warning">Tilpas opgave
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                    <form th:action="@{/deleteTask/{id}(id = ${task.id})}" method="post">
+                                        <button type="button" data-toggle="modal"
+                                                th:attr="data-target='#DeleteTask-box'+${task.id}"><i
+                                                class="fas fa-trash-alt"></i></button>
+                                        <div class="modal fade" th:attr="id='DeleteTask-box'+${task.id}" tabindex="-1"
+                                             role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Er du sikker på, at du vil slette denne
+                                                            opgave?</h4>
+                                                    </div>
+                                                    <div class="model-body">
+                                                        <p>Dette betyder, at du sletter alle filer og data tilknyttet
+                                                            denne opgave!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Fortryd
+                                                        </button>
+                                                        <button type="submit" class="btn btn-danger">Slet opgave
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="btn btn-primary" id="taskHref" data-toggle="modal" data-target="#Task-box">Ny
+                            opgave</a>
+
+                        <form id="taskForm" th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
+                            <button type="submit" class="btn btn-primary">Vis alle</button>
                         </form>
-                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord <i class="fas fa-key"></i></a>
-                        <div th:if="${passwordError}">
+                        <div th:if="${taskError}">
                             <div class="alert alert-warning">
-                                <strong>Fejl! Kodeord blev ikke ændret.</strong>
+                                <strong>Fejl! Opgave blev ikke oprettet.</strong>
                             </div>
                         </div>
-                        <div th:if="${passwordError == false}">
+                        <div th:if="${taskError == false}">
                             <div class="alert alert-success">
-                                <strong>Kodeord ændret!</strong>
+                                <strong>Opgave oprettet!</strong>
                             </div>
                         </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-
-                <!-- User menu -->
-
-                <div class="col-sm">
-                    <div class="employee-card card">
-                        <h5 class="card-header">Nye brugere</h5>
-                        <div class="card-body">
-                            <div>
-                                <table class="table">
-                                    <tbody>
-                                    <tr th:each="user : ${newUsers}">
-                                        <td>
-
-
-                                            <div class="row">
-                                                <div class="col-md-10">
-                                                    <span>Brugernavn: <span th:text="${user.username}"></span></span>
-                                                    <br>
-                                                    <span>Fornavn: <span th:text="${user.firstName}"></span></span>
-                                                    <br>
-                                                    <span>Efternavn: <span th:text="${user.lastName}"></span></span>
-                                                    <br>
-                                                    <span>E-mail: <span th:text="${user.email}"></span></span>
-                                                    <br>
-                                                    <span>Rolle: <span th:text="${user.role}"></span></span>
-                                                    <br>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <form th:action="@{/editUser}" method="post" th:object="${User}">
-                                                        <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
-                                                        <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Rediger bruger</h5>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <input type="hidden" name="id" th:value="${user.id}">
-                                                                        <input type="text" name="username" th:value="${user.username}" placeholder="Brugernavn">
-                                                                        <input type="text" name="firstName" th:value="${user.firstName}" placeholder="Fornavn">
-                                                                        <input type="text" name="lastName" th:value="${user.lastName}" placeholder="Efternavn">
-                                                                        <input type="text" name="email" th:value="${user.email}" placeholder="E-mail">
-                                                                        <select name="fk_roles">
-                                                                            <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.fk_roles}"></option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                                        <button type="submit" class="btn btn-warning">Rediger bruger</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
-                                                        <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
-                                                        <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title">Er du sikker på, at du vil slette denne bruger?</h4>
-                                                                    </div>
-                                                                    <div class="model-body">
-                                                                        <p>Dette betyder, at alle beskeder og opgaver tilknyttet denne bruger bliver slettet, samt alle filer til disse!</p>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                                        <button type="submit" class="btn btn-danger">Slet bruger</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewUser-box">Ny bruger</a>
-                            <a href="/viewAllUsers" class="btn btn-primary">Vis alle</a>
-                            <div>
-                                <p th:text="${userCreationMessage}"></p>
-                            </div>
-                            <div th:if="${editUserError}">
-                                <p>Fejl! Brugeren blev ikke redigeret.</p>
-                            </div>
-                            <div th:if="${editUserError == false}">
-                                <p>Bruger redigeret!</p>
-                            </div>
-                            <div th:if="${deleteUserError}">
-                                <p>Fejl! Brugeren blev ikke slettet.</p>
-                            </div>
-                            <div th:if="${deleteUserError == false}">
-                                <p>Bruger slettet!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Messages menu -->
-
-                <div class="col-sm">
-                    <div class="employee-card card">
-                        <h5 class="card-header">Nyeste beskeder</h5>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                <th></th>
-                                <tr th:each="message : ${messageList}">
-                                    <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
-                                        <h6 class="float-left" th:text="${message.sent_from}"></h6>
-                                        <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
-                                            <input type="hidden" name="isRead" th:value="${message.isRead}">
-                                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
-                            <a href="/viewAllMessages" class="btn btn-primary">Vis alle</a>
-                        </div>
-                        <div th:if="${messageError}">
+                        <div th:if="${editTaskError}">
                             <div class="alert alert-warning">
-                                <strong>Fejl! Besked blev ikke sendt.</strong>
+                                <strong>Fejl! Opgave blev ikke redigeret.</strong>
                             </div>
                         </div>
-                        <div th:if="${messageError == false}">
+                        <div th:if="${editTaskError == false}">
                             <div class="alert alert-success">
-                                <strong>Besked sendt!</strong>
+                                <strong>Opgave redigeret!</strong>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Task menu -->
-
-                <div class="col-sm">
-                    <div class="employee-card card">
-                        <h5 class="card-header">Nyeste opgaver</h5>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                <tr th:each="task : ${newTasks}">
-                                    <td>
-                                        <span th:text="${task.taskName}"></span>
-                                        <br>
-                                        <span>Ansvarlig: <span th:text="${task.employee}"></span></span>
-                                        <br>
-                                        <span>Kunde: <span th:text="${task.customer}"></span></span>
-                                        <br>
-                                        <div th:if="${task.fk_status == 1}">
-                                            <span>Status: </span><button type="button"><i class="text-danger fas fa-circle"></i></button>
-                                        </div>
-                                        <div th:if="${task.fk_status == 2}">
-                                            <span>Status: </span><button type="button"><i class="text-warning fas fa-circle"></i></button>
-                                        </div>
-                                        <div th:if="${task.fk_status == 3}">
-                                            <span>Status: </span><button type="button"><i class="text-success fas fa-circle"></i></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
-                                            <button><i class="fas fa-file"></i></button>
-                                        </form>
-                                        <form th:action="@{/editTask}" method="post" th:object="${Task}">
-                                            <button type="button" data-toggle="modal" th:attr="data-target='#EditTask-box'+${task.id}"><i class="fas fa-cog"></i></button>
-                                            <div class="modal fade" th:attr="id='EditTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Tilpas opgave</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="id" th:value="${task.id}">
-                                                            <input type="text" name="taskName" placeholder="Task name" th:value="${task.taskName}">
-                                                            <select name="fk_customer">
-                                                                <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}" th:value="${customer.id}" th:text="${customer.username}" th:selected="${customer.id == task.fk_customer}"></option>
-                                                            </select>
-                                                            <select name="fk_employee">
-                                                                <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}" th:value="${employee.id}" th:text="${employee.username}" th:selected="${employee.id == task.fk_employee}"></option>
-                                                            </select>
-                                                            <select name="fk_status">
-                                                                <option th:each="status : ${statusList}" th:value="${status.id}" th:text="${status.name}" th:selected="${status.id == task.fk_status}"></option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                            <button type="submit" class="btn btn-warning">Tilpas opgave</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-
-                                        <form th:action="@{/deleteTask/{id}(id = ${task.id})}" method="post">
-                                            <button type="button" data-toggle="modal" th:attr="data-target='#DeleteTask-box'+${task.id}"><i class="fas fa-trash-alt"></i></button>
-                                            <div class="modal fade" th:attr="id='DeleteTask-box'+${task.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Er du sikker på, at du vil slette denne opgave?</h4>
-                                                        </div>
-                                                        <div class="model-body">
-                                                            <p>Dette betyder, at du sletter alle filer og data tilknyttet denne opgave!</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fortryd</button>
-                                                            <button type="submit" class="btn btn-danger">Slet opgave</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <a href="#" class="btn btn-primary" id="taskHref" data-toggle="modal" data-target="#Task-box">Ny opgave</a>
-
-                            <form id="taskForm" th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
-                                <button type="submit" class="btn btn-primary">Vis alle</button>
-                            </form>
-                            <div th:if="${taskError}">
-                                <p>Fejl! Opgave blev ikke oprettet.</p>
+                        <div th:if="${deleteTaskError}">
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Opgave blev ikke slettet.</strong>
                             </div>
-                            <div th:if="${taskError == false}">
-                                <p>Opgave oprettet!</p>
-                            </div>
-                            <div th:if="${editTaskError}">
-                                <p>Fejl! Opgave blev ikke redigeret.</p>
-                            </div>
-                            <div th:if="${editTaskError == false}">
-                                <p>Opgave redigeret!</p>
-                            </div>
-                            <div th:if="${deleteTaskError}">
-                                <p>Fejl! Opgave blev ikke slettet.</p>
-                            </div>
-                            <div th:if="${deleteTaskError == false}">
-                                <p>Opgave slettet!</p>
-                            </div>
-
                         </div>
+                        <div th:if="${deleteTaskError == false}">
+                            <div class="alert alert-success">
+                                <strong>Opgave slettet!</strong>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Add User popup -->
+    <!-- Add User popup -->
 
-        <div class="modal fade" id="NewUser-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form class="needs-validation" novalidate th:action="@{/newUser}" method="post" th:object="${User}">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Ny bruger</h5>
-                        </div>
-                        <div class="modal-body">
-                            <input class="form-control" id="validationCustom01" type="text" name="username" placeholder="Brugernavn" required>
-                            <input class="form-control" id="validationCustom02" type="password" name="password" placeholder="Adgangskode (Midlertidig)" required>
-                            <input class="form-control" id="validationCustom03" type="text" name="firstName" placeholder="Fornavn" required>
-                            <input class="form-control" id="validationCustom04" type="text" name="lastName" placeholder="Efternavn" required>
-                            <input class="form-control" id="validationCustom05" type="text" name="email" placeholder="E-mail" required>
-                            <select name="fk_roles" class="form-control" id="validationCustom06" required>
-                                <option selected disabled hidden>Vælg en rolle...</option>
-                                <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
-                            <button type="submit" class="btn btn-primary">Tilføj bruger</button>
-                        </div>
-                    </form>
-                </div>
+    <div class="modal fade" id="NewUser-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="needs-validation" novalidate th:action="@{/newUser}" method="post" th:object="${User}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ny bruger</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input class="form-control" id="validationCustom01" type="text" name="username"
+                               placeholder="Brugernavn" required>
+                        <input class="form-control" id="validationCustom02" type="password" name="password"
+                               placeholder="Adgangskode (Midlertidig)" required>
+                        <input class="form-control" id="validationCustom03" type="text" name="firstName"
+                               placeholder="Fornavn" required>
+                        <input class="form-control" id="validationCustom04" type="text" name="lastName"
+                               placeholder="Efternavn" required>
+                        <input class="form-control" id="validationCustom05" type="text" name="email"
+                               placeholder="E-mail" required>
+                        <select name="fk_roles" class="form-control" id="validationCustom06" required>
+                            <option selected disabled hidden>Vælg en rolle...</option>
+                            <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}"></option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                        <button type="submit" class="btn btn-primary">Tilføj bruger</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Write Message popup -->
+    <!-- Write Message popup -->
 
-        <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form th:action="@{/newMessage}" method="post" th:object="${Message}">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Ny besked</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <textarea id="mainText" type="text" name="text" placeholder="Skriv din besked her..."></textarea>
-                                </div>
-                                <div class="col-md-4">
-                                    <select name="fk_sent_to">
-                                        <option selected disabled hidden>Vælg en bruger...</option>
-                                        <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.username}"></option>
-                                    </select>
-                                </div>
+    <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form th:action="@{/newMessage}" method="post" th:object="${Message}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ny besked</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <textarea id="mainText" type="text" name="text"
+                                          placeholder="Skriv din besked her..."></textarea>
                             </div>
-                            <input type="hidden" name="fk_sent_from" th:value="${session.id}">
+                            <div class="col-md-4">
+                                <select name="fk_sent_to">
+                                    <option selected disabled hidden>Vælg en bruger...</option>
+                                    <option th:each="user : ${userList}" th:value="${user.id}"
+                                            th:text="${user.username}"></option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
-                            <button type="submit" class="btn btn-primary">Send besked</button>
-                        </div>
-                    </form>
-                </div>
+                        <input type="hidden" name="fk_sent_from" th:value="${session.id}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                        <button type="submit" class="btn btn-primary">Send besked</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Add Task Popup -->
+    <!-- Add Task Popup -->
 
-        <div class="modal fade" id="Task-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+    <div class="modal fade" id="Task-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form th:action="@{/newTask}" method="post" th:object="${Task}">
                     <div class="modal-header">
@@ -356,11 +452,13 @@
                         <input type="text" name="taskName" placeholder="Navngiv opgaven...">
                         <select name="fk_customer">
                             <option selected disabled hidden>Vælg en kunde...</option>
-                            <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}" th:value="${customer.id}" th:text="${customer.username}"></option>
+                            <option th:each="customer : ${userList}" th:if="${customer.fk_roles == 2}"
+                                    th:value="${customer.id}" th:text="${customer.username}"></option>
                         </select>
                         <select name="fk_employee">
                             <option selected disabled hidden>Vælg en ansvarlig...</option>
-                            <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}" th:value="${employee.id}" th:text="${employee.username}"></option>
+                            <option th:each="employee : ${userList}" th:if="${employee.fk_roles == 1}"
+                                    th:value="${employee.id}" th:text="${employee.username}"></option>
                         </select>
                     </div>
                     <div class="modal-footer">
@@ -369,55 +467,59 @@
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <!-- Change password popup -->
+
+    <div class="modal fade" id="NewPassword-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="needs-validation" novalidate th:action="@{/newPassword}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Skift kodeord</h5>
+                    </div>
+                    <div class="modal-body">
+                        <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord"
+                               required>
+                        <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord"
+                               required>
+                        <input class="form-control" type="password" name="newPasswordValidation"
+                               placeholder="Gentag kodeord" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
+                        <button type="submit" class="btn btn-primary">Skift kodeord</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Change password popup -->
-
-        <div class="modal fade" id="NewPassword-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form class="needs-validation" novalidate th:action="@{/newPassword}" method="post">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Skift kodeord</h5>
-                        </div>
-                        <div class="modal-body">
-                            <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord" required>
-                            <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord" required>
-                            <input class="form-control" type="password" name="newPasswordValidation" placeholder="Gentag kodeord" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>
-                            <button type="submit" class="btn btn-primary">Skift kodeord</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <script> // https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
+    <script> // https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
                 }, false);
-            })();
-        </script>
+            });
+        }, false);
+    })();
+    </script>
 
 
     </body>
-    </div>
-    <footer th:replace="fragments/footer :: footer">...</footer>
+</div>
+<footer th:replace="fragments/footer :: footer">...</footer>
 </html>
