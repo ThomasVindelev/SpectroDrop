@@ -2,12 +2,18 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Services.AmazonClient;
 import com.example.demo.Services.FileService;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 public class FileController {
@@ -31,10 +37,18 @@ public class FileController {
 
     // Henter filer fra S3
 
-    @PostMapping("/downloadFile/{name}")
+    /*@PostMapping("/downloadFile/{name}")
     public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
         amazonClient.test3(name);
         //redirectAttributes.addFlashAttribute("downloadSuccess", amazonClient.downloadFile(name));
+        return "redirect:/taskInfo/" + id;
+    }*/
+
+    @PostMapping("/downloadFile/{name}")
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) {
+        System.out.println(name);
+        System.out.println("test");
+        amazonClient.downloadTest(name, response);
         return "redirect:/taskInfo/" + id;
     }
 

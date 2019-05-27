@@ -13,11 +13,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
@@ -36,7 +40,7 @@ public class AmazonClient {
     @Autowired
     private CSV csv;
 
-    private String endpointUrl = "s3-control.eu-central-1.amazonaws.com";
+    private String endpointUrl = "http://s3.eu-central-1.amazonaws.com";
 
     private String bucketName = "spectrofly";
 
@@ -78,6 +82,7 @@ public class AmazonClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(fileUrl);
         return fileUrl;
     }
 
@@ -88,73 +93,89 @@ public class AmazonClient {
         return copyFiles(object, newName, format);
     }
 
-    //https://www.baeldung.com/java-download-file?fbclid=IwAR3-vkX25H_8NTozIujY8UhNarbB80kQsYkKpdnOIZIwTThABGleO0Hqy8Y
 
-    /*public void test(String fileURL, String fileName) {
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL(fileURL).openStream())) {
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            byte dataBuffer[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = bufferedInputStream.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
 
-    }*/
-
-    public void test2(String fileURL, String fileName) {
+    public void downloadTest(String fileName, HttpServletResponse response) {
+        //File file = new File("C:\\Users\\thoma\\IdeaProjects\\SpectroDrop\\src\\main\\resources\\static\\images\\Spectrofly_logo.png");
+        S3Object s3Object = s3client.getObject(bucketName, fileName);
+        S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
         try {
-            FileUtils.copyURLToFile(new URL(fileURL), new File(fileName));
+            File file = new File(fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] read_buf = new byte[1024];
+            int read_len = 0;
+            while ((read_len = s3ObjectInputStream.read(read_buf)) > 0) {
+                fos.write(read_buf, 0, read_len);
+            }
+            s3ObjectInputStream.close();
+            fos.close();
 
-        } catch (MalformedURLException url) {
-            url.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            System.out.println("hej");
+            if (file.exists()) {
+                System.out.println("1234");
+
+                String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+                if (mimeType == null) {
+
+                    mimeType = "application/octet-stream";
+                }
+                System.out.println(mimeType);
+                response.setContentType(mimeType);
+
+                //response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+
+                response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+
+                response.setContentLength((int) file.length());
+
+                InputStream inputStream = null;
+                try {
+                    inputStream = new BufferedInputStream(new FileInputStream(file));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    FileCopyUtils.copy(inputStream, response.getOutputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-    }
+        /*File file = new File(System.getProperty("user.home") + "/Downloads/" + fileName);
 
-    // https://www.techcoil.com/blog/how-to-download-a-file-via-http-get-and-http-post-in-java-without-using-any-external-libraries/?fbclid=IwAR0oWDTLQQtS7W4b7GuYTj5GvCfoTUhGqDHnUjSMQucyLvIgesYjyzKz6Uk
-
-    public void test3(String fileName) {
-        ReadableByteChannel readableByteChannel = null;
-        FileChannel fileChannel = null;
-
+        InputStream in = s3Object.getObjectContent();
+        byte[] buf = new byte[1024];
         try {
-
-            URL url = new URL(endpointUrl + "/" + bucketName + "/" + fileName);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            readableByteChannel = Channels.newChannel(urlConnection.getInputStream());
-
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            fileChannel = fileOutputStream.getChannel();
-
-            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
-
+            OutputStream out = new FileOutputStream(file);
+            int count;
+            while( (count = in.read(buf)) != -1)
+            {
+                if( Thread.interrupted() )
+                {
+                    throw new InterruptedException();
+                }
+                out.write(buf, 0, count);
+            }
+            out.close();
+            in.close();
+        } catch(FileNotFoundException fnf) {
+            fnf.printStackTrace();
+        } catch (InterruptedException inter) {
+            inter.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        } finally {
-
-            if (readableByteChannel != null) {
-                try {
-                    readableByteChannel.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-
-            if (fileChannel != null) {
-                try {
-                    fileChannel.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-
         }
+        */
+
+
+
     }
 
 
@@ -187,5 +208,76 @@ public class AmazonClient {
     public void deleteFileFromS3Bucket(String fileName) {
         s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     }
+
+    //https://www.baeldung.com/java-download-file?fbclid=IwAR3-vkX25H_8NTozIujY8UhNarbB80kQsYkKpdnOIZIwTThABGleO0Hqy8Y
+
+    /*public void test(String fileURL, String fileName) {
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL(fileURL).openStream())) {
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            byte dataBuffer[] = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = bufferedInputStream.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }
+
+    public void test2(String fileURL, String fileName) {
+        try {
+            FileUtils.copyURLToFile(new URL(fileURL), new File(fileName));
+
+        } catch (MalformedURLException url) {
+            url.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }
+
+    // https://www.techcoil.com/blog/how-to-download-a-file-via-http-get-and-http-post-in-java-without-using-any-external-libraries/?fbclid=IwAR0oWDTLQQtS7W4b7GuYTj5GvCfoTUhGqDHnUjSMQucyLvIgesYjyzKz6Uk
+
+    public void test3(String fileName) {
+        ReadableByteChannel readableByteChannel = null;
+        FileChannel fileChannel = null;
+
+        try {
+
+            URL url = new URL("https://www.olivers.dk/media/blog/cache/1/ece9a24a761836a70934a998c163f8c8/British%20kitten_8.jpg");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            readableByteChannel = Channels.newChannel(urlConnection.getInputStream());
+
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            fileChannel = fileOutputStream.getChannel();
+
+            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+
+            if (readableByteChannel != null) {
+                try {
+                    readableByteChannel.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+
+            if (fileChannel != null) {
+                try {
+                    fileChannel.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    */
 
 }
