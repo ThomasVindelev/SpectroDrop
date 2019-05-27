@@ -13,12 +13,14 @@
             <nav class="navbar navbar-light bg-light">
                 <div th:if="${session.role == 1}">
                     <a class="navbar-brand" th:href="@{/employeeMain/{id}(id = ${session.id})}">
-                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
+                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top"
+                             alt=""/>
                     </a>
                 </div>
                 <div th:if="${session.role == 2}">
                     <a class="navbar-brand" th:href="@{/customerMain/{id}(id = ${session.id})}">
-                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
+                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top"
+                             alt=""/>
                     </a>
                 </div>
                 <form th:action="@{/logout}" method="post">
@@ -26,95 +28,116 @@
                 </form>
                 <div th:if="${session.role == 1}">
                     <form th:action="@{/employeeMain/{id}(id = ${session.id})}" method="get">
-                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i> Tilbage</button>
+                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i>
+                            Tilbage
+                        </button>
                     </form>
                 </div>
                 <div th:if="${session.role == 2}">
                     <form th:action="@{/customerMain/{id}(id = ${session.id})}" method="get">
-                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i> Tilbage</button>
+                        <button type="submit" class="btn btn-primary"><i class="far fa-arrow-alt-circle-left"></i>
+                            Tilbage
+                        </button>
                     </form>
                 </div>
             </nav>
         </div>
     </div>
 </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md">
-                <div class="card">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <th>Brugernavn</th>
-                            <th>Fornavn</th>
-                            <th>Efternavn</th>
-                            <th>E-mail</th>
-                            <th>Rolle</th>
-                            <th>Options</th>
-                            <th></th>
-                        </tr>
-                        <tr th:each="user : ${userList}">
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.firstName}"></td>
-                            <td th:text="${user.lastName}"></td>
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.role}"></td>
-                            <td>
-                                <form th:action="@{/editUser}" method="post" th:object="${User}">
-                                    <button type="button" data-toggle="modal" th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i></button>
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <div class="card">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Brugernavn</th>
+                        <th>Fornavn</th>
+                        <th>Efternavn</th>
+                        <th>E-mail</th>
+                        <th>Rolle</th>
+                        <th>Options</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="user : ${userList}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.role}"></td>
+                        <td>
+                            <form th:action="@{/editUser}" method="post" th:object="${User}">
+                                <button type="button" data-toggle="modal"
+                                        th:attr="data-target='#EditUser-box'+${user.id}"><i class="fas fa-cog"></i>
+                                </button>
 
-                                    <!--pop-up box for edit user-->
-                                    <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Edit</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="id" th:value="${user.id}">
-                                                    <input type="text" name="username" th:value="${user.username}" placeholder="Username">
-                                                    <input type="text" name="firstName" th:value="${user.firstName}" placeholder="First name">
-                                                    <input type="text" name="lastName" th:value="${user.lastName}" placeholder="Last name">
-                                                    <input type="text" name="email" th:value="${user.email}" placeholder="E-mail">
-                                                    <select name="fk_roles">
-                                                        <option th:each="role : ${roleList}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.fk_roles}"></option>
-                                                    </select>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Edit user</button>
-                                                </div>
+                                <!--pop-up box for edit user-->
+                                <div class="modal fade" th:attr="id='EditUser-box'+${user.id}" tabindex="-1"
+                                     role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="id" th:value="${user.id}">
+                                                <input type="text" name="username" th:value="${user.username}"
+                                                       placeholder="Username">
+                                                <input type="text" name="firstName" th:value="${user.firstName}"
+                                                       placeholder="First name">
+                                                <input type="text" name="lastName" th:value="${user.lastName}"
+                                                       placeholder="Last name">
+                                                <input type="text" name="email" th:value="${user.email}"
+                                                       placeholder="E-mail">
+                                                <select name="fk_roles">
+                                                    <option th:each="role : ${roleList}" th:value="${role.id}"
+                                                            th:text="${role.name}"
+                                                            th:selected="${role.id == user.fk_roles}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Edit user</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                            </form>
 
-                                <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
-                                    <button type="button" data-toggle="modal" th:attr="data-target='#DeleteUser-box'+${user.id}"><i class="fas fa-trash-alt"></i></button>
-                                    <!--pop-up box for delete user-->
-                                    <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Are you sure you want to delete this user?</h4>
-                                                    <p>Doing so will wipe all data about the user, including messages and tasks!</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="text-danger">Delete user</button>
-                                                </div>
+                            <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
+                                <button type="button" data-toggle="modal"
+                                        th:attr="data-target='#DeleteUser-box'+${user.id}"><i
+                                        class="fas fa-trash-alt"></i></button>
+                                <!--pop-up box for delete user-->
+                                <div class="modal fade" th:attr="id='DeleteUser-box'+${user.id}" tabindex="-1"
+                                     role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Are you sure you want to delete this user?</h4>
+                                                <p>Doing so will wipe all data about the user, including messages and
+                                                    tasks!</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="text-danger">Delete user</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </body>
 
 <footer th:replace="fragments/footer :: footer">...</footer>

@@ -4,106 +4,113 @@
 
     <head th:replace="fragments/header :: header">...</head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <nav class="navbar navbar-light bg-light">
-                        <a class="navbar-brand" href="#">
-                            <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top" alt=""/>
-                        </a>
-                        <form th:action="@{/logout}" method="post">
-                            <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
-                        </form>
-                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord <i class="fas fa-key"></i></a>
-                        <div th:if="${passwordError}">
-                            <div class="alert alert-warning">
-                                <strong>Fejl! Kodeord blev ikke ændret.</strong>
-                            </div>
-                        </div>
-                        <div th:if="${passwordError == false}">
-                            <div class="alert alert-success">
-                                <strong>Kodeord ændret!</strong>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-
-                <!-- TASK MENU -->
-
-                <div class="col-sm">
-                    <div class="employee-card card">
-                        <h5 class="card-header">Nyeste opgaver</h5>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                <tr th:each="task : ${newTasks}">
-                                    <td>
-                                        <span th:text="${task.taskName}"></span>
-                                        <br>
-                                        <span>Kontakt: <span th:text="${task.employee}"></span></span>
-                                        <br>
-                                        <div th:if="${task.fk_status == 1}">
-                                            <span>Status: </span><button type="button"><i class="text-danger fas fa-circle"></i></button>
-                                        </div>
-                                        <div th:if="${task.fk_status == 2}">
-                                            <span>Status: </span><button type="button"><i class="text-warning fas fa-circle"></i></button>
-                                        </div>
-                                        <div th:if="${task.fk_status == 3}">
-                                            <span>Status: </span><button type="button"><i class="text-success fas fa-circle"></i></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
-                                            <input type="hidden" name="id">
-                                            <button type="submit"><i class="fas fa-file"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}" method="get">
-                                <button type="submit" class="btn btn-primary">Vis alle</button>
-                            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="#">
+                        <img th:src="@{${'/images/Spectrofly_logo.png'}}" width="200" class="d-inline-block align-top"
+                             alt=""/>
+                    </a>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-primary">Log ud <i class="fas fa-door-open"></i></button>
+                    </form>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewPassword-box">Skift kodeord
+                        <i class="fas fa-key"></i></a>
+                    <div th:if="${passwordError}">
+                        <div class="alert alert-warning">
+                            <strong>Fejl! Kodeord blev ikke ændret.</strong>
                         </div>
                     </div>
-                </div>
+                    <div th:if="${passwordError == false}">
+                        <div class="alert alert-success">
+                            <strong>Kodeord ændret!</strong>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
 
-                <!-- MESSAGE AREA -->
-                <div class="col-sm">
-                    <div class="employee-card card">
-                        <h5 class="card-header">Nyeste beskeder</h5>
-                        <div class="card-body">
-                            <table class="table">
-                                <tbody>
-                                <th></th>
-                                <tr th:each="message : ${messageList}">
-                                    <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
-                                        <h6 class="float-left" th:text="${message.sent_from}"></h6>
-                                        <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
-                                            <input type="hidden" name="isRead" th:value="${message.isRead}">
-                                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-file"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <a href="#" id="taskHref" class="btn btn-primary" data-toggle="modal" data-target="#NewMessage-box">Ny besked</a>
-                            <form id="taskForm" th:action="@{/viewAllMessages}" method="get">
-                                <button type="submit" class="btn btn-primary">Vis alle</button>
-                            </form>
+            <!-- TASK MENU -->
+
+            <div class="col-sm">
+                <div class="employee-card card">
+                    <h5 class="card-header">Nyeste opgaver</h5>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr th:each="task : ${newTasks}">
+                                <td>
+                                    <span th:text="${task.taskName}"></span>
+                                    <br>
+                                    <span>Kontakt: <span th:text="${task.employee}"></span></span>
+                                    <br>
+                                    <div th:if="${task.fk_status == 1}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-danger fas fa-circle"></i></button>
+                                    </div>
+                                    <div th:if="${task.fk_status == 2}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-warning fas fa-circle"></i></button>
+                                    </div>
+                                    <div th:if="${task.fk_status == 3}">
+                                        <span>Status: </span>
+                                        <button type="button"><i class="text-success fas fa-circle"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form th:action="@{/taskInfo/{id}(id = ${task.id})}" method="get">
+                                        <input type="hidden" name="id">
+                                        <button type="submit"><i class="fas fa-file"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <form th:action="@{/viewAllTasks/{id}(id = ${session.id})}" method="get">
+                            <button type="submit" class="btn btn-primary">Vis alle</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MESSAGE AREA -->
+            <div class="col-sm">
+                <div class="employee-card card">
+                    <h5 class="card-header">Nyeste beskeder</h5>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <th></th>
+                            <tr th:each="message : ${messageList}">
+                                <td th:attr="class=${message.isRead == false} ? 'highlight' : '' ">
+                                    <h6 class="float-left" th:text="${message.sent_from}"></h6>
+                                    <form th:action="@{/readMessage/{id}(id = ${message.id})}" method="get">
+                                        <input type="hidden" name="isRead" th:value="${message.isRead}">
+                                        <button type="submit" class="btn btn-primary float-right"><i
+                                                class="fas fa-file"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" id="taskHref" class="btn btn-primary" data-toggle="modal"
+                           data-target="#NewMessage-box">Ny besked</a>
+                        <form id="taskForm" th:action="@{/viewAllMessages}" method="get">
+                            <button type="submit" class="btn btn-primary">Vis alle</button>
+                        </form>
+                    </div>
+                    <div th:if="${messageError}">
+                        <div class="alert alert-warning">
+                            <strong>Fejl! Besked blev ikke sendt.</strong>
                         </div>
-                        <div th:if="${messageError}">
-                            <div class="alert alert-warning">
-                                <strong>Fejl! Besked blev ikke sendt.</strong>
-                            </div>
-                        </div>
-                        <div th:if="${messageError == false}">
-                            <div class="alert alert-success">
-                                <strong>Besked sendt!</strong>
+                    </div>
+                    <div th:if="${messageError == false}">
+                        <div class="alert alert-success">
+                            <strong>Besked sendt!</strong>
                         </div>
                     </div>
                 </div>
@@ -114,7 +121,8 @@
 
     <!-- Write Message popup -->
 
-    <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="NewMessage-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form th:action="@{/newMessage}" method="post" th:object="${Message}">
@@ -124,12 +132,14 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-8">
-                                <textarea id="mainText" type="text" name="text" placeholder="Skriv din besked her..."></textarea>
+                                <textarea id="mainText" type="text" name="text"
+                                          placeholder="Skriv din besked her..."></textarea>
                             </div>
                             <div class="col-md-4">
                                 <select name="fk_sent_to">
                                     <option selected disabled hidden>Vælg en bruger...</option>
-                                    <option th:each="user : ${employeeList}" th:value="${user.id}" th:text="${user.username}"></option>
+                                    <option th:each="user : ${employeeList}" th:value="${user.id}"
+                                            th:text="${user.username}"></option>
                                 </select>
                             </div>
                         </div>
@@ -146,7 +156,8 @@
 
     <!-- Change password popup -->
 
-    <div class="modal fade" id="NewPassword-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="NewPassword-box" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form class="needs-validation" novalidate th:action="@{/newPassword}" method="post">
@@ -154,9 +165,12 @@
                         <h5 class="modal-title">Skift kodeord</h5>
                     </div>
                     <div class="modal-body">
-                        <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord" required>
-                        <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord" required>
-                        <input class="form-control" type="password" name="newPasswordValidation" placeholder="Gentag kodeord" required>
+                        <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord"
+                               required>
+                        <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord"
+                               required>
+                        <input class="form-control" type="password" name="newPasswordValidation"
+                               placeholder="Gentag kodeord" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Luk</button>

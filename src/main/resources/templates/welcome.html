@@ -7,28 +7,33 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <img th:src="@{${'/images/Spectrofly_logo.png'}}" class="card-img-top" alt="...">
-                    <p>Hej! Velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som vi genererer til dig i løbet af vores opgaver.</p>
-                    <p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind:</p>
-                    <br>
-                    <form th:action="@{/newLogin}" method="post">
-                        <input type="password" name="password" placeholder="Nyt kodeord">
-                        <input type="password" name="passwordConfirm" placeholder="Gentag kodeord">
-                        <button type="submit">Opret kodeord</button>
-                    </form>
-                    <div th:if="${invalid}">
-                        <div class="alert alert-warning">
-                            <strong>Kodeordene er ikke ens! Sørg for at skrive det samme kodeord to gange.</strong>
-                        </div>
+<div class="container-index">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div id="resetPassword" class="card">
+                <img th:src="@{${'/images/Spectrofly_logo.png'}}" class="card-img-top" alt="...">
+                <p>Hej! Velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som
+                    vi genererer til dig i løbet af vores opgaver.</p>
+                <p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind:</p>
+                <br>
+                <form th:action="@{/newLogin}" method="post">
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Nyt kodeord">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="passwordConfirm" placeholder="Gentag kodeord">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Opret kodeord</button>
+                </form>
+                <div th:if="${invalid}">
+                    <div class="alert alert-warning">
+                        <strong>Kodeordene er ikke ens! Sørg for at skrive det samme kodeord to gange.</strong>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 <footer th:replace="fragments/footer :: footer">...</footer>
 </html>

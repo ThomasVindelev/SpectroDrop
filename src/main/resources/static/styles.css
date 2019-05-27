@@ -46,6 +46,7 @@ body  {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
+    text-align: center;
 }
 
 #\#messageField {
@@ -69,3 +70,6 @@ body  {
     margin-right: 3px;
 }
 
+#resetPassword {
+    padding: 0.75em;
+}
