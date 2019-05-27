@@ -96,6 +96,7 @@ public class TaskRepository {
         return null;
     }
 
+
     public ResultSet getTaskById(int id) {
         query = "SELECT * FROM Tasks " +
                 "INNER JOIN Users customer ON fk_customer = customer.id_users " +

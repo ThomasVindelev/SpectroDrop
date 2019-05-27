@@ -15,10 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
+import java.net.URL;
 
 @Service
 public class AmazonClient {
@@ -84,10 +88,81 @@ public class AmazonClient {
         return copyFiles(object, newName, format);
     }
 
+    //https://www.baeldung.com/java-download-file?fbclid=IwAR3-vkX25H_8NTozIujY8UhNarbB80kQsYkKpdnOIZIwTThABGleO0Hqy8Y
+
+    /*public void test(String fileURL, String fileName) {
+        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL(fileURL).openStream())) {
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            byte dataBuffer[] = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = bufferedInputStream.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }*/
+
+    public void test2(String fileURL, String fileName) {
+        try {
+            FileUtils.copyURLToFile(new URL(fileURL), new File(fileName));
+
+        } catch (MalformedURLException url) {
+            url.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+    }
+
+    // https://www.techcoil.com/blog/how-to-download-a-file-via-http-get-and-http-post-in-java-without-using-any-external-libraries/?fbclid=IwAR0oWDTLQQtS7W4b7GuYTj5GvCfoTUhGqDHnUjSMQucyLvIgesYjyzKz6Uk
+
+    public void test3(String fileName) {
+        ReadableByteChannel readableByteChannel = null;
+        FileChannel fileChannel = null;
+
+        try {
+
+            URL url = new URL(endpointUrl + "/" + bucketName + "/" + fileName);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+            readableByteChannel = Channels.newChannel(urlConnection.getInputStream());
+
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            fileChannel = fileOutputStream.getChannel();
+
+            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+
+            if (readableByteChannel != null) {
+                try {
+                    readableByteChannel.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+
+            if (fileChannel != null) {
+                try {
+                    fileChannel.close();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+
     private boolean copyFiles(S3Object object, String name, String format) {
         String home = System.getProperty("user.home");
         File localFile = new File(FilenameUtils.normalize(
                 home + "/Downloads/" + name + format));
+
         int increment = 1;
         boolean exists = false;
         try {

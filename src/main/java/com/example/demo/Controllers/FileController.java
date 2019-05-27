@@ -33,7 +33,8 @@ public class FileController {
 
     @PostMapping("/downloadFile/{name}")
     public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("downloadSuccess", amazonClient.downloadFile(name));
+        amazonClient.test3(name);
+        //redirectAttributes.addFlashAttribute("downloadSuccess", amazonClient.downloadFile(name));
         return "redirect:/taskInfo/" + id;
     }
 
