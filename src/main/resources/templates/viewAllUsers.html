@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
+<div th:if="${session.role != 0}">
 <head>
     <meta charset="UTF-8">
     <title>Task</title>
@@ -143,4 +143,5 @@
 </body>
 
 <footer th:replace="fragments/footer :: footer">...</footer>
+</div>
 </html>

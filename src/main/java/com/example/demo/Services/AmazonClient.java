@@ -73,18 +73,14 @@ public class AmazonClient {
         }
     }
 
-    public String uploadFile(MultipartFile multipartFile, String name) {
-        String fileUrl = "";
+    public void uploadFile(MultipartFile multipartFile, String name) {
         try {
             File file = convertMultiPartToFile(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + name;
             uploadFileTos3bucket(name, file);
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(fileUrl);
-        return fileUrl;
     }
 
    //https://www.javainuse.com/spring/boot-file-download
@@ -103,13 +99,11 @@ public class AmazonClient {
             s3ObjectInputStream.close();
             fos.close();
             if (file.exists()) {
-                System.out.println("1234");
 
                 String mimeType = URLConnection.guessContentTypeFromName(file.getName());
                 if (mimeType == null) {
                     mimeType = "application/octet-stream";
                 }
-                System.out.println(mimeType);
                 response.setContentType(mimeType);
                 //response.setHeader("Content-Disposition", String.format
                 // ("inline; filename=\"" + file.getName() + "\""));

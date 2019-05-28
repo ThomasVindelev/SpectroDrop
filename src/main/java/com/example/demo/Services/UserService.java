@@ -124,10 +124,8 @@ public class UserService implements Users<User> {
 
     public boolean changePassword(String oldPassword, String newPassword, String newPasswordValidation, int userId) {
         if (newPassword.equals(newPasswordValidation)) {
-            System.out.println(hashingService.hash(oldPassword));
             oldPassword = hashingService.hash(oldPassword);
             ResultSet resultSet = userRepository.verifyPassword(oldPassword, userId);
-            System.out.println(hashingService.hash(newPassword));
             try {
                 if (resultSet.next()) {
                     return userRepository.updatePassword(hashingService.hash(newPassword), userId);

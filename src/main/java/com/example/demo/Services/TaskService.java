@@ -114,7 +114,6 @@ public class TaskService {
             try {
                 while (tasks.next()) {
                     taskId = tasks.getInt("id_tasks");
-                    System.out.println(taskId);
                     ResultSet files = fileRepository.getFilesByTask(taskId);
                     while (files.next()) {
                         fileNames.add(files.getString("name"));
