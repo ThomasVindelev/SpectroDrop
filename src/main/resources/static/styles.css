@@ -54,8 +54,7 @@ body {
 }
 
 #taskForm {
-    float: left;
-    margin-right: 3px;
+    display: inline-block;
 }
 
 #taskHref, .downloadForm, #downloadBtn {
