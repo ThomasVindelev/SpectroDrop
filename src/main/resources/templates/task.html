@@ -48,7 +48,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-sm  h-100">
+            <div class="col-sm h-100">
                 <div class="card">
                     <h5 class="card-header">Opgave</h5>
                     <div class="card-body">
@@ -81,70 +81,84 @@
                     </div>
                 </div>
             </div>
+            </form>
             <!-- UPLOAD FILE -->
-        </div>
-        </form>
-        <div th:if="${uploadInvalid}">
-            <div class="alert alert-warning">
-                <strong>Upload slog fejl, prøv venligst igen</strong>
-            </div>
-        </div>
-        <div th:if="${uploadInvalid == false}">
-            <div class="alert alert-success">
-                <strong>Upload gennemført!</strong>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- VIEW FILES -->
-<div class="col-sm  h-100">
-    <div class="card">
-        <h5 class="card-header">Se uploadede filer</h5>
-        <div class="card-body">
-            <table>
-                <tbody>
-                <tr th:each="file : ${Files}">
-                    <td>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <a th:text="${file.name}"
-                                   th:href="@{/downloadFile/{name}(name = ${file.name})}"></a>
-                            </li>
-                        </ul>
-                        <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
-                            <input type="hidden" name="id" th:value="${TheTask.id}">
-                            <button type="submit" class="btn btn-primary">Download <i
-                                    class="fas fa-arrow-alt-circle-down"></i></button>
-                        </form>
-                        <div th:if="${session.role == 1}">
-                            <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
+            <div class="col-sm h-100">
+                <div class="card">
+                    <h5 class="card-header">Upload</h5>
+                    <div class="card-body">
+                        <form class="form-inline" th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
                                 <input type="hidden" name="id" th:value="${TheTask.id}">
-                                <button type="submit" class="btn btn-primary">Slet fil <i
-                                        class="far fa-trash-alt"></i></button>
-                            </form>
+                                <input type="file" class="form-control-file" name="file">
+                                <br>
+                                <button type="submit" class="btn btn-primary">Upload <i
+                                        class="fas fa-arrow-alt-circle-up"></i></button>
+                            </div>
+                        </form>
+                        <div th:if="${uploadInvalid}">
+                            <div class="alert alert-warning">
+                                <strong>Upload slog fejl, prøv venligst igen</strong>
+                            </div>
                         </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div th:if="${downloadSuccess}">
-                <div class="alert alert-success">
-                    <strong>Download gennemført!</strong>
+                        <div th:if="${uploadInvalid == false}">
+                            <div class="alert alert-success">
+                                <strong>Upload gennemført!</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div th:if="${downloadSuccess == false}">
-                <div class="alert alert-warning">
-                    <strong>Download mislykkedes</strong>
+
+            <!-- VIEW FILES -->
+
+            <div class="col-sm h-100">
+                <div class="card">
+                    <h5 class="card-header">Se uploadede filer</h5>
+                    <div class="card-body">
+                        <table>
+                            <tbody>
+                            <tr th:each="file : ${Files}">
+                                <td>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a th:text="${file.name}"
+                                               th:href="@{/downloadFile/{name}(name = ${file.name})}"></a>
+                                        </li>
+                                    </ul>
+                                    <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
+                                        <input type="hidden" name="id" th:value="${TheTask.id}">
+                                        <button type="submit" class="btn btn-primary">Download <i
+                                                class="fas fa-arrow-alt-circle-down"></i></button>
+                                    </form>
+                                    <div th:if="${session.role == 1}">
+                                        <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
+                                            <input type="hidden" name="id" th:value="${TheTask.id}">
+                                            <button type="submit" id="delete button" class="btn btn-primary">Slet fil <i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${downloadSuccess}">
+                            <div class="alert alert-success">
+                                <strong>Download gennemført!</strong>
+                            </div>
+                        </div>
+                        <div th:if="${downloadSuccess == false}">
+                            <div class="alert alert-warning">
+                                <strong>Download mislykkedes</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
-</body>
+    </body>
 
-<footer th:replace="fragments/footer :: footer">...</footer>
+    <footer th:replace="fragments/footer :: footer">...</footer>
 </div>
 </html>

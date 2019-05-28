@@ -57,7 +57,7 @@ body {
     float: left;
 }
 
-#taskHref {
+#taskHref, #delete\ button {
     float: left;
     margin-right: 3px;
 }

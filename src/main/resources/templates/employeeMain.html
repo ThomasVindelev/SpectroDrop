@@ -31,11 +31,9 @@
             </div>
         </div>
     </div>
+    <!-- User menu -->
     <div class="container">
         <div class="row">
-
-            <!-- User menu -->
-
             <div class="col-sm h-100">
                 <div class="employee-card card">
                     <h5 class="card-header">Nye brugere</h5>
@@ -45,8 +43,6 @@
                                 <tbody>
                                 <tr th:each="user : ${newUsers}">
                                     <td>
-
-
                                         <div class="row">
                                             <div class="col-md-10">
                                                 <span>Brugernavn: <span th:text="${user.username}"></span></span>
@@ -131,7 +127,7 @@
                                                                     <button type="button" class="btn btn-secondary"
                                                                             data-dismiss="modal">Fortryd
                                                                     </button>
-                                                                    <button type="submit" class="btn btn-danger">Slet
+                                                                    <button id="delete button" type="submit" class="btn btn-danger">Slet
                                                                         bruger
                                                                     </button>
                                                                 </div>
@@ -361,7 +357,6 @@
                                 <strong>Opgave slettet!</strong>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
