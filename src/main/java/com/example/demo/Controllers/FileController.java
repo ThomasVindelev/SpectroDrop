@@ -47,9 +47,7 @@ public class FileController {
 
     @PostMapping("/downloadFile/{name}")
     public String downloadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) {
-        System.out.println(name);
-        System.out.println("test");
-        amazonClient.downloadTest(name, response);
+        amazonClient.downloadFile(name, response);
         return "redirect:/taskInfo/" + id;
     }
 

@@ -85,7 +85,7 @@ public class TaskRepository {
         if (isCustomer) {
             query += "WHERE fk_customer = " + id + " ";
         } else if (getNew) {
-            query += "LIMIT 5";
+            query += "ORDER BY id_tasks DESC LIMIT 5";
         }
         try {
             preparedStatement = connection.prepareStatement(query);

@@ -128,7 +128,7 @@
                                     </ul>
                                     <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
                                         <input type="hidden" name="id" th:value="${TheTask.id}">
-                                        <button type="submit" class="btn btn-primary">Download <i
+                                        <button type="submit" id="downloadBtn" class="btn btn-primary">Download <i
                                                 class="fas fa-arrow-alt-circle-down"></i></button>
                                     </form>
                                     <div th:if="${session.role == 1}">

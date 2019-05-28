@@ -87,16 +87,9 @@ public class AmazonClient {
         return fileUrl;
     }
 
-    public boolean downloadFile(String name) {
-        String newName = name.substring(0, name.lastIndexOf('.'));
-        String format = name.substring(name.lastIndexOf('.'));
-        S3Object object = s3client.getObject(bucketName, name);
-        return copyFiles(object, newName, format);
-    }
+   //https://www.javainuse.com/spring/boot-file-download
 
-
-    public void downloadTest(String fileName, HttpServletResponse response) {
-        //File file = new File("C:\\Users\\thoma\\IdeaProjects\\SpectroDrop\\src\\main\\resources\\static\\images\\Spectrofly_logo.png");
+    public void downloadFile(String fileName, HttpServletResponse response) {
         S3Object s3Object = s3client.getObject(bucketName, fileName);
         S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
         try {
@@ -109,99 +102,38 @@ public class AmazonClient {
             }
             s3ObjectInputStream.close();
             fos.close();
-
-            System.out.println("hej");
             if (file.exists()) {
                 System.out.println("1234");
 
                 String mimeType = URLConnection.guessContentTypeFromName(file.getName());
                 if (mimeType == null) {
-
                     mimeType = "application/octet-stream";
                 }
                 System.out.println(mimeType);
                 response.setContentType(mimeType);
-
-                //response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
-
-                response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
-
+                //response.setHeader("Content-Disposition", String.format
+                // ("inline; filename=\"" + file.getName() + "\""));
+                response.setHeader("Content-Disposition", String.format
+                        ("attachment; filename=\"" + file.getName() + "\""));
                 response.setContentLength((int) file.length());
-
                 InputStream inputStream = null;
                 try {
                     inputStream = new BufferedInputStream(new FileInputStream(file));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
                 try {
                     FileCopyUtils.copy(inputStream, response.getOutputStream());
+                    file.delete();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*File file = new File(System.getProperty("user.home") + "/Downloads/" + fileName);
-
-        InputStream in = s3Object.getObjectContent();
-        byte[] buf = new byte[1024];
-        try {
-            OutputStream out = new FileOutputStream(file);
-            int count;
-            while( (count = in.read(buf)) != -1)
-            {
-                if( Thread.interrupted() )
-                {
-                    throw new InterruptedException();
-                }
-                out.write(buf, 0, count);
-            }
-            out.close();
-            in.close();
-        } catch(FileNotFoundException fnf) {
-            fnf.printStackTrace();
-        } catch (InterruptedException inter) {
-            inter.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        */
-
-
-    }
-
-
-    private boolean copyFiles(S3Object object, String name, String format) {
-        String home = System.getProperty("user.home");
-        File localFile = new File(FilenameUtils.normalize(
-                home + "/Downloads/" + name + format));
-
-        int increment = 1;
-        boolean exists = false;
-        try {
-            Files.copy(object.getObjectContent(), localFile.toPath());
-            return true;
-        } catch (IOException ioe) {
-            exists = true;
-        }
-        while (exists) {
-            try {
-                File newFile = new File(home + "/Downloads/"
-                        + name + "(" + increment + ")" + format);
-                Files.copy(object.getObjectContent(), newFile.toPath());
-                return true;
-            } catch (IOException ioe) {
-                increment++;
-            }
-        }
-        return false;
     }
 
     public void deleteFileFromS3Bucket(String fileName) {
@@ -276,6 +208,64 @@ public class AmazonClient {
 
         }
     }
+
+    public boolean downloadFile(String name) {
+        String newName = name.substring(0, name.lastIndexOf('.'));
+        String format = name.substring(name.lastIndexOf('.'));
+        S3Object object = s3client.getObject(bucketName, name);
+        return copyFiles(object, newName, format);
+    }
+
+    private boolean copyFiles(S3Object object, String name, String format) {
+        String home = System.getProperty("user.home");
+        File localFile = new File(FilenameUtils.normalize(
+                home + "/Downloads/" + name + format));
+
+        int increment = 1;
+        boolean exists = false;
+        try {
+            Files.copy(object.getObjectContent(), localFile.toPath());
+            return true;
+        } catch (IOException ioe) {
+            exists = true;
+        }
+        while (exists) {
+            try {
+                File newFile = new File(home + "/Downloads/"
+                        + name + "(" + increment + ")" + format);
+                Files.copy(object.getObjectContent(), newFile.toPath());
+                return true;
+            } catch (IOException ioe) {
+                increment++;
+            }
+        }
+        return false;
+    }
+
+    File file = new File(System.getProperty("user.home") + "/Downloads/" + fileName);
+
+        InputStream in = s3Object.getObjectContent();
+        byte[] buf = new byte[1024];
+        try {
+            OutputStream out = new FileOutputStream(file);
+            int count;
+            while( (count = in.read(buf)) != -1)
+            {
+                if( Thread.interrupted() )
+                {
+                    throw new InterruptedException();
+                }
+                out.write(buf, 0, count);
+            }
+            out.close();
+            in.close();
+        } catch(FileNotFoundException fnf) {
+            fnf.printStackTrace();
+        } catch (InterruptedException inter) {
+            inter.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
 
     */
 
