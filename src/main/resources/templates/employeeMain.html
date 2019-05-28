@@ -112,7 +112,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Er du sikker på, at du vil
+                                                                    <h4 class="modal-title"> Er du sikker på, at du vil
                                                                         slette denne bruger?</h4>
                                                                 </div>
                                                                 <div class="model-body">
@@ -127,7 +127,8 @@
                                                                     <button type="button" class="btn btn-secondary"
                                                                             data-dismiss="modal">Fortryd
                                                                     </button>
-                                                                    <button id="delete button" type="submit" class="btn btn-danger">Slet
+                                                                    <button id="delete button" type="submit"
+                                                                            class="btn btn-danger">Slet
                                                                         bruger
                                                                     </button>
                                                                 </div>
@@ -303,8 +304,11 @@
                                                             opgave?</h4>
                                                     </div>
                                                     <div class="model-body">
-                                                        <p>Dette betyder, at du sletter alle filer og data tilknyttet
-                                                            denne opgave!</p>
+                                                        <div class="alert alert-danger">
+                                                            <strong>Dette betyder, at du sletter alle filer og data
+                                                                tilknyttet
+                                                                denne opgave!</strong>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -321,12 +325,15 @@
                             </tr>
                             </tbody>
                         </table>
-                        <a href="#" class="btn btn-primary" id="taskHref" data-toggle="modal" data-target="#Task-box">Ny
-                            opgave</a>
+                        <div>
+                            <a href="#" class="btn btn-primary" id="taskHref" data-toggle="modal" data-target="#Task-box">Ny
+                                opgave</a>
 
-                        <form id="taskForm" th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
-                            <button type="submit" class="btn btn-primary">Vis alle</button>
-                        </form>
+                            <form id="taskForm" th:action="@{/viewAllTasks/{id}(id = ${session.role})}">
+                                <button type="submit" class="btn btn-primary">Vis alle</button>
+                            </form>
+                        </div>
+                        <br>
                         <div th:if="${taskError}">
                             <div class="alert alert-warning">
                                 <strong>Fejl! Opgave blev ikke oprettet.</strong>
@@ -478,8 +485,10 @@
                     <div class="modal-body">
                         <input class="form-control" type="password" name="oldPassword" placeholder="Nuværende kodeord"
                                required>
+                        <br>
                         <input class="form-control" type="password" name="newPassword" placeholder="Nyt kodeord"
                                required>
+                        <br>
                         <input class="form-control" type="password" name="newPasswordValidation"
                                placeholder="Gentag kodeord" required>
                     </div>

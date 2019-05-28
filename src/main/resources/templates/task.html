@@ -126,15 +126,15 @@
                                                th:href="@{/downloadFile/{name}(name = ${file.name})}"></a>
                                         </li>
                                     </ul>
-                                    <form th:action="@{/downloadFile/{name}(name = ${file.name})}" method="post">
+                                    <form th:action="@{/downloadFile/{name}(name = ${file.name})}" class="downloadForm" method="post">
                                         <input type="hidden" name="id" th:value="${TheTask.id}">
-                                        <button type="submit" id="downloadBtn" class="btn btn-primary">Download <i
+                                        <button type="submit" class="btn btn-primary">Download <i
                                                 class="fas fa-arrow-alt-circle-down"></i></button>
                                     </form>
-                                    <div th:if="${session.role == 1}">
-                                        <form th:action="@{/deleteFile/{name}(name = ${file.name})}" method="post">
+                                    <div th:if="${session.role == 1}" class="downloadForm">
+                                        <form th:action="@{/deleteFile/{name}(name = ${file.name})}"  method="post">
                                             <input type="hidden" name="id" th:value="${TheTask.id}">
-                                            <button type="submit" id="delete button" class="btn btn-primary">Slet fil <i
+                                            <button type="submit"  class="btn btn-primary">Slet fil <i
                                                     class="far fa-trash-alt"></i></button>
                                         </form>
                                     </div>

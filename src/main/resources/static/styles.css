@@ -55,11 +55,11 @@ body {
 
 #taskForm {
     float: left;
+    margin-right: 3px;
 }
 
-#taskHref, #delete\ button, #downloadBtn {
-    float: left;
-    margin-right: 3px;
+#taskHref, .downloadForm, #downloadBtn {
+    display: inline-block;
 }
 
 #resetPassword {
