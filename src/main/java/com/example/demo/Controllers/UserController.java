@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/newUser")
     public String newUser(@ModelAttribute User user, RedirectAttributes redirectAttributes, HttpSession session) {
-        redirectAttributes.addFlashAttribute("userCreationMessage", userService.newUser(user));
+        redirectAttributes.addFlashAttribute("userCreationError", userService.newUser(user));
         Integer userId = (Integer) session.getAttribute("id");
         return "redirect:/employeeMain/" + userId;
     }

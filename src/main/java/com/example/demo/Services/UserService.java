@@ -72,16 +72,12 @@ public class UserService implements Users<User> {
         return null;
     }
 
-    public String newUser(User user) {
+    public boolean newUser(User user) {
         if (!verify(user)) {
             user.setPassword(hashingService.hash(user.getPassword()));
-            if (!userRepository.newUser(user)) {
-                return "Bruger oprettet!";
-            } else {
-                return "Fejl! Bruger blev ikke oprettet.";
-            }
+            return userRepository.newUser(user);
         } else {
-            return "Brugernavn eller e-mail eksisterer allerede i systemet!";
+            return true;
         }
     }
 

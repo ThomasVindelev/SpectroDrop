@@ -108,21 +108,17 @@ public class TaskService {
 
     public boolean taskResponsibility(int userId, int roleId) {
         if (roleId == 2) {
-            System.out.println("hej");
             ResultSet tasks = taskRepository.getTaskByUser(userId);
             List<String> fileNames = new ArrayList<>();
             int taskId;
-            System.out.println("du er kommet hertil");
             try {
                 while (tasks.next()) {
                     taskId = tasks.getInt("id_tasks");
                     System.out.println(taskId);
                     ResultSet files = fileRepository.getFilesByTask(taskId);
-                    System.out.println("Nu har den hentet filerne!");
                     while (files.next()) {
                         fileNames.add(files.getString("name"));
                     }
-                    System.out.println(fileNames.size());
                 }
                 taskRepository.deleteTaskByUser(userId);
                 for (String fileName : fileNames) {
@@ -137,6 +133,4 @@ public class TaskService {
         }
         return true;
     }
-
-
 }

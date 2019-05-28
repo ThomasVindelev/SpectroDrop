@@ -145,25 +145,38 @@
                         </div>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#NewUser-box">Ny bruger</a>
                         <a href="/viewAllUsers" class="btn btn-primary">Vis alle</a>
-                        <div>
-                            <p th:text="${userCreationMessage}"></p>
+                        <div th:if="${userCreationError}">
+                            <br>
+                            <div class="alert alert-warning">
+                                <strong>Fejl! Brugeren blev ikke oprettet.</strong>
+                            </div>
+                        </div>
+                        <div th:if="${userCreationError == false}">
+                            <br>
+                            <div class="alert alert-success">
+                                <strong>Bruger oprettet!</strong>
+                            </div>
                         </div>
                         <div th:if="${editUserError}">
+                            <br>
                             <div class="alert alert-warning">
-                                <strong>Fejl! Brugeren blev ikke redigeret</strong>
+                                <strong>Fejl! Brugeren blev ikke redigeret.</strong>
                             </div>
                         </div>
                         <div th:if="${editUserError == false}">
+                            <br>
                             <div class="alert alert-success">
                                 <strong>Bruger redigeret!</strong>
                             </div>
                         </div>
                         <div th:if="${deleteUserError}">
+                            <br>
                             <div class="alert alert-warning">
                                 <strong>Fejl! Brugeren blev ikke slettet.</strong>
                             </div>
                         </div>
                         <div th:if="${deleteUserError == false}">
+                            <br>
                             <div class="alert alert-success">
                                 <strong>Bruger slettet!</strong>
                             </div>
