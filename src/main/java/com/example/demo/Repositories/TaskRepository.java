@@ -136,16 +136,17 @@ public class TaskRepository {
         return null;
     }
 
-    public void autoTransferResponsibility(int userId) {
+    public boolean autoTransferResponsibility(int userId) {
         query = "UPDATE SpectroDB.Tasks SET fk_employee = ? WHERE fk_employee = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, 39);
             preparedStatement.setInt(2, userId);
-            preparedStatement.execute();
+            return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
 }

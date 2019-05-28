@@ -29,6 +29,9 @@ public class UserService implements Users<User> {
     private HashingService hashingService;
 
     @Autowired
+    private TaskService taskService;
+
+    @Autowired
     private AmazonClient amazonClient;
 
     // Henter brugere efter roller
@@ -85,30 +88,12 @@ public class UserService implements Users<User> {
     public boolean deleteUserById(int userId, int roleId) {
         if (userId == 1) {
             return true;
-        } else if (roleId == 2) {
-            ResultSet tasks = taskRepository.getTaskByUser(userId);
-            List<String> fileNames = new ArrayList<>();
-            int taskId;
-            try {
-                while (tasks.next()) {
-                    taskId = tasks.getInt("id_tasks");
-                    ResultSet files = fileRepository.getFilesByTask(taskId);
-                    while (files.next()) {
-                        fileNames.add(files.getString("name"));
-                    }
-                }
-                taskRepository.deleteTaskByUser(userId);
-                for (int i = 0; i < fileNames.size(); i++) {
-                    amazonClient.deleteFileFromS3Bucket(fileNames.get(i));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return true;
-            }
-        } else {
-            taskRepository.autoTransferResponsibility(userId);
+        } else if (!taskService.taskResponsibility(userId, roleId)) {
+            System.out.println(roleId);
+            System.out.println("Hallo");
+            return userRepository.deleteUserById(userId);
         }
-        return userRepository.deleteUserById(userId);
+        return true;
     }
 
     public List<Role> getRoles() {

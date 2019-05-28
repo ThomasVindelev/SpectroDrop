@@ -102,8 +102,8 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post"
-                                                      th:object="${User}">
+                                                <form th:action="@{/deleteUser/{id}(id = ${user.id})}" method="post" th:object="${User}">
+                                                    <input type="hidden" name="role" th:value="${user.fk_roles}">
                                                     <button type="button" data-toggle="modal"
                                                             th:attr="data-target='#DeleteUser-box'+${user.id}"><i
                                                             class="fas fa-trash-alt"></i></button>
