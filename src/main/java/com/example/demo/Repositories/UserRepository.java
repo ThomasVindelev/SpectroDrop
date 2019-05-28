@@ -42,7 +42,8 @@ public class UserRepository {
     }
 
     public ResultSet verifyUserLogin(User user) {
-        query = "SELECT * FROM SpectroDB.Users " +
+        query = "SELECT id_users, username, firstname, lastname, email, " +
+                "id_roles, is_active FROM SpectroDB.Users " +
                 "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles " +
                 "WHERE LOWER (username) = LOWER (?) AND password = ?";
         try {
@@ -58,11 +59,14 @@ public class UserRepository {
 
     public ResultSet getUsers(boolean getAll) {
         if (getAll) {
-            query = "SELECT * FROM SpectroDB.Users " +
+            query = "SELECT id_users, username, firstname, lastname, email, " +
+                    "Roles.role, Users.fk_roles FROM SpectroDB.Users " +
                     "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles";
         } else {
-            query = "SELECT * FROM SpectroDB.Users " +
-                    "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles ORDER BY id_users DESC LIMIT 3";
+            query = "SELECT id_users, username, firstname, lastname, email, " +
+                    "Roles.role, Users.fk_roles FROM SpectroDB.Users " +
+                    "INNER JOIN Roles ON Users.fk_roles = Roles.id_roles " +
+                    "ORDER BY id_users DESC LIMIT 3";
         }
         try {
             preparedStatement = connection.prepareStatement(query);
@@ -74,7 +78,8 @@ public class UserRepository {
     }
 
     public ResultSet getUserById(int id) {
-        query = "SELECT * FROM SpectroDB.Users WHERE id_users = ?";
+        query = "SELECT id_users, username, firstname, lastname, email, fk_roles " +
+                "FROM SpectroDB.Users WHERE id_users = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
@@ -86,7 +91,8 @@ public class UserRepository {
     }
 
     public ResultSet getUsersByRole(int roleId) {
-        query = "SELECT * FROM SpectroDB.Users INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE fk_roles = ?";
+        query = "SELECT id_users, username, firstname, lastname, email, Roles.role, Users.fk_roles " +
+                "FROM SpectroDB.Users INNER JOIN Roles ON Users.fk_roles = Roles.id_roles WHERE fk_roles = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, roleId);

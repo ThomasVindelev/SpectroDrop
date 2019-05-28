@@ -20,19 +20,10 @@ public class UserService implements Users<User> {
     private UserRepository userRepository;
 
     @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private FileRepository fileRepository;
-
-    @Autowired
     private HashingService hashingService;
 
     @Autowired
     private TaskService taskService;
-
-    @Autowired
-    private AmazonClient amazonClient;
 
     // Henter brugere efter roller
 
@@ -85,8 +76,6 @@ public class UserService implements Users<User> {
         if (userId == 1) {
             return true;
         } else if (!taskService.taskResponsibility(userId, roleId)) {
-            System.out.println(roleId);
-            System.out.println("Hallo");
             return userRepository.deleteUserById(userId);
         }
         return true;

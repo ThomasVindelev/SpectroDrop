@@ -73,16 +73,16 @@
                                                                            th:value="${user.id}">
                                                                     <input type="text" name="username"
                                                                            th:value="${user.username}"
-                                                                           placeholder="Brugernavn">
+                                                                           placeholder="Brugernavn" required>
                                                                     <input type="text" name="firstName"
                                                                            th:value="${user.firstName}"
-                                                                           placeholder="Fornavn">
+                                                                           placeholder="Fornavn" required>
                                                                     <input type="text" name="lastName"
                                                                            th:value="${user.lastName}"
-                                                                           placeholder="Efternavn">
+                                                                           placeholder="Efternavn" required>
                                                                     <input type="text" name="email"
                                                                            th:value="${user.email}"
-                                                                           placeholder="E-mail">
+                                                                           placeholder="E-mail" required>
                                                                     <select name="fk_roles">
                                                                         <option th:each="role : ${roleList}"
                                                                                 th:value="${role.id}"

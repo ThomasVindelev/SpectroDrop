@@ -23,7 +23,7 @@ public class FileRepository {
     }
 
     public ResultSet getFilesByTask(int id) {
-        query = "SELECT * FROM SpectroDB.Files WHERE fk_tasks = ?";
+        query = "SELECT name FROM SpectroDB.Files WHERE fk_tasks = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);

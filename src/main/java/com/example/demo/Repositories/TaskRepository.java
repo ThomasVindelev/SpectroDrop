@@ -78,7 +78,8 @@ public class TaskRepository {
     }
 
     public ResultSet getTasks(boolean getNew, boolean isCustomer, int id) {
-        query = "SELECT * FROM Tasks " +
+        query = "SELECT id_tasks, fk_customer, fk_employee, customer.username, " +
+                "employee.username, fk_status, Status.name, Tasks.name FROM Tasks " +
                 "INNER JOIN Users customer ON fk_customer = customer.id_users " +
                 "INNER JOIN Users employee ON fk_employee = employee.id_users " +
                 "INNER JOIN Status ON fk_status = id_status ";
@@ -98,7 +99,8 @@ public class TaskRepository {
 
 
     public ResultSet getTaskById(int id) {
-        query = "SELECT * FROM Tasks " +
+        query = "SELECT id_tasks, customer.username, " +
+                "employee.username, fk_status, Status.name, Tasks.name FROM Tasks " +
                 "INNER JOIN Users customer ON fk_customer = customer.id_users " +
                 "INNER JOIN Users employee ON fk_employee = employee.id_users " +
                 "INNER JOIN Status ON fk_status = id_status WHERE id_tasks = ?";
