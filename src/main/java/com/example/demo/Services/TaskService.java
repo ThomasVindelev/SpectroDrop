@@ -35,7 +35,7 @@ public class TaskService {
     public boolean deleteTask(int id) {
         ResultSet resultSet = fileRepository.getFilesByTask(id);
         try {
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 fileRepository.deleteFile(resultSet.getString("name"));
                 amazonClient.deleteFileFromS3Bucket(resultSet.getString("name"));
             }
@@ -50,7 +50,7 @@ public class TaskService {
         ResultSet resultSet = taskRepository.getTasks(getNew, isCustomer, id);
         List<Task> taskList = new ArrayList<>();
         try {
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Task task = new Task();
                 task.setId(resultSet.getInt("id_tasks"));
                 task.setFk_customer(resultSet.getInt("fk_customer"));
@@ -105,7 +105,6 @@ public class TaskService {
         }
         return null;
     }
-
 
 
 }

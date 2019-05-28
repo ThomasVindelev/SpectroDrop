@@ -38,16 +38,16 @@ public class UserService implements Users<User> {
         switch (type) {
             case "Employees":
                 resultSet = userRepository.getUsersByRole(1);
-            break;
+                break;
             case "Customers":
                 resultSet = userRepository.getUsersByRole(2);
-            break;
+                break;
             case "All":
                 resultSet = userRepository.getUsers(true);
-            break;
+                break;
             case "New":
                 resultSet = userRepository.getUsers(false);
-            break;
+                break;
         }
         List<User> userList = new ArrayList<>();
         try {

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -54,7 +55,7 @@ public class AmazonClient {
                 withMultipartUploadThreshold((long) (5 * 1024 * 1025)).build();
     }
 
-    private File convertMultiPartToFile (MultipartFile file) throws IOException {
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convertedFile = new File(file.getOriginalFilename());
         InputStream inputStream = file.getInputStream();
         FileUtils.copyInputStreamToFile(inputStream, convertedFile);
@@ -64,7 +65,7 @@ public class AmazonClient {
         return convertedFile;
     }
 
-    private void uploadFileTos3bucket (String fileName, File file) {
+    private void uploadFileTos3bucket(String fileName, File file) {
         try {
             transferManager.upload(bucketName, fileName, file).waitForUploadResult();
         } catch (InterruptedException e) {
@@ -72,7 +73,7 @@ public class AmazonClient {
         }
     }
 
-    public String uploadFile (MultipartFile multipartFile, String name) {
+    public String uploadFile(MultipartFile multipartFile, String name) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -92,7 +93,6 @@ public class AmazonClient {
         S3Object object = s3client.getObject(bucketName, name);
         return copyFiles(object, newName, format);
     }
-
 
 
     public void downloadTest(String fileName, HttpServletResponse response) {
@@ -173,7 +173,6 @@ public class AmazonClient {
             ioe.printStackTrace();
         }
         */
-
 
 
     }
