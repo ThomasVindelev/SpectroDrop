@@ -13,16 +13,9 @@ public class MessageRepository implements CloseHelper {
     private Connection connection;
     private boolean isError;
 
-    /*public MessageRepository() {
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB",
-                    "SpectroDB",
-                    "SpectroDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
+    /**
+     * Tillader reetablering af connection til vores database efter denne bliver lukket.
+     */
 
     public Connection getConnection() {
         try {
@@ -150,4 +143,14 @@ public class MessageRepository implements CloseHelper {
             }
         }
     }
+    /*public MessageRepository() {
+        try {
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB",
+                    "SpectroDB",
+                    "SpectroDB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

@@ -52,6 +52,10 @@ public class UserController {
         return "viewAllUsers";
     }
 
+    /**
+     *  Sørger for at en ny user bliver præsenteret for at skifte det midlertidige kodeord ud med et nyt, og redirekter til main afhængig af UserId
+     */
+
     @PostMapping("/newPassword")
     public String newPassword(
             @ModelAttribute("oldPassword") String oldPassword,

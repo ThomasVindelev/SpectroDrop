@@ -22,7 +22,7 @@ public class LoginController {
         return "index";
     }
 
-	@PostMapping("/login")
+    @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session, Model model) {
         System.out.println("error 1");
         if (loginService.verify(user)) {
@@ -47,23 +47,20 @@ public class LoginController {
     }
 
     /**
-	 * 
-	 * @param session
-	 */
-	@PostMapping("/logout")
+     * Sørger for at lukke vores session ved logout
+     */
+
+    @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "index";
     }
 
     /**
-	 * 
-	 * @param password
-	 * @param passWordConfirm
-	 * @param model
-	 * @param session
-	 */
-	@PostMapping("/newLogin")
+     * Sørger for at en ny bruger bliver bedt om at skifte kodeord
+     */
+
+    @PostMapping("/newLogin")
     public String newLogin(@ModelAttribute("password") String password, @ModelAttribute("passwordConfirm") String passWordConfirm, Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("id");
         Integer role = (Integer) session.getAttribute("role");

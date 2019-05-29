@@ -34,6 +34,10 @@ public class TaskController {
         return "redirect:/employeeMain/" + userId;
     }
 
+    /**
+     * Redirecter user til task hvis succes, ellers bliver de ført  til index og får deres session invalidated
+     */
+
     @GetMapping("/taskInfo/{id}")
     public String getTaskInfo(@PathVariable("id") int id, Model model, HttpSession session) {
         Integer roleId = (Integer) session.getAttribute("role");

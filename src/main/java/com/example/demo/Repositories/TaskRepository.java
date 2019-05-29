@@ -13,16 +13,10 @@ public class TaskRepository implements CloseHelper {
     private String query;
     private boolean isError;
 
-    /*public TaskRepository() {
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB",
-                    "SpectroDB",
-                    "SpectroDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
+
+    /**
+     * Tillader reetablering af connection til vores database efter denne bliver lukket.
+     */
 
     public Connection getConnection() {
         try {
@@ -228,4 +222,16 @@ public class TaskRepository implements CloseHelper {
             }
         }
     }
+
+    /*public TaskRepository() {
+        try {
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB",
+                    "SpectroDB",
+                    "SpectroDB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
+
 }

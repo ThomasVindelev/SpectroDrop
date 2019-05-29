@@ -19,6 +19,10 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
+    /**
+     *  Redirekter userId til messageService så den kan anvendes der.
+     */
+
     @PostMapping("/newMessage")
     public String newMessage(@ModelAttribute Message message, HttpSession session, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("messageError", messageService.newMessage(message));
@@ -31,6 +35,10 @@ public class MessageController {
         }
 
     }
+
+    /**
+     * Redirekter user til viewAllMessages hvis success, ellers bliver de ført  til index og får deres session invalidated
+     */
 
     @GetMapping("/viewAllMessages")
     public String viewAllMessages(@ModelAttribute Message message, HttpSession session, Model model) {

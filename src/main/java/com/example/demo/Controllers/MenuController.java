@@ -26,6 +26,10 @@ public class MenuController implements ErrorController {
     @Autowired
     private TaskService taskService;
 
+    /**
+     * Overfører kunde til deres html ved successfull login
+     */
+
     @GetMapping("/customerMain/{id}")
     public String getCustomerMenu(@PathVariable("id") int id, Model model, HttpSession session) {
         Integer roleId = (Integer) session.getAttribute("role");
@@ -38,6 +42,10 @@ public class MenuController implements ErrorController {
         model.addAttribute("newTasks", taskService.getTasks(true, true, id));
         return "customerMain";
     }
+
+    /**
+     * Overfører ansat til deres html ved successfull login
+     */
 
     @GetMapping("/employeeMain/{id}")
     public String getEmployeeMenu(@PathVariable("id") int id, Model model, HttpSession session) {
@@ -62,18 +70,6 @@ public class MenuController implements ErrorController {
         return "employeeMain";
     }
 
-    /*@GetMapping("/customerMain/{id}/tasks")
-    public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
-        Integer roleId = (Integer) session.getAttribute("role");
-        if (roleId == null) {
-            session.invalidate();
-            return "index";
-        }
-        model.addAttribute("taskList", taskService.getTasks(false, true, id));
-        return "tasks";
-    }*/
-
-    //https://stackoverflow.com/questions/25356781/spring-boot-remove-whitelabel-error-page
 
     private final String PATH = "/error";
 
@@ -88,4 +84,17 @@ public class MenuController implements ErrorController {
     public String getErrorPath() {
         return PATH;
     }
+
+    /*@GetMapping("/customerMain/{id}/tasks")
+    public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == null) {
+            session.invalidate();
+            return "index";
+        }
+        model.addAttribute("taskList", taskService.getTasks(false, true, id));
+        return "tasks";
+    }*/
+
+    //https://stackoverflow.com/questions/25356781/spring-boot-remove-whitelabel-error-page
 }
