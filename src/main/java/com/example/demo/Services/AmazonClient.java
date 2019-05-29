@@ -110,22 +110,39 @@ public class AmazonClient {
                 response.setHeader("Content-Disposition", String.format
                         ("attachment; filename=\"" + file.getName() + "\""));
                 response.setContentLength((int) file.length());
+                System.out.println(response.isCommitted());
                 InputStream inputStream = null;
+                System.out.println("hej1");
                 try {
+                    System.out.println("hej2");
                     inputStream = new BufferedInputStream(new FileInputStream(file));
+                    System.out.println("hej3");
                 } catch (FileNotFoundException e) {
+                    System.out.println("hej4");
                     e.printStackTrace();
                 }
                 try {
+                    System.out.println("hej5");
+                    assert inputStream != null;
+                    System.out.println("hej6");
                     FileCopyUtils.copy(inputStream, response.getOutputStream());
+                    System.out.println("hej7");
+                    inputStream.close();
+                    System.out.println("hej8");
+                    System.out.println("hej9");
                     file.delete();
+                    System.out.println("hej10");
                 } catch (IOException e) {
+                    System.out.println("eow");
+                    inputStream.close();
                     e.printStackTrace();
                 }
             }
         } catch (FileNotFoundException e) {
+            System.out.println("hej11");
             e.printStackTrace();
         } catch (IOException e) {
+            System.out.println("hej12");
             e.printStackTrace();
         }
     }

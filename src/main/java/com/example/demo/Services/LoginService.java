@@ -30,9 +30,11 @@ public class LoginService implements Users<User> {
                 user.setEmail(resultSet.getString("email"));
                 user.setFk_roles(resultSet.getInt("id_roles"));
                 user.setActive(resultSet.getBoolean("is_active"));
-                return true;
             }
+            userRepository.closeConnections(resultSet);
+            return true;
         } catch (SQLException e) {
+            userRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return false;

@@ -41,7 +41,12 @@ public class UserController {
     }
 
     @GetMapping("/viewAllUsers")
-    public String viewAllUsers(Model model) {
+    public String viewAllUsers(Model model, HttpSession session) {
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == null) {
+            session.invalidate();
+            return "index";
+        }
         model.addAttribute("userList", userService.getUsers("All"));
         model.addAttribute("roleList", userService.getRoles());
         return "viewAllUsers";

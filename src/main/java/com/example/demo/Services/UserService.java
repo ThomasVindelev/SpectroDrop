@@ -54,8 +54,10 @@ public class UserService implements Users<User> {
                 user.setFk_roles(resultSet.getInt("Users.fk_roles"));
                 userList.add(user);
             }
+            userRepository.closeConnections(resultSet);
             return userList;
         } catch (SQLException e) {
+            userRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -89,8 +91,10 @@ public class UserService implements Users<User> {
                 role.setName(resultSet.getString("role"));
                 roleList.add(role);
             }
+            userRepository.closeConnections(resultSet);
             return roleList;
         } catch (SQLException e) {
+            userRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -100,6 +104,7 @@ public class UserService implements Users<User> {
         ResultSet oldInformation = userRepository.getUserById(user.getId());
         userRepository.eraseInformation(user.getId());
         if (!verify(user)) {
+            userRepository.closeConnections(oldInformation);
             return userRepository.updateUser(user);
         } else {
             User oldUser = new User();
@@ -112,8 +117,10 @@ public class UserService implements Users<User> {
                     oldUser.setEmail(oldInformation.getString("email"));
                     oldUser.setFk_roles(oldInformation.getInt("fk_roles"));
                 }
+                userRepository.closeConnections(oldInformation);
                 userRepository.updateUser(oldUser);
             } catch (SQLException e) {
+                userRepository.closeConnections(oldInformation);
                 e.printStackTrace();
             }
         }
@@ -126,11 +133,14 @@ public class UserService implements Users<User> {
             ResultSet resultSet = userRepository.verifyPassword(oldPassword, userId);
             try {
                 if (resultSet.next()) {
+                    userRepository.closeConnections(resultSet);
                     return userRepository.updatePassword(hashingService.hash(newPassword), userId);
                 } else {
+                    userRepository.closeConnections(resultSet);
                     return true;
                 }
             } catch (SQLException e) {
+                userRepository.closeConnections(resultSet);
                 e.printStackTrace();
             }
         }

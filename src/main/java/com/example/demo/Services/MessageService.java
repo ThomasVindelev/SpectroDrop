@@ -37,8 +37,10 @@ public class MessageService {
                 message.setIsRead(resultSet.getBoolean("is_read"));
                 messageList.add(message);
             }
+            messageRepository.closeConnections(resultSet);
             return messageList;
         } catch (SQLException e) {
+            messageRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -50,14 +52,16 @@ public class MessageService {
             messageRepository.readMessage(id);
         }
         try {
+            Message message = new Message();
             while (resultSet.next()) {
-                Message message = new Message();
                 message.setText(resultSet.getString("text"));
                 message.setSent_from(resultSet.getString("username"));
                 message.setFk_sent_from(resultSet.getInt("fk_sent_from"));
-                return message;
             }
+            messageRepository.closeConnections(resultSet);
+            return message;
         } catch (SQLException e) {
+            messageRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;

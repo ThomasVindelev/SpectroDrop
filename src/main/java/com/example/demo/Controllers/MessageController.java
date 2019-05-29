@@ -35,12 +35,21 @@ public class MessageController {
     @GetMapping("/viewAllMessages")
     public String viewAllMessages(@ModelAttribute Message message, HttpSession session, Model model) {
         Integer userId = (Integer) session.getAttribute("id");
+        if (userId == null) {
+            session.invalidate();
+            return "index";
+        }
         model.addAttribute("messageList", messageService.getMessages(userId, false));
         return "viewAllMessages";
     }
 
     @GetMapping("/readMessage/{id}")
-    public String readMessage(@PathVariable("id") int id, @ModelAttribute("isRead") boolean isRead, Model model) {
+    public String readMessage(@PathVariable("id") int id, @ModelAttribute("isRead") boolean isRead, Model model, HttpSession session) {
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == null) {
+            session.invalidate();
+            return "index";
+        }
         model.addAttribute("message", messageService.getMessageById(id, isRead));
         return "viewMessage";
     }

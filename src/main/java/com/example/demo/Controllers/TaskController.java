@@ -35,7 +35,12 @@ public class TaskController {
     }
 
     @GetMapping("/taskInfo/{id}")
-    public String getTaskInfo(@PathVariable("id") int id, Model model) {
+    public String getTaskInfo(@PathVariable("id") int id, Model model, HttpSession session) {
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == null) {
+            session.invalidate();
+            return "index";
+        }
         model.addAttribute("TheTask", taskService.getTaskById(id));
         model.addAttribute("Files", fileService.getFilesByTask(id));
         return "task";
@@ -56,7 +61,12 @@ public class TaskController {
     }
 
     @GetMapping("/viewAllTasks/{id}")
-    public String getAllTasks(@PathVariable("id") int id, Model model) {
+    public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
+        Integer roleId = (Integer) session.getAttribute("role");
+        if (roleId == null) {
+            session.invalidate();
+            return "index";
+        }
         if (id == 1) {
             model.addAttribute("taskList", taskService.getTasks(false, false, id));
         } else {

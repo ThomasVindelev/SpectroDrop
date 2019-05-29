@@ -39,6 +39,7 @@ public class FileService {
                 name += "(" + increment + ")" + format;
                 resultSet = fileRepository.findDuplicate(name);
             }
+            fileRepository.closeConnections(resultSet);
             if (increment > 0) {
                 amazonClient.uploadFile(file, name);
                 return fileRepository.addFileToTask(id, name);
@@ -48,6 +49,7 @@ public class FileService {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            fileRepository.closeConnections(resultSet);
             return true;
         }
     }
@@ -65,8 +67,10 @@ public class FileService {
                 file.setName(resultSet.getString("name"));
                 files.add(file);
             }
+            fileRepository.closeConnections(resultSet);
             return files;
         } catch (SQLException e) {
+            fileRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;

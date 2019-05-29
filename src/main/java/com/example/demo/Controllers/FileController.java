@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class FileController {
@@ -42,9 +43,12 @@ public class FileController {
     }*/
 
     @PostMapping("/downloadFile/{name}")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) {
+    public /* String */ void downloadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) throws IOException {
         amazonClient.downloadFile(name, response);
-        return "redirect:/taskInfo/" + id;
+        System.out.println("1234");
+        response.getOutputStream().close();
+        System.out.println("hej13");
+        // return "redirect:/taskInfo/" + id;
     }
 
     // Sletter filer af bestemt navn fra både S3 og database

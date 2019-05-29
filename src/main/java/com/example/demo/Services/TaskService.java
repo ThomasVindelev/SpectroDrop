@@ -39,11 +39,13 @@ public class TaskService {
                 fileRepository.deleteFile(resultSet.getString("name"));
                 amazonClient.deleteFileFromS3Bucket(resultSet.getString("name"));
             }
+            taskRepository.closeConnections(resultSet);
+            return taskRepository.deleteTask(id);
         } catch (SQLException e) {
+            taskRepository.closeConnections(resultSet);
             e.printStackTrace();
             return true;
         }
-        return taskRepository.deleteTask(id);
     }
 
     public List<Task> getTasks(boolean getNew, boolean isCustomer, int id) {
@@ -62,8 +64,10 @@ public class TaskService {
                 task.setTaskName(resultSet.getString("Tasks.name"));
                 taskList.add(task);
             }
+            taskRepository.closeConnections(resultSet);
             return taskList;
         } catch (SQLException e) {
+            taskRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -82,8 +86,10 @@ public class TaskService {
                 task.setStatus(resultSet.getString("Status.name"));
                 task.setTaskName(resultSet.getString("Tasks.name"));
             }
+            taskRepository.closeConnections(resultSet);
             return task;
         } catch (SQLException e) {
+            taskRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -99,8 +105,10 @@ public class TaskService {
                 status.setName(resultSet.getString("name"));
                 statusList.add(status);
             }
+            taskRepository.closeConnections(resultSet);
             return statusList;
         } catch (SQLException e) {
+            taskRepository.closeConnections(resultSet);
             e.printStackTrace();
         }
         return null;
@@ -109,22 +117,27 @@ public class TaskService {
     public boolean taskResponsibility(int userId, int roleId) {
         if (roleId == 2) {
             ResultSet tasks = taskRepository.getTaskByUser(userId);
+            ResultSet files = null;
             List<String> fileNames = new ArrayList<>();
             int taskId;
             try {
                 while (tasks.next()) {
                     taskId = tasks.getInt("id_tasks");
-                    ResultSet files = fileRepository.getFilesByTask(taskId);
+                    files = fileRepository.getFilesByTask(taskId);
                     while (files.next()) {
                         fileNames.add(files.getString("name"));
                     }
                 }
+                fileRepository.closeConnections(files);
+                taskRepository.closeConnections(tasks);
                 taskRepository.deleteTaskByUser(userId);
                 for (String fileName : fileNames) {
                     amazonClient.deleteFileFromS3Bucket(fileName);
                 }
                 return false;
             } catch (SQLException e) {
+                fileRepository.closeConnections(files);
+                taskRepository.closeConnections(tasks);
                 e.printStackTrace();
             }
         } else {

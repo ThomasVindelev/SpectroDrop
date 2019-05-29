@@ -24,11 +24,15 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session, Model model) {
+        System.out.println("error 1");
         if (loginService.verify(user)) {
+            System.out.println("error 2");
             session.setAttribute("id", user.getId());
             session.setAttribute("role", user.getFk_roles());
             if (user.isActive()) {
+                System.out.println("error 3");
                 if (user.getFk_roles() == 1) {
+                    System.out.println("error 4");
                     return "redirect:/employeeMain/" + user.getId();
                 } else {
                     return "redirect:/customerMain/" + user.getId();
