@@ -62,7 +62,7 @@ public class MenuController implements ErrorController {
         return "employeeMain";
     }
 
-    @GetMapping("/customerMain/{id}/tasks")
+    /*@GetMapping("/customerMain/{id}/tasks")
     public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
         Integer roleId = (Integer) session.getAttribute("role");
         if (roleId == null) {
@@ -71,7 +71,7 @@ public class MenuController implements ErrorController {
         }
         model.addAttribute("taskList", taskService.getTasks(false, true, id));
         return "tasks";
-    }
+    }*/
 
     //https://stackoverflow.com/questions/25356781/spring-boot-remove-whitelabel-error-page
 
