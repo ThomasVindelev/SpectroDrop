@@ -53,7 +53,7 @@ public class UserController {
     }
 
     /**
-     *  Sørger for at en ny user bliver præsenteret for at skifte det midlertidige kodeord ud med et nyt, og redirekter til main afhængig af UserId
+     *  Videregiver det nye kodeord og redirecter brugeren
      */
 
     @PostMapping("/newPassword")

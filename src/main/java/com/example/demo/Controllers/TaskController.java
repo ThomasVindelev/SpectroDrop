@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     /**
-     * Redirecter user til task hvis succes, ellers bliver de ført  til index og får deres session invalidated
+     * Redirecter user til task hvis succes, ellers bliver de ført til index og får deres session invalidated
      */
 
     @GetMapping("/taskInfo/{id}")

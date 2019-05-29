@@ -63,6 +63,11 @@ public class MenuController implements ErrorController {
         return "employeeMain";
     }
 
+    /**
+     * Error handling
+     */
+
+    //https://stackoverflow.com/questions/25356781/spring-boot-remove-whitelabel-error-page
 
     private final String PATH = "/error";
 
@@ -89,5 +94,5 @@ public class MenuController implements ErrorController {
         return "tasks";
     }*/
 
-    //https://stackoverflow.com/questions/25356781/spring-boot-remove-whitelabel-error-page
+
 }

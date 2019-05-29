@@ -20,7 +20,7 @@ public class MessageController {
     private MessageService messageService;
 
     /**
-     *  Redirekter userId til messageService så den kan anvendes der.
+     *  Omdirigerer userId til messageService så den kan anvendes der
      */
 
     @PostMapping("/newMessage")
@@ -37,7 +37,7 @@ public class MessageController {
     }
 
     /**
-     * Redirekter user til viewAllMessages hvis success, ellers bliver de ført  til index og får deres session invalidated
+     * Omdirigerer user til viewAllMessages hvis success, ellers bliver de ført til index og får deres session invalidated
      */
 
     @GetMapping("/viewAllMessages")

@@ -43,7 +43,7 @@ public class LoginController {
     }
 
     /**
-     * Sørger for at lukke vores session ved logout
+     * Lukker session ved logout
      */
 
     @PostMapping("/logout")

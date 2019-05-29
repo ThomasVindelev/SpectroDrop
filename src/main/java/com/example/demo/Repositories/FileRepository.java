@@ -87,7 +87,8 @@ public class FileRepository implements CloseHelper {
     }
 
     /**
-     * Disse to overrides checker om en closeConnections bliver kaldt, og hvis den gør, så checker den om der nogle forbindelser åben, hvis der er så closer den for de preparedStatements og connection
+     * Tjekker om SQL-elementer er åbne, hvorefter disse lukkes
+     *
      */
 
     @Override
