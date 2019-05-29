@@ -9,6 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Læser nøglerne til AWS S3-bucket, så filer kan bliver hentet og opbevaret
+ */
+
 @Service
 public class CSV {
 

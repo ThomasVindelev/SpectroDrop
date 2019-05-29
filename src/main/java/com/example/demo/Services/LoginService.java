@@ -17,6 +17,11 @@ public class LoginService implements Users<User> {
     @Autowired
     private HashingService hashingService;
 
+    /**
+     * Bekræfter login-oplysninger og sætter brugerens attributter
+     *
+     */
+
     @Override
     public boolean verify(User user) {
         user.setPassword(hashingService.hash(user.getPassword()));
@@ -39,6 +44,11 @@ public class LoginService implements Users<User> {
         }
         return false;
     }
+
+    /**
+     * Aktiverer en bruger og giver vedkommende et nyt kodeord
+     *
+     */
 
     public boolean activateUser(String password, String passwordConfirm, int id) {
         if (password.equals(passwordConfirm)) {

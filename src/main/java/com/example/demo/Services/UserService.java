@@ -23,7 +23,10 @@ public class UserService implements Users<User> {
     @Autowired
     private TaskService taskService;
 
-    // Henter brugere efter roller
+    /**
+     * Henter brugere baseret på type
+     *
+     */
 
     public List<User> getUsers(String type) {
         ResultSet resultSet = null;
@@ -63,6 +66,11 @@ public class UserService implements Users<User> {
         return null;
     }
 
+    /**
+     * Sender bruger til databasen hvis brugeren kan passere verify()
+     *
+     */
+
     public boolean newUser(User user) {
         if (!verify(user)) {
             user.setPassword(hashingService.hash(user.getPassword()));
@@ -72,6 +80,11 @@ public class UserService implements Users<User> {
         }
     }
 
+    /**
+     * Sletter en bruger, men sorterer efter id = 1, da denne er en super-bruger, som ikke skal slettes
+     *
+     */
+
     public boolean deleteUserById(int userId, int roleId) {
         if (userId == 1) {
             return true;
@@ -80,6 +93,11 @@ public class UserService implements Users<User> {
         }
         return true;
     }
+
+    /**
+     * Henter alle roller
+     *
+     */
 
     public List<Role> getRoles() {
         ResultSet resultSet = userRepository.getRoles();
@@ -99,6 +117,11 @@ public class UserService implements Users<User> {
         }
         return null;
     }
+
+    /**
+     * Prøver at opdatere en bruger, men reverter til den gamle bruger, hvis brugeren ikke kan oprettes med de nye oplysninger
+     *
+     */
 
     public boolean verifyUpdate(User user) {
         ResultSet oldInformation = userRepository.getUserById(user.getId());
@@ -127,6 +150,11 @@ public class UserService implements Users<User> {
         return true;
     }
 
+    /**
+     * Hasher kodeord og opdaterer det for en bruger
+     *
+     */
+
     public boolean changePassword(String oldPassword, String newPassword, String newPasswordValidation, int userId) {
         if (newPassword.equals(newPasswordValidation)) {
             oldPassword = hashingService.hash(oldPassword);
@@ -147,7 +175,10 @@ public class UserService implements Users<User> {
         return true;
     }
 
-    //Til at oprette en ny bruger
+    /**
+     * Prøver at finde en lignende bruger i databasen, hvis en bruger bliver oprettet eller opdateret
+     *
+     */
 
     @Override
     public boolean verify(User user) {

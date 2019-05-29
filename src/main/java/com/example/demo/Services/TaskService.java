@@ -32,6 +32,11 @@ public class TaskService {
         return taskRepository.editTask(task);
     }
 
+    /**
+     * Sletter en opgave samt alle filer tilknyttet denne
+     *
+     */
+
     public boolean deleteTask(int id) {
         ResultSet resultSet = fileRepository.getFilesByTask(id);
         try {
@@ -47,6 +52,11 @@ public class TaskService {
             return true;
         }
     }
+
+    /**
+     * Henter alle opgaver baseret på variabler
+     *
+     */
 
     public List<Task> getTasks(boolean getNew, boolean isCustomer, int id) {
         ResultSet resultSet = taskRepository.getTasks(getNew, isCustomer, id);
@@ -72,7 +82,6 @@ public class TaskService {
         }
         return null;
     }
-
 
     public Task getTaskById(int id) {
         ResultSet resultSet = taskRepository.getTaskById(id);
@@ -113,6 +122,11 @@ public class TaskService {
         }
         return null;
     }
+
+    /**
+     * Overfører ansvaret for en opgave til super-brugeren, hvis en medarbejder med ansvar bliver slettet
+     *
+     */
 
     public boolean taskResponsibility(int userId, int roleId) {
         if (roleId == 2) {

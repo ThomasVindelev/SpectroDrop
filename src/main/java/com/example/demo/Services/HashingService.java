@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class HashingService {
 
+    //https://www.mkyong.com/java/java-md5-hashing-example/?fbclid=IwAR1yE9AU4oHzFOuhCaAxw_1HGdQseYgLJutm0FFX9IrwS1_rUGC6Bb-1mvk
+
     private MessageDigest messageDigest;
 
     {
@@ -18,6 +20,11 @@ public class HashingService {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Hasher kodeord
+     *
+     */
 
     public String hash(String toHash) {
         byte[] hashBytes = messageDigest.digest(toHash.getBytes

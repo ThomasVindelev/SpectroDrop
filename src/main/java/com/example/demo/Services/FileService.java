@@ -21,6 +21,11 @@ public class FileService {
 
     // private String spectroDropBucket = "spectrodrop-bucket/";
 
+    /**
+     * Tilføjer fil til en opgave, men tjekker også, om en fil af samme navn eksisterer, hvorefter filen bliver omdøbt
+     *
+     */
+
     public boolean addFileToTask(int id, String name, MultipartFile file) {
         String original;
         try {
