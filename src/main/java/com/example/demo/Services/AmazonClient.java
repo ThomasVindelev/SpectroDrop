@@ -83,7 +83,8 @@ public class AmazonClient {
         }
     }
 
-   //https://www.javainuse.com/spring/boot-file-download
+    //https://www.javainuse.com/spring/boot-file-download
+    //https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-s3-objects.html
 
     public void downloadFile(String fileName, HttpServletResponse response) {
         S3Object s3Object = s3client.getObject(bucketName, fileName);
@@ -105,12 +106,9 @@ public class AmazonClient {
                     mimeType = "application/octet-stream";
                 }
                 response.setContentType(mimeType);
-                //response.setHeader("Content-Disposition", String.format
-                // ("inline; filename=\"" + file.getName() + "\""));
                 response.setHeader("Content-Disposition", String.format
                         ("attachment; filename=\"" + file.getName() + "\""));
                 response.setContentLength((int) file.length());
-                System.out.println(response.isCommitted());
                 InputStream inputStream = null;
                 try {
                     inputStream = new BufferedInputStream(new FileInputStream(file));
