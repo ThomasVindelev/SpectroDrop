@@ -54,19 +54,12 @@ public class MenuController implements ErrorController {
             session.invalidate();
             return "index";
         }
-        System.out.println("error 5");
         model.addAttribute("roleList", userService.getRoles());
-        System.out.println("error 6");
         model.addAttribute("messageList", messageService.getMessages(id, true));
-        System.out.println("error 7");
         model.addAttribute("newTasks", taskService.getTasks(true, false, id));
-        System.out.println("error 8");
         model.addAttribute("userList", userService.getUsers("All"));
-        System.out.println("error 9");
         model.addAttribute("newUsers", userService.getUsers("New"));
-        System.out.println("error 10");
         model.addAttribute("statusList", taskService.getStatus());
-        System.out.println("error 11");
         return "employeeMain";
     }
 
