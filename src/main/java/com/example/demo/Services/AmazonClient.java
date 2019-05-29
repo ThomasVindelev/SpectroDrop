@@ -35,6 +35,11 @@ public class AmazonClient {
 
     private String bucketName = "spectrofly";
 
+    /**
+     * Initialiserer en forbindelse til AWS gennem en S3-client
+     * og en transfer-manager som begrænser upload til pakker af 5 megabyte
+     */
+
     @PostConstruct
     private void initializeAmazon() {
         BasicAWSCredentials credentials = new BasicAWSCredentials
@@ -75,6 +80,12 @@ public class AmazonClient {
 
     //https://www.javainuse.com/spring/boot-file-download
     //https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-s3-objects.html
+
+    /**
+     * Henter et S3-object, som er den ønskede fil, som bliver kopieret over på en ny fil
+     * Denne bliver sendt gennem browseren
+     *
+     */
 
     public void downloadFile(String fileName, HttpServletResponse response) {
         S3Object s3Object = s3client.getObject(bucketName, fileName);
