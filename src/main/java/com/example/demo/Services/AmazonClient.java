@@ -108,7 +108,6 @@ public class AmazonClient {
             s3ObjectInputStream.close();
             fos.close();
             if (file.exists()) {
-
                 String mimeType = URLConnection.guessContentTypeFromName(file.getName());
                 if (mimeType == null) {
                     mimeType = "application/octet-stream";

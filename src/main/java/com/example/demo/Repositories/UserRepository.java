@@ -255,6 +255,8 @@ public class UserRepository implements CloseHelper {
      * Tjekker om SQL-elementer er åbne, hvorefter disse lukkes
      */
 
+    //https://stackoverflow.com/questions/2225221/closing-database-connections-in-java
+
     @Override
     public void closeConnections(PreparedStatement preparedStatement, Connection connection) {
         try {
@@ -293,15 +295,4 @@ public class UserRepository implements CloseHelper {
             }
         }
     }
-
-    /*public UserRepository() {
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB",
-                    "SpectroDB",
-                    "SpectroDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
 }
