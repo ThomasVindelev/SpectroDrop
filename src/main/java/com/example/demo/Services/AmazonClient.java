@@ -24,6 +24,8 @@ public class AmazonClient {
 
     //https://www.baeldung.com/aws-s3-multipart-upload
 
+    //https://medium.com/oril/uploading-files-to-aws-s3-bucket-using-spring-boot-483fcb6f8646
+
     private AmazonS3 s3client;
 
     private TransferManager transferManager;
@@ -49,6 +51,11 @@ public class AmazonClient {
         transferManager = TransferManagerBuilder.standard().withS3Client(s3client).
                 withMultipartUploadThreshold((long) (5 * 1024 * 1025)).build();
     }
+
+    /**
+     * Konverterer en fil i flere stykker tii én fil
+     *
+     */
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convertedFile = new File(file.getOriginalFilename());
@@ -173,7 +180,7 @@ public class AmazonClient {
 
         try {
 
-            URL url = new URL("https://www.olivers.dk/media/blog/cache/1/ece9a24a761836a70934a998c163f8c8/British%20kitten_8.jpg");
+            URL url = new URL();
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             readableByteChannel = Channels.newChannel(urlConnection.getInputStream());
