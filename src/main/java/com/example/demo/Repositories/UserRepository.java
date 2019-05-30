@@ -17,6 +17,7 @@ public class UserRepository implements CloseHelper {
      * Tillader reetablering af connection til vores database efter denne bliver lukket.
      */
 
+
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB?useSSL=false&autoReconnect=true",
