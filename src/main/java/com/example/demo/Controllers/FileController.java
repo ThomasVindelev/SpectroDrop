@@ -35,13 +35,12 @@ public class FileController {
         return "redirect:/taskInfo/" + id;
     }
 
+    /*HttpServletRequest request*/
 
     @PostMapping("/downloadFile/{name}")
-    public /* String */ void downloadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) throws IOException {
+    public /* String */ void downloadFile(HttpServletResponse response, @PathVariable("name") String name, @ModelAttribute("id") int id) throws IOException {
         amazonClient.downloadFile(name, response);
-        System.out.println("1234");
         response.getOutputStream().close();
-        System.out.println("hej13");
         // return "redirect:/taskInfo/" + id;
     }
 
