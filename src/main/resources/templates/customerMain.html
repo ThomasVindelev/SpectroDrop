@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:if="${session.role == 2}">
-
-    <head th:replace="fragments/header :: header">...</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>SpectroDrop - Forside</title>
+        <head th:replace="fragments/header :: header">...</head>
+    </head>
     <body>
         <div class="container">
             <div class="row">

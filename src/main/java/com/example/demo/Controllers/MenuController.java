@@ -83,16 +83,5 @@ public class MenuController implements ErrorController {
         return PATH;
     }
 
-    /*@GetMapping("/customerMain/{id}/tasks")
-    public String getAllTasks(@PathVariable("id") int id, Model model, HttpSession session) {
-        Integer roleId = (Integer) session.getAttribute("role");
-        if (roleId == null) {
-            session.invalidate();
-            return "index";
-        }
-        model.addAttribute("taskList", taskService.getTasks(false, true, id));
-        return "tasks";
-    }*/
-
 
 }

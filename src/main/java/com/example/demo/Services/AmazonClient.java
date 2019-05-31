@@ -42,6 +42,8 @@ public class AmazonClient {
      * og en transfer-manager som begrænser upload til pakker af 5 megabyte
      */
 
+    //https://medium.com/oril/uploading-files-to-aws-s3-bucket-using-spring-boot-483fcb6f8646
+
     @PostConstruct
     private void initializeAmazon() {
         BasicAWSCredentials credentials = new BasicAWSCredentials
@@ -145,74 +147,9 @@ public class AmazonClient {
 
     //https://www.baeldung.com/java-download-file?fbclid=IwAR3-vkX25H_8NTozIujY8UhNarbB80kQsYkKpdnOIZIwTThABGleO0Hqy8Y
 
-    /*public void test(String fileURL, String fileName) {
-        try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new URL(fileURL).openStream())) {
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            byte dataBuffer[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = bufferedInputStream.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-    }
-
-    public void test2(String fileURL, String fileName) {
-        try {
-            FileUtils.copyURLToFile(new URL(fileURL), new File(fileName));
-
-        } catch (MalformedURLException url) {
-            url.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-    }
-
     // https://www.techcoil.com/blog/how-to-download-a-file-via-http-get-and-http-post-in-java-without-using-any-external-libraries/?fbclid=IwAR0oWDTLQQtS7W4b7GuYTj5GvCfoTUhGqDHnUjSMQucyLvIgesYjyzKz6Uk
 
-    public void test3(String fileName) {
-        ReadableByteChannel readableByteChannel = null;
-        FileChannel fileChannel = null;
-
-        try {
-
-            URL url = new URL();
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            readableByteChannel = Channels.newChannel(urlConnection.getInputStream());
-
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            fileChannel = fileOutputStream.getChannel();
-
-            fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        } finally {
-
-            if (readableByteChannel != null) {
-                try {
-                    readableByteChannel.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-
-            if (fileChannel != null) {
-                try {
-                    fileChannel.close();
-                } catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-
-        }
-    }
-
-    public boolean downloadFile(String name) {
+    /* public boolean downloadFile(String name) {
         String newName = name.substring(0, name.lastIndexOf('.'));
         String format = name.substring(name.lastIndexOf('.'));
         S3Object object = s3client.getObject(bucketName, name);
@@ -243,33 +180,6 @@ public class AmazonClient {
             }
         }
         return false;
-    }
-
-    File file = new File(System.getProperty("user.home") + "/Downloads/" + fileName);
-
-        InputStream in = s3Object.getObjectContent();
-        byte[] buf = new byte[1024];
-        try {
-            OutputStream out = new FileOutputStream(file);
-            int count;
-            while( (count = in.read(buf)) != -1)
-            {
-                if( Thread.interrupted() )
-                {
-                    throw new InterruptedException();
-                }
-                out.write(buf, 0, count);
-            }
-            out.close();
-            in.close();
-        } catch(FileNotFoundException fnf) {
-            fnf.printStackTrace();
-        } catch (InterruptedException inter) {
-            inter.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-    */
+    } */
 
 }

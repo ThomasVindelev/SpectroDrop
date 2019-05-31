@@ -44,10 +44,5 @@ public class FileController {
         fileService.deleteFile(fileName);
         return "redirect:/taskInfo/" + id;
     }
-      /*@PostMapping("/downloadFile/{name}")
-    public String downloadFile(@PathVariable("name") String name, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
-        amazonClient.test3(name);
-        //redirectAttributes.addFlashAttribute("downloadSuccess", amazonClient.downloadFile(name));
-        return "redirect:/taskInfo/" + id;
-    }*/
+
 }

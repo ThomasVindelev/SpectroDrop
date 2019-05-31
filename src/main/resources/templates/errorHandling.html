@@ -2,14 +2,16 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Fejlside</title>
+    <title>SpectroDrop - Fejl</title>
+    <head th:replace="fragments/header :: header">...</head>
 </head>
 <body>
-<h2>Klik her for at blive omdirigeret til forsiden: </h2>
+<h2>Du stødte desværre på en fejl. Klik her for at blive omdirigeret til forsiden: </h2>
 <form th:action="@{/}" method="get">
-    <button type="submit"></button>
+    <button type="submit">Tilbage til login</button>
 </form>
 <h3>Hov, du stødte på en error: </h3>
 <p th:text="${error}"></p>
 </body>
+<footer th:replace="fragments/footer :: footer">...</footer>
 </html>

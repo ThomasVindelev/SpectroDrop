@@ -3,19 +3,19 @@
 <div th:if="${session.role != 0}">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>SpectroDrop - Velkommen</title>
     <head th:replace="fragments/header :: header">...</head>
 </head>
-
 <body>
 <div class="container-index">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div id="resetPassword" class="card">
                 <img th:src="@{${'/images/Spectrofly_logo.png'}}" class="card-img-top" alt="...">
-                <p>Hej! Velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som
+                <p>Hej og velkommen til vores nye fil- og opgaveportal; SpectroDrop. Her kan du nemt tilgå de filer, som
                     vi genererer til dig i løbet af vores opgaver.</p>
-                <p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind:</p>
+                <p>Du bedes venligst indtaste et kodeord, som du fremover vil bruge til at logge ind.
+                    Vi anbefaler, at dit kodeord er mindst 8 tegn med en blanding af store og små bogstaver:</p>
                 <br>
                 <form th:action="@{/newLogin}" method="post">
                     <div class="form-group">
