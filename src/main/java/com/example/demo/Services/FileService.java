@@ -5,6 +5,7 @@ import com.example.demo.Repositories.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,7 +60,12 @@ public class FileService {
         }
     }
 
+    public void downloadFile(String name, HttpServletResponse response) {
+        amazonClient.downloadFile(name, response);
+    }
+
     public void deleteFile(String name) {
+        amazonClient.deleteFileFromS3Bucket(name);
         fileRepository.deleteFile(name);
     }
 
