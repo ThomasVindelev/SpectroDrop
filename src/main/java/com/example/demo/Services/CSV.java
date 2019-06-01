@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 public class CSV {
 
     public String AWSCredentials(boolean isSecret) {
-        String credentials = readCredsFromCSV("D:\\credentials.csv", isSecret);
+        String credentials = readCredsFromCSV("C:\\credentials.csv", isSecret);
         return credentials;
     }
 

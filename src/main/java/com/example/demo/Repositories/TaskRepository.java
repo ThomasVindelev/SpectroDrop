@@ -172,7 +172,7 @@ public class TaskRepository implements CloseHelper {
         query = "UPDATE SpectroDB.Tasks SET fk_employee = ? WHERE fk_employee = ?";
         try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, 39);
+            preparedStatement.setInt(1, 1);
             preparedStatement.setInt(2, userId);
             isError = preparedStatement.execute();
             closeConnections(preparedStatement, connection);
