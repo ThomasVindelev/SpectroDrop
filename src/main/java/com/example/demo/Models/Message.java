@@ -1,5 +1,7 @@
 package com.example.demo.Models;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 public class Message {
 
     private int id;

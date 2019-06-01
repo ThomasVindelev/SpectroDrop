@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Lavet af Thomas Vindelev
+
 @Service
 public class MessageService {
 

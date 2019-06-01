@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 @Service
 public class AmazonClient {
 

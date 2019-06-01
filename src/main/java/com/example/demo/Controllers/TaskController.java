@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
+//Lavet af Thomas Vindelev
+
 @Controller
 public class TaskController {
 

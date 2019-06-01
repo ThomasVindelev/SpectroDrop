@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 @Service
 public class LoginService implements Users<User> {
 

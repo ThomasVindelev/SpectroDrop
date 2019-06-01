@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 
+//Lavet af Thomas Vindelev
+
 @Controller
 public class LoginController {
 

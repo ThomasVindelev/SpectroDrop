@@ -10,6 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 @Controller
 public class FileController {
 

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 @Repository
 public class FileRepository implements CloseHelper {
 

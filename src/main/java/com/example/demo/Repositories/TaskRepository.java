@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+//Lavet af Thomas Vindelev
+
 @Repository
 public class TaskRepository implements CloseHelper {
 

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Lavet af Marco Pedersen og Thomas Vindelev
+
 @Service
 public class UserService implements Users<User> {
 
