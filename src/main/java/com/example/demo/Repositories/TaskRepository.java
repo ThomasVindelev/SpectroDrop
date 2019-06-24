@@ -8,28 +8,12 @@ import java.sql.*;
 //Lavet af Thomas Vindelev
 
 @Repository
-public class TaskRepository implements CloseHelper {
+public class TaskRepository extends Database {
 
     private Connection connection;
     private PreparedStatement preparedStatement;
     private String query;
     private boolean isError;
-
-
-    /**
-     * Tillader reetablering af connection til vores database efter denne bliver lukket.
-     */
-
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB?useSSL=false&autoReconnect=true",
-                    "SpectroDB",
-                    "SpectroDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public boolean newTask(Task task) {
         connection = getConnection();
@@ -40,10 +24,10 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setInt(2, task.getFk_employee());
             preparedStatement.setString(3, task.getTaskName());
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -60,10 +44,10 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setString(4, task.getTaskName());
             preparedStatement.setInt(5, task.getId());
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -76,10 +60,10 @@ public class TaskRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -93,9 +77,9 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, id);
             preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
     }
@@ -116,7 +100,7 @@ public class TaskRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -135,7 +119,7 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setInt(1, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -150,7 +134,7 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setInt(2, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -163,7 +147,7 @@ public class TaskRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -177,59 +161,21 @@ public class TaskRepository implements CloseHelper {
             preparedStatement.setInt(1, 1);
             preparedStatement.setInt(2, userId);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
     }
 
-    /**
-     * Tjekker om SQL-elementer er åbne, hvorefter disse lukkes
-     *
-     */
-
-    //https://stackoverflow.com/questions/2225221/closing-database-connections-in-java
-
-    @Override
-    public void closeConnections(PreparedStatement preparedStatement, Connection connection) {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void closeConnections() {
+        super.closeConnection(this.connection);
     }
 
-    @Override
     public void closeConnections(ResultSet resultSet) {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (this.preparedStatement != null) {
-            try {
-                this.preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (this.connection != null) {
-            try {
-                this.connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        super.closeConnection(this.connection, resultSet);
     }
 
 }

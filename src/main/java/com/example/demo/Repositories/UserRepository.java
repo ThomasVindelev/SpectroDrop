@@ -8,28 +8,12 @@ import java.sql.*;
 //Lavet af Marco Pedersen og Thomas Vindelev
 
 @Repository
-public class UserRepository implements CloseHelper {
+public class UserRepository extends Database {
 
     private Connection connection;
     private PreparedStatement preparedStatement;
     private String query;
     private boolean isError;
-
-    /**
-     * Tillader reetablering af connection til vores database efter denne bliver lukket.
-     */
-
-
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://spectrodb.cbiha888el7r.eu-central-1.rds.amazonaws.com/SpectroDB?useSSL=false&autoReconnect=true",
-                    "SpectroDB",
-                    "SpectroDB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public boolean newUser(User user) {
         connection = getConnection();
@@ -44,10 +28,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setString(5, user.getEmail());
             preparedStatement.setInt(6, user.getFk_roles());
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -65,7 +49,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setString(2, user.getPassword());
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -87,7 +71,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -102,7 +86,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setInt(1, id);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -117,7 +101,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setInt(1, roleId);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -130,7 +114,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -148,10 +132,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setInt(5, user.getFk_roles());
             preparedStatement.setInt(6, user.getId());
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -164,10 +148,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -182,7 +166,7 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setString(2, user.getEmail());
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
@@ -195,10 +179,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return true;
@@ -213,10 +197,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setInt(2, 1);
             preparedStatement.setInt(3, id);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return false;
@@ -230,10 +214,10 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setString(1, newPassword);
             preparedStatement.setInt(2, userId);
             isError = preparedStatement.execute();
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             return isError;
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return false;
@@ -248,54 +232,18 @@ public class UserRepository implements CloseHelper {
             preparedStatement.setInt(2, userId);
             return preparedStatement.executeQuery();
         } catch (SQLException e) {
-            closeConnections(preparedStatement, connection);
+            closeConnections();
             e.printStackTrace();
         }
         return null;
     }
 
-    /**
-     * Tjekker om SQL-elementer er åbne, hvorefter disse lukkes
-     */
-
-    //https://stackoverflow.com/questions/2225221/closing-database-connections-in-java
-
-    @Override
-    public void closeConnections(PreparedStatement preparedStatement, Connection connection) {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void closeConnections() {
+        super.closeConnection(this.connection);
     }
 
-    @Override
     public void closeConnections(ResultSet resultSet) {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (this.preparedStatement != null) {
-            try {
-                this.preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (this.connection != null) {
-            try {
-                this.connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        super.closeConnection(this.connection, resultSet);
     }
+
 }

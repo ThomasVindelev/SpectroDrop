@@ -127,7 +127,7 @@ public class AmazonClient {
                     e.printStackTrace();
                 }
                 try {
-                    assert inputStream != null;
+                    //assert inputStream != null;
                     FileCopyUtils.copy(inputStream, response.getOutputStream());
                     inputStream.close();
                     file.delete();
