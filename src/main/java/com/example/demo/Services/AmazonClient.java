@@ -127,7 +127,6 @@ public class AmazonClient {
                     e.printStackTrace();
                 }
                 try {
-                    //assert inputStream != null;
                     FileCopyUtils.copy(inputStream, response.getOutputStream());
                     inputStream.close();
                     file.delete();
@@ -142,6 +141,8 @@ public class AmazonClient {
             e.printStackTrace();
         }
     }
+
+
 
     public void deleteFileFromS3Bucket(String fileName) {
         s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));

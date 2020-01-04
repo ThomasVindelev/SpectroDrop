@@ -15,8 +15,12 @@ import java.io.IOException;
 @Controller
 public class FileController {
 
-    @Autowired
     private FileService fileService;
+
+    @Autowired
+    public FileController(FileService fileService) {
+        this.fileService = fileService;
+    }
 
     /**
      * Sørger for at uploade enkelte filer, som bliver valgt af enten kunde eller medarbejder
